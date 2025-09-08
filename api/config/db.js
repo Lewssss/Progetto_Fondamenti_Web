@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
  
 export default function connectDB() {
-  const url = "mongodb+srv://francescocarriero94:WjPHaJwQF70DaUtp@progetto.f5rhe1m.mongodb.net/?retryWrites=true&w=majority&appName=Progetto";
+  const url = "mongodb+srv://francescocarriero94:LMW92S2eHTBJw67U@progetto.f5rhe1m.mongodb.net/?retryWrites=true&w=majority&appName=Progetto";
  
   try {
     mongoose.connect(url, {
