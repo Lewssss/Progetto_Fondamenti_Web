@@ -10,6 +10,7 @@
   "description": "Fondamenti Web API - Progetto",
   "dependencies": {
     "express": "^5.1.0",
-    "mongoose": "^8.16.0"
+    "mongoose": "^8.16.0",
+    "dotenv": "^16.4.5"
   }
 }
