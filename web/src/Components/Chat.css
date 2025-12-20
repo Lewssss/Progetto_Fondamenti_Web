@@ -1,0 +1,58 @@
+/* Contenitore specifico per il componente Chat:
+   qui imposti il background solo per Chat, non per l'intera app */
+.ChatContainer {
+  background-color: transparent; /* cambia il colore qui */
+  padding: 12px;
+    min-height: 100vh;
+    display: flex;
+  flex-direction: column;
+
+  /* opzionali: max-height/overflow se vuoi una lista scrollabile */
+}
+
+.Titolo{
+  font-size: 50px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  margin-left: 5px;
+}
+
+.Blocco-Chat{
+  padding: 10px;
+}
+
+.Nome{
+  font-size: 22px;
+}
+
+.Ultimo-messaggio{
+  font-size: 16px;
+}
+
+.list-group{
+  max-height: calc(100vh - 160px); /* altezza massima con padding */
+  overflow-y: auto; /* abilita lo scroll verticale */
+  padding-right: 8px; /* spazio per la scrollbar */
+}
+.list-group-item {
+  background: transparent;
+  border: none;
+  padding: 12px 16px;
+  transition: background 0.5s;
+}
+
+.list-group-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.list-group::-webkit-scrollbar {
+  width: 8px;               /* larghezza della scrollbar */
+  background: transparent;  /* sfondo traccia trasparente */
+}
+.list-group::-webkit-scrollbar-track {
+  background: transparent;  /* traccia trasparente */
+}
+.list-group::-webkit-scrollbar-thumb {
+  background: transparent;  /* "pollice" trasparente -> invisibile */
+  border-radius: 6px;
+}
