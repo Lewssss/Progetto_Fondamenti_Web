@@ -1,0 +1,57 @@
+import User from "../models/Users.js";
+import response from "../util/response/user.response.js";
+import bcrypt from "bcrypt";    // Importa bcrypt per l'hashing delle password
+import jwt from "jsonwebtoken";  // Importa jsonwebtoken per la generazione dei token
+
+export default {
+    registerUser,
+    loginUser
+}
+
+
+async function registerUser(username, email, password) {
+    // Verifica se l'utente esiste già
+    const existingUser = await User.findOne({ email: email });
+    if (existingUser) {
+        return [400, response.userAlreadyExists()];
+    }
+    // Se l'utente non esiste, procedi con la registrazione
+    // Hash della password prima di salvarla nel database
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newUser = new User({
+        username: username,
+        email: email,
+        password: hashedPassword,  // Salva la password hashata
+    });
+    await newUser.save();
+    return [201, response.userRegistered()];
+}
+
+
+async function loginUser(email, password) {
+    // Verifica se l'utente esiste
+    const user = await User.findOne({ email: email });
+    if (!user) {
+        return [400, response.invalidCredentials()];
+    }
+    // Verifica se la password è corretta
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+        return [400, response.invalidCredentials()];
+    }
+    // Se le credenziali sono valide, genera un token JWT
+    const accessToken = jwt.sign({ userId: user._id }, process.env.JWT_ACCESS_KEY, { expiresIn: '1h' }); // Token di accesso con scadenza breve
+    const refreshToken = jwt.sign({ userId: user._id }, process.env.JWT_REFRESH_KEY, { expiresIn: '7d' }); // Token di refresh con scadenza più lunga    
+    user.refreshToken = refreshToken; // Salva il token di refresh nel database
+    await user.save();
+    
+    return [200, { 
+        success: true, 
+        token: accessToken, 
+        user: { 
+            id: user._id, 
+            username: user.username, 
+            email: user.email 
+            } 
+        }];
+}

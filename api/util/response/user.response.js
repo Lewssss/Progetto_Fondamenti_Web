@@ -54,6 +54,27 @@ export const clearChat = () => {
   return response;
 };
 
+export const userAlreadyExists = () => {
+  let response = { success: false };
+  response.skipMessage = false;
+  response.message = "L'utente esiste già";
+  return response;
+};
+
+export const userRegistered = () => {
+  let response = { success: true };
+  response.skipMessage = false;
+  response.message = "Utente registrato con successo";
+  return response;
+};
+
+export const invalidCredentials = () => {
+  let response = { success: false };
+  response.skipMessage = false;
+  response.message = "Credenziali non valide";
+  return response;
+};
+
 export default {
   responseWithData,
   newChat,
@@ -62,4 +83,7 @@ export default {
   Fail,
   newMessage,
   deleteMessage,
+  userAlreadyExists,
+  userRegistered,
+  invalidCredentials,
 };
