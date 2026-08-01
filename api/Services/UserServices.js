@@ -47,7 +47,8 @@ async function loginUser(email, password) {
     
     return [200, { 
         success: true, 
-        token: accessToken, 
+        token: accessToken,
+        refreshToken: refreshToken,
         user: { 
             id: user._id, 
             username: user.username, 

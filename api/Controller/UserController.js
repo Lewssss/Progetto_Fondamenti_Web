@@ -8,7 +8,7 @@ router.post("/register", createUser);
 router.post("/login", loginUser);
 router.post("/refresh-token", refreshToken);
 router.post("/logout", deleteToken);
-router.get("/me", authenticateToken, getUser);
+router.get("/checkandget", authenticateToken, getUser);
 
 export default router;
 

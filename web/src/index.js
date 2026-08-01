@@ -4,12 +4,14 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { UserContextProvider } from './Context/UserContext';
+import Toast from './Components/Toast';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <UserContextProvider>
       <App />
+      <Toast />
     </UserContextProvider>
   </React.StrictMode>
 );

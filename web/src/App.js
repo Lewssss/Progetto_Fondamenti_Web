@@ -57,18 +57,12 @@ function App() {
   return (
       <Router>
         <Routes>
-          <Route 
-            path="/" 
-            element={user ? <Navigate to="/dashboard" /> : <Navigate to="/register" />} 
-          />
-
+          <Route path="/" element={user ? <Navigate to="/dashboard" /> : <Navigate to="/register" />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
-
           <Route element={<MainLayout />}>
           <Route path="/chat" element={
               !selectedName ? (
-
                 <Chat name={chats} onSelectName={handleSelectName} />
                 ) : (
                 <div
