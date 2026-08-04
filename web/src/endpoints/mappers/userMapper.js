@@ -13,3 +13,13 @@ export function mapUser(raw) {
     bio: raw.bio ?? "",
   };
 }
+export function mapStories(raw) {
+  if (!raw) {
+    throw new Error("Stories payload mancante");
+  }
+  return raw.map(story => ({
+    id: String(story.id ?? story._id),
+    name: story.name,
+    image: story.image,
+  }));
+}

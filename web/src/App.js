@@ -13,8 +13,8 @@ import { Outlet, Navigate, } from "react-router-dom";
 
 const MainLayout = () => (
   <>
-  <Navbar />
   <Outlet />
+  <Navbar />
   </>
 )
 
@@ -58,29 +58,29 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={user ? <Navigate to="/dashboard" /> : <Navigate to="/register" />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={user ? <Navigate to="/dashboard" />  : <Register />} />
+          <Route path="/login" element={user ? <Navigate to="/dashboard" /> : <Login />} />
           <Route element={<MainLayout />}>
-          <Route path="/chat" element={
-              !selectedName ? (
+          <Route path="/chat" element={ 
+          !selectedName ? (<Chat name={chats} onSelectName={handleSelectName} />) 
+          : 
+            (
+            <div
+              style={{
+                display: "flex",
+                gap: "16px",
+                padding: "16px",
+                height: "100vh",
+              }}
+              >
+              <div style={{ flex: "0 0 30%", minWidth: 240 }}>
                 <Chat name={chats} onSelectName={handleSelectName} />
-                ) : (
-                <div
-                  style={{
-                    display: "flex",
-                    gap: "16px",
-                    padding: "16px",
-                    height: "100vh",
-                  }}
-                  >
-                  <div style={{ flex: "0 0 30%", minWidth: 240 }}>
-                    <Chat name={chats} onSelectName={handleSelectName} />
-                  </div>
-                  <div style={{ flex: "1 1 70%" }}>
-                  <Direct name={selectedName} onBack={handleBack} />
-                  </div>
-                </div>
-                )
+              </div>
+              <div style={{ flex: "1 1 70%" }}>
+              <Direct name={selectedName} onBack={handleBack} />
+              </div>
+            </div>
+            )
             }
           />
           <Route path="/profile" element={<Profile />} />

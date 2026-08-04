@@ -1,4 +1,5 @@
 import React from 'react'
+import "./Profile.css"
 import { useContext } from 'react'
 import { userContext } from '../Context/UserContext'
 

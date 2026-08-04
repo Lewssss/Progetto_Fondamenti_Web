@@ -1,0 +1,76 @@
+.animation-sidebar {
+    position: relative;
+    display: flex;
+    width: 100%;
+    min-height: 100vh;
+    background-color: #ffffff;
+    font-family: Roboto;
+    overflow: hidden;
+}
+
+.sidebar {
+    position: relative;
+    z-index: 1;
+    flex: 0 0 30%;
+    width: 30%;
+    max-width: 30%;
+    height: 100vh;
+    background-color: #e3f2fd;
+    overflow: hidden;
+}
+
+.sidebar-body {
+    height: 100%;
+}
+
+.wave-edge {
+    position: absolute;
+    top: 0;
+    left: calc(30% - 48px);
+    width: 66px;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 5;
+}
+
+.wave-track {
+    width: 100%;
+    height: 200%;
+    animation: wave-lap 11s linear infinite;
+}
+
+.wave-svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.wave-fill {
+    fill: #ffffff;
+}
+
+.wave-line {
+    stroke: #4fc3f7;
+    stroke-width: 5;
+    vector-effect: non-scaling-stroke;
+    opacity: 0.9;
+}
+
+.dashboard-content {
+    position: relative;
+    z-index: 0;
+    flex: 1 1 auto;
+    min-width: 0;
+    background-color: #ffffff;
+    overflow: hidden;
+}
+
+@keyframes wave-lap {
+    from {
+        transform: translateY(0);
+    }
+    to {
+        transform: translateY(-50%);
+    }
+}
