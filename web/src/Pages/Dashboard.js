@@ -6,7 +6,7 @@ import Stories from '../Components/Stories'
 
 function Dashboard() {
   return (
-    <body>
+    <div class="dashboard">
       <div className="animation-sidebar">
         <div class="sidebar">
             <Profile />
@@ -62,10 +62,12 @@ function Dashboard() {
           </div>
         </div>
 
-        <div className="dashboard-content" />
       </div>
-      <Main/>
-    </body>
+      <div class="MainSection">
+        <Main/>
+      </div>
+      
+    </div>
   )
 }
 
