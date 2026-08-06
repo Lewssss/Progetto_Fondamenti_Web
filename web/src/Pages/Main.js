@@ -1,18 +1,22 @@
-import React from 'react'
-import {useState} from "react";
+import React, { useEffect } from 'react'
+import {useState, useContext} from "react";
+import { Flame, MessageCircle , Forward } from 'lucide-react';
 import './Main.css'
+import Post from '../Components/Post'
+import {getPosts} from '../endpoints/rest/userUI'
+import {userContext} from '../Context/UserContext'
 
 function Main(){
-    const [posts,setPosts] = useState("")
+
+    const [posts,setPosts] = useState([])
+    const {user} = useContext(userContext);
+    useEffect(() => {
+        // getPosts(user).then(
+        //     (data) => setPosts(data)
+        // ); DA FARE LATO BACKEND
+    });
     return (
-        <div className="Posts">
-            <div class="Post">
-
-            </div>
-            <div class="Post">
-
-</div>
-        </div>
+        <Post username={user.username}/>
     )
 }
 
