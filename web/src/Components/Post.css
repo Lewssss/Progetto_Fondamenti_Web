@@ -40,6 +40,8 @@
     background-color: var(--sea);
 }
 .reactions{
+    display:flex;
+
     margin:0;
     overflow:visible;
     font-weight:bold;
@@ -53,6 +55,22 @@
     width:2vw;
     height: 100%;
     color: var(--cyan);
+    user-select: none;
+    cursor:pointer;
+}
+.reactionCount{
+    padding:0px;
+    flex: 0 0 15%;
+    margin:auto 5px;
+    float:left;
+}
+.reactionicon{
+    margin:0 3px;
+}
+.fire{
+    transition:0.2s color;
+    color:red !important;
+    font-weight:bold;
 }
 .caption{
     flex: 0 0 5%;

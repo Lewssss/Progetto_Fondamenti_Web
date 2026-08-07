@@ -1,12 +1,18 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {useEffect, useState} from 'react';
 import './Post.css'
 import {Flame,MessageCircle,Forward} from 'lucide-react';
 import {getUserData, getUser} from 'endpoints/rest/userUI';
+import { UserLikedPost } from 'endpoints/rest/userInteractions';
+import { userContext } from 'Context/UserContext';
 
 function Post({id,authorId,content,ImgPost,likes,comments,date}){
-
+    const user = useContext(userContext);
     const [author,setAuthor] = useState([])
+    const [likesCount,setLikesCount] = useState(likes.length);
+    const [liked,setLiked] = useState(likes.some(id => String(id)==user.user.id));
+        
+    
 
     function PublishedOn(date){ //per non stampare la data rozza come viene dal db, la elaboriamo 
         const published = new Date(date);
@@ -34,11 +40,28 @@ function Post({id,authorId,content,ImgPost,likes,comments,date}){
                 (data) =>
                 {
                     setAuthor(data);
-                    console.log(data);
                 }
                )
             }, []
     );
+
+
+    function addLiketoPost(postId){
+        UserLikedPost(user.user.id,postId).then(
+            () => 
+             {
+                if(liked) {
+                    setLikesCount(likesCount-1)
+                    setLiked(false);
+                } else {
+                    setLikesCount(likesCount+1)
+                    setLiked(true);
+                }
+             }
+        );
+    }
+
+
     return(
         <div className="Post">
             <div className="user">
@@ -48,9 +71,9 @@ function Post({id,authorId,content,ImgPost,likes,comments,date}){
 
             <img src={ImgPost} className="posted-image" alt=""/>
             <div className="reactions">
-                <Flame />{likes.length}                {/* per il like (che sara' il fuoco, vedere icona da lucid) */}
-                <MessageCircle /> {comments.length}
-                <Forward />
+                <p className="reactionCount"><Flame className={liked ?  'reactionicon fire' : 'reactionicon' } onClick={() => addLiketoPost(id)} />{likesCount}</p>         {/* per il like (che sara' il fuoco, vedere icona da lucid) */}
+                <p className="reactionCount"><MessageCircle className="reactionicon" />{comments.length}</p>
+                <p className="reactionCount"><Forward/></p>
             </div>
             <div className="caption">
                 {content}
