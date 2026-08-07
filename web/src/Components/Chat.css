@@ -15,18 +15,21 @@
   font-weight: bold;
   margin-bottom: 20px;
   margin-left: 5px;
-}
-
-.Blocco-Chat{
-  padding: 10px;
+  color: var(--text);
 }
 
 .Nome{
   font-size: 22px;
+  color: var(--text);
 }
 
 .Ultimo-messaggio{
   font-size: 16px;
+  color: var(--soft);
+}
+
+.Blocco-Chat{
+  padding: 10px;
 }
 
 .list-group{
@@ -42,7 +45,7 @@
 }
 
 .list-group-item:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(56, 189, 248, 0.15);
 }
 
 .list-group::-webkit-scrollbar {

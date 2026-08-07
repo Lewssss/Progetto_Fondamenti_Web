@@ -13,11 +13,11 @@
 }
 
 .app-toast--success {
-  background: #1f7a4d;
+  background: var(--ok);
 }
 
 .app-toast--error {
-  background: #b42318;
+  background: var(--err);
 }
 
 @keyframes app-toast-in {

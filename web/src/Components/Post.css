@@ -1,0 +1,81 @@
+﻿.Post{
+    margin: 70px auto;
+    width:35vw;
+    height: 55vh;
+    display:flex;
+    flex-direction: column;
+    border-radius:2vw;
+    overflow:hidden;
+    background: linear-gradient(180deg, var(--card), var(--foam));
+    color: var(--deep);
+}
+.user{
+    flex: 0 0 10%;
+    max-height:15%;
+    padding:0 2%;
+    display:flex;
+    align-items: center;
+    overflow:hidden;
+    background-color: var(--mist);
+}
+.userimg{
+    height:5vh;
+    aspect-ratio: 1/1;
+    border-radius:50%;
+    float:left;
+}
+.username{
+    display:block;
+    float:left;
+    color: var(--deep);
+    font-weight:bold;
+    font-size:1.5vw;
+    margin:auto 10px;
+}
+.posted-image{
+    min-height:0;
+    flex: 0 0 70%;
+    max-height:70%;
+    object-fit: cover;
+    background-color: var(--sea);
+}
+.reactions{
+    margin:0;
+    overflow:visible;
+    font-weight:bold;
+    flex: 0 0 10%;
+    max-height:10%;
+    font-size:1vw;
+    color: var(--deep);
+    background-color: var(--foam);
+}
+.reactions svg {
+    width:2vw;
+    height: 100%;
+    color: var(--cyan);
+}
+.caption{
+    flex: 0 0 5%;
+    font-size:1vw;
+    padding: 0 1%;
+    max-height:5%;
+    color: var(--deep);
+    background-color: var(--card);
+}
+.comments{
+    flex: 0 0 2.5%;
+    font-size:1vw;
+    padding: 0 2%;
+    max-height:5%;
+    color: var(--mid);
+    background-color: var(--card);
+}
+.published{
+    text-align:right;
+    flex: 0 0 2.5%;
+    font-size:0.5vw;
+    padding: 0 5%;
+    max-height:5%;
+    color: var(--mid);
+    background-color: var(--card);
+}

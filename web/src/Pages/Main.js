@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
 import {useState, useContext} from "react";
-import { Flame, MessageCircle , Forward } from 'lucide-react';
 import './Main.css'
 import Post from '../Components/Post'
 import {getPosts} from '../endpoints/rest/userUI'
@@ -11,12 +10,27 @@ function Main(){
     const [posts,setPosts] = useState([])
     const {user} = useContext(userContext);
     useEffect(() => {
-        // getPosts(user).then(
-        //     (data) => setPosts(data)
-        // ); DA FARE LATO BACKEND
-    });
+        getPosts().then(
+            (data) => {
+                setPosts(data);
+            }
+        );
+    },[]);
     return (
-        <Post username={user.username}/>
+        <div className="Posts">
+            {posts.map(post => 
+                <Post
+                id = {post.id}
+                authorId={post.authorId}
+                content={post.content}
+                ImgPost={post.ImgPost}
+                likes={post.likes}
+                comments={post.comments}
+                date = {post.date}
+                />
+
+            )}
+        </div>
     )
 }
 

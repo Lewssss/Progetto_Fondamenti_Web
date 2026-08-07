@@ -1,11 +1,19 @@
 import api from "../../api/interceptor"
-import { mapStories } from "../mappers/userMapper"
+import { mapStories,mapPost, mapUser } from "../mappers/userMapper"
 
 export async function getStoriesFromFriends(userId) {
   const { data } = await api.get(`/user/stories/friends/${userId}`);
   return mapStories(data);
 }
-export async function getPosts(userId) {
-  const {data} = await api.get('/user/${userId}/friends/post');
+export async function getPostsofFriends(userId) {
+  const {data} = await api.get(`/user/${userId}/friends/post`);
   return data;
+}
+export async function getUser(id){
+  const {data} = await api.get(`/user/userData/${id}`)
+  return mapUser(data);
+}
+export async function getPosts(){
+  const {data} = await api.get(`/post/getPosts`);
+  return mapPost(data);
 }

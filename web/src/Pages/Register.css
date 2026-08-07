@@ -4,6 +4,8 @@
     align-items: center;
     justify-content: center;
     height: 100vh;
+    background: linear-gradient(180deg, var(--sea), var(--deep));
+    color: var(--text);
 }
 
 .register-form {
@@ -15,6 +17,8 @@
     margin: 10px 0;
     padding: 10px;
     width: 300px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--edge);
     border-radius: 5px;
+    background-color: var(--foam);
+    color: var(--deep);
 }

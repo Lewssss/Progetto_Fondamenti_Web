@@ -83,7 +83,7 @@ function App() {
             }
           />
           <Route path="/profile" element={<Profile />} />
-          <Route path="/dashboard" element={<Dashboard />} /> 
+          <Route path="/dashboard" element={user ? <Dashboard /> : <Login/>} /> 
           </Route>
         </Routes>
       </Router>

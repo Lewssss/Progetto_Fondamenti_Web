@@ -58,7 +58,7 @@ api.interceptors.response.use(
       const refreshToken = getRefreshToken();
 
       if (!refreshToken) {
-        clearAuthStorage();
+        //clearAuthStorage();
       } else if (isRefreshing) {
         return new Promise((resolve, reject) => {
           failedQueue.push({ resolve, reject });

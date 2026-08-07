@@ -7,7 +7,7 @@ export function mapUser(raw) {
     id: String(raw.id ?? raw._id),
     username: raw.username,
     email: raw.email,
-    profilePicture: raw.profilePicture ?? null,
+    profilePicture: raw.profilePicture ?? "null",
     followers: raw.followers ?? [],
     following: raw.following ?? [],
     bio: raw.bio ?? "",
@@ -21,5 +21,17 @@ export function mapStories(raw) {
     id: String(story.id ?? story._id),
     name: story.name,
     image: story.image,
+  }));
+}
+export function mapPost(raw){
+  if(!raw) throw new Error("payload mancante");
+  return raw.data.map(post => ({
+    id : post._id,
+    authorId: post.author,
+    content: post.content,
+    ImgPost: post.image,
+    likes: post.likes ?? [],
+    comments: post.comments ?? [],
+    date: post.createdAt,
   }));
 }
