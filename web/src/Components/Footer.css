@@ -1,0 +1,25 @@
+.footer{
+    height:10vh;
+    width:100%;
+    bottom:0;
+    left:0;
+    overflow: visible;
+    position:fixed;
+    background-color: white;
+    text-align: center;
+}
+.footer svg{
+    width:5vw;
+    margin-top:-3vh;
+    height:10vh;
+    text-align: center;
+    fill:var(--cyan);
+    stroke: black;
+    transition:0.2s transform ease, fill 0.2s ease;
+}
+.footer svg:hover{
+
+    fill:orange;
+    cursor:pointer;
+    transform:scale(1.2);
+}

@@ -6,7 +6,6 @@
     flex-direction: column;
     border-radius:2vw;
     overflow:hidden;
-    background: linear-gradient(180deg, var(--card), var(--foam));
     color: var(--deep);
 }
 .user{
@@ -16,7 +15,7 @@
     display:flex;
     align-items: center;
     overflow:hidden;
-    background-color: var(--mist);
+    background-color:var(--cyan);
 }
 .userimg{
     height:5vh;
@@ -41,7 +40,6 @@
 }
 .reactions{
     display:flex;
-
     margin:0;
     overflow:visible;
     font-weight:bold;
@@ -49,7 +47,7 @@
     max-height:10%;
     font-size:1vw;
     color: var(--deep);
-    background-color: var(--foam);
+    background-color:white;
 }
 .reactions svg {
     width:2vw;
@@ -78,7 +76,7 @@
     padding: 0 1%;
     max-height:5%;
     color: var(--deep);
-    background-color: var(--card);
+    background-color: var(--foam);
 }
 .comments{
     flex: 0 0 2.5%;
@@ -86,7 +84,7 @@
     padding: 0 2%;
     max-height:5%;
     color: var(--mid);
-    background-color: var(--card);
+    background-color: var(--foam);
 }
 .published{
     text-align:right;
@@ -95,5 +93,5 @@
     padding: 0 5%;
     max-height:5%;
     color: var(--mid);
-    background-color: var(--card);
+    background-color: var(--foam);
 }
