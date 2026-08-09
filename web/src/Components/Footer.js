@@ -11,7 +11,7 @@ function Footer() {
             <div className="footer">
                 <CirclePlus onClick={() => setCreate(true)}/>
             </div>
-            <Modal open={create} onClose={() =>setCreate(false)} content={<PostCreate/>}/>
+            <Modal open={create} onClose={() =>setCreate(false)} content={<PostCreate onClose={() => setCreate(false)}/>}/>
         </>
     )
 }

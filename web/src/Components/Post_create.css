@@ -22,16 +22,16 @@
     width:100%;
     height:100%;
 }
-.post-title{
+.post-content{
     padding:10px 0;
     text-align: left;
 }
-.post-title label{
+.post-content label{
     color:var(--sea);
     font-weight: bold;
     width:100%;
 }
-.post-title input{
+.post-content input{
     margin:0;
     padding:0;
     width:100%;

@@ -6,10 +6,12 @@ import MessageController from "./Controller/MessageController.js";
 import UserController from "./Controller/UserController.js";
 import PostController from "./Controller/PostController.js";
 import cors from "cors";
+import path from "path";
 
 const app = express();
 const port = 5000;
 connectDB();
+app.use("/uploads", express.static("uploads"));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());

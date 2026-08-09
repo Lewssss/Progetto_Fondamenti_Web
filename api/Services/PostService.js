@@ -2,11 +2,17 @@ import response from '../util/response/user.response.js'
 import Post from '../models/Post.js'
 import mongoose from 'mongoose'
 export default {
+    addPost,
     getPosts,
     addLiketoPost
 }
+async function addPost(author,ImgUrl,content) {
+    const CreatedPost = await new Post({author:author,image:ImgUrl,content:content}).save();
+    return [200,response.responseWithDataAndMessage(CreatedPost,"Post creato!")];
+
+}
 async function getPosts() {
-    const  posts = await Post.find();
+    const  posts = await Post.find().sort({createdAt: -1});
     return [200, response.responseWithData(posts)];
 }
 async function addLiketoPost(userId,postId){

@@ -64,7 +64,7 @@ function Dashboard() {
 
       </div>
       <div class="MainSection">
-        <Main username='nome' />
+        <Main/>
       </div>
       
     </div>

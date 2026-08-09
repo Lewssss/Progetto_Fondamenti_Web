@@ -5,6 +5,15 @@ export const responseWithData = (data) => {
   response.data = data;
   return response;
 };
+export const responseWithDataAndMessage = (data, message) => {
+  //Verificare se utile
+  let response = { success: true };
+  response.skipMessage = false;
+  response.message = message;
+  response.data = data;
+  return response;
+};
+
 
 export const Fail = () => {
   //Verificare se utile
@@ -77,6 +86,7 @@ export const invalidCredentials = () => {
 
 export default {
   responseWithData,
+  responseWithDataAndMessage,
   newChat,
   deleteChat,
   clearChat,

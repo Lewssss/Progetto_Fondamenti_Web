@@ -6,19 +6,12 @@ import Footer from '../Components/Footer'
 import {Circle, CirclePlus} from 'lucide-react'
 import {getPosts} from '../endpoints/rest/userUI'
 import {userContext} from '../Context/UserContext'
-
+import { postsContext } from 'Context/PostsContext';
 function Main(){
 
-    const [posts,setPosts] = useState([])
+    const { posts } = useContext(postsContext)
     const {user} = useContext(userContext);
     
-    useEffect(() => {
-        getPosts().then(
-            (data) => {
-                setPosts(data);
-            }
-        );
-    },[]);
     return (
         <div className="Posts">
             {posts.map(post => 

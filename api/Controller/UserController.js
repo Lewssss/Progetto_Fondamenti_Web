@@ -14,8 +14,7 @@ export default router;
 
 async function getUserData(req,res){
     const user = await User.findById(req.params.id)
-    console.log(user);
-    return res.json({username: user.username, profilePicture: user.profilePicture}); //inutile passare dal service e dalla response prestabilita, e' solo una get al volo
+    return res.json({id:user._id, username: user.username, profilePicture: user.profilePicture}); //inutile passare dal service e dalla response prestabilita, e' solo una get al volo
 }
 
 

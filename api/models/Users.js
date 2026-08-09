@@ -6,7 +6,7 @@ const UsersSchema = new mongoose.Schema({
   password: { type: String, required: true },
   Posts: [{ type: mongoose.Schema.Types.ObjectId, ref: "Post" }],
   refreshToken: { type: String }, 
-  profilePicture: { type: String },
+  profilePicture: { type: String, default: 'https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=original' },
   followers: [{ type: mongoose.Schema.Types.ObjectId, ref: "Users" }],
   following: [{ type: mongoose.Schema.Types.ObjectId, ref: "Users" }],
 });

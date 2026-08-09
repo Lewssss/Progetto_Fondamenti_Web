@@ -31,11 +31,18 @@
     font-size:1.5vw;
     margin:auto 10px;
 }
+.owner-actions{
+    height:100%;
+    display:flex;
+    align-items: center;
+    justify-content: right;
+    flex:1;
+}
 .posted-image{
     min-height:0;
     flex: 0 0 70%;
     max-height:70%;
-    object-fit: cover;
+    object-fit: fill;
     background-color: var(--sea);
 }
 .reactions{

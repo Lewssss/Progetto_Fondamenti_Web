@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import {useEffect, useState} from 'react';
 import './Post.css'
-import {Flame,MessageCircle,Forward} from 'lucide-react';
+import {Flame,MessageCircle,Forward,LucideTrash2} from 'lucide-react';
 import {getUserData, getUser} from 'endpoints/rest/userUI';
 import { UserLikedPost } from 'endpoints/rest/userInteractions';
 import { userContext } from 'Context/UserContext';
@@ -67,6 +67,12 @@ function Post({id,authorId,content,ImgPost,likes,comments,date}){
             <div className="user">
                 <img  src={author.profilePicture}className="userimg" alt="Immagine utente" />
                 <p className="username">{author.username}</p>
+                {String(author.id) == user.user.id ? 
+                <div className="owner-actions">
+                    <LucideTrash2 stroke="red"/>
+                </div>
+                : ''
+                }
             </div>
 
             <img src={ImgPost} className="posted-image" alt=""/>

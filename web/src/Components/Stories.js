@@ -12,6 +12,26 @@ const [stories, setStories] = useState("")
       name: 'John Doe',
       image: 'https://via.placeholder.com/150',
     },
+    {
+      id: 1,
+      name: 'Angelo Doe',
+      image: 'https://via.placeholder.com/150',
+    },
+    {
+      id: 1,
+      name: 'Giuann Doe',
+      image: 'https://via.placeholder.com/150',
+    },
+    {
+      id: 1,
+      name: 'Mngucc Doe',
+      image: 'https://via.placeholder.com/150',
+    },
+    {
+      id: 1,
+      name: 'Pepp Doe',
+      image: 'https://via.placeholder.com/150',
+    },
   ]
   function getStories() {
     getStoriesFromFriends()
@@ -20,8 +40,11 @@ const [stories, setStories] = useState("")
 
   }
   return (
-    <div>
+    <div className='stories'>
       <h1>Stories</h1>
+      <div className="stories-container">
+        {storiesF.map((storia) => <div className="user-story">{storia.name}</div>)}
+      </div>
     </div>
   )
 }

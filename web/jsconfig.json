@@ -4,8 +4,9 @@
     "jsx": "react-jsx",
     "checkJs": false,
     "module": "ESNext",
-    "moduleResolution": "node",
-    "target": "ESNext"
+    "moduleResolution": "bundler",
+    "target": "ESNext",
+    "ignoreDeprecations": "6.0"
   },
   "include": ["src"]
 }

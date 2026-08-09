@@ -4,3 +4,15 @@ section span:nth-child(2){
 header{
     background: linear-gradient(90deg, var(--sea), var(--mid));
 }
+.profile-picture{
+    width:7vw;
+    aspect-ratio: 1;
+    border-radius:50%;
+}
+.profile-info{
+    color:white;
+    
+}
+.header{
+    padding:20px;
+}

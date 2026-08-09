@@ -5,7 +5,7 @@
     left:0;
     overflow: visible;
     position:fixed;
-    background-color: white;
+    background-color: var(--accent);
     text-align: center;
 }
 .footer svg{
@@ -14,12 +14,11 @@
     height:10vh;
     text-align: center;
     fill:var(--cyan);
-    stroke: black;
+    stroke: var(--foam);
     transition:0.2s transform ease, fill 0.2s ease;
 }
 .footer svg:hover{
-
-    fill:orange;
+    fill:var(--deep);
     cursor:pointer;
     transform:scale(1.2);
 }

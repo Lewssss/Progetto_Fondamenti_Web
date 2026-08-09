@@ -29,7 +29,7 @@ function Profile() {
 
           <section className='info-stats'>
            <span><strong>{user.followers?.length || 0}</strong> Followers</span>
-           <span><strong>{user.following?.length || 0}</strong> Following</span>
+           <span><strong>{user.following?.length || 0}</strong> Segui</span>
           </section>
 
           <section className='info-bottom'>
@@ -42,4 +42,4 @@ function Profile() {
   )
 }
 
-export default Profile
+export default Profile;
