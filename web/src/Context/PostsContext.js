@@ -4,6 +4,7 @@ export const postsContext = createContext({});
 export function PostsContextProvider({ children }) {
 
   const [posts, setPosts] = useState([]);
+  const [comments, setComments] = useState([]);
   
   function refreshPosts() {
     getPosts().then(

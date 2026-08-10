@@ -38,6 +38,14 @@
     justify-content: right;
     flex:1;
 }
+.owner-actions svg{
+    cursor:pointer;
+    transition:0.2s stroke;
+}
+.owner-actions svg:hover{
+    stroke:white;
+
+}
 .posted-image{
     min-height:0;
     flex: 0 0 70%;

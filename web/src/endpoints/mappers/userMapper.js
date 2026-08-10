@@ -4,7 +4,7 @@ export function mapUser(raw) {
   }
 
   return {
-    id: String(raw.id ?? raw._id),
+    id: String(raw._id),
     username: raw.username,
     email: raw.email,
     profilePicture: raw.profilePicture ?? "null",

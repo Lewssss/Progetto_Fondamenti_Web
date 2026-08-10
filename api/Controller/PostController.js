@@ -10,12 +10,22 @@ const filestorage = multer.diskStorage({destination:"uploads/", filename: (req,f
 const upload = multer({storage: filestorage}); //key di default di multer (storage), non e' relativa a niente di nostro
 router.get('/getPosts', authenticateToken, getPosts)
 router.post('/addPost', authenticateToken, upload.single("img"), addPost);
-router.post('/delete', authenticateToken, deletePost);
+router.delete('/delete/:id', authenticateToken, deletePost);
 router.post('/addLike',authenticateToken, addLiketoPost)
+router.post('/getPostComments',authenticateToken, getPostComments)
 
 export default router;
 async function getPosts(req, res){
     Post.getPosts()
+    .then(
+        (response) => {
+            return res.status(response[0]).json(response[1]);
+        }
+    );
+}
+async function getPostComments(req, res){
+    const postId = req.body.postId;
+    Post.getPostComments(postId)
     .then(
         (response) => {
             return res.status(response[0]).json(response[1]);
@@ -37,6 +47,7 @@ async function addPost(req, res) {
 };
 
 async function deletePost(req, res) {
+    Post.deletePost(req.params.id).then((response)=> {return res.status(response[0]).json(response[1]);});
     
 };
 async function addLiketoPost(req,res){

@@ -16,6 +16,7 @@ function Main(){
         <div className="Posts">
             {posts.map(post => 
                 <Post
+                key = {post.id}
                 id = {post.id}
                 authorId={post.authorId}
                 content={post.content}

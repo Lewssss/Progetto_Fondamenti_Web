@@ -9,7 +9,15 @@ export async function CreatePost(author,file,content) {
     const data = await api.post('/post/addPost',formData);
     return data;
 }
+export async function deletePost(id) {
+    const data = await api.delete(`/post/delete/${id}`);
+    return data;
+}
 export async function UserLikedPost(userId,postId){
     const data = await api.post('/post/addLike',{userId:userId,postId:postId})
+    return data;
+}
+export async function addPostComment(postId) {
+    const {data} = await api.post(`/post/addPostComment/`,{postId})
     return data;
 }
