@@ -17,6 +17,10 @@ const CommentSchema = new Schema({
         type:String,
         required:true
     },
+    replyTo:{
+        type: Schema.Types.ObjectId,
+        ref:"Comment",
+    },
     createdAt: {
         type:Date,
         default: Date.now,
@@ -25,6 +29,6 @@ const CommentSchema = new Schema({
 
 });
 
-const CommentModel = mongoose.model("CommentModel", CommentSchema);
+const CommentModel = mongoose.model("Comment", CommentSchema);
 export default CommentModel;
 

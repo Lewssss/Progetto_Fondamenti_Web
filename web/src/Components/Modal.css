@@ -9,13 +9,11 @@
 }
 .modal-box,.modal-box-confirm {
   background: white;
-  color:red;
-  padding: 1rem;
+  padding: 0.1rem;
   border-radius: 8px;
-  max-width: 400px;
-  width: 90%;
 }
 .modal-box-confirm{
+  color:red;
   max-width:300px;
 }
 #confirm-text{

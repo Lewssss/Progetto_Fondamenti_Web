@@ -7,11 +7,12 @@ export default {
     deletePost,
     getPosts,
     getPostComments,
+    addPostComment,
     addLiketoPost
 }
 async function addPost(author,ImgUrl,content) {
     const CreatedPost = await new Post({author:author,image:ImgUrl,content:content}).save();
-    return [200,response.responseWithDataAndMessage(CreatedPost,"Post creato!")];
+    if(CreatedPost) return [200,response.responseWithDataAndMessage(CreatedPost,"Post creato!")];
 
 }
 async function deletePost(id){
@@ -23,10 +24,17 @@ async function getPosts() {
     return [200, response.responseWithData(posts)];
 }
 async function getPostComments(postId) {
-    const  comments = await Comment.findById(postId).sort({createdAt: -1});
+    const  comments = await Comment.find({post: postId}).populate("author", "username profilePicture").sort({createdAt: -1});
     return [200, response.responseWithData(comments)];
 }
-
+async function addPostComment(post,author,replyTo,text){
+    const comment = await new Comment({post,author,replyTo,text}).save();
+    if(comment) 
+        var comments = await Comment.find({post: post}).populate("author", "username profilePicture").sort({createdAt: -1});
+    else
+        return [500, null];
+    return[200, response.responseWithDataAndMessage(comments,"Commento pubblicato!")]
+}
 async function addLiketoPost(userId,postId){
     const thisPost = await Post.findById(postId);
     const checkLike = thisPost.likes.some(id => id.toString()===userId)

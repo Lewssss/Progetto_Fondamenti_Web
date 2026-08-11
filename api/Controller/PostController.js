@@ -12,7 +12,8 @@ router.get('/getPosts', authenticateToken, getPosts)
 router.post('/addPost', authenticateToken, upload.single("img"), addPost);
 router.delete('/delete/:id', authenticateToken, deletePost);
 router.post('/addLike',authenticateToken, addLiketoPost)
-router.post('/getPostComments',authenticateToken, getPostComments)
+router.get('/getPostComments/:postId',authenticateToken, getPostComments)
+router.post('/addPostComment',authenticateToken,addPostComment)
 
 export default router;
 async function getPosts(req, res){
@@ -24,13 +25,22 @@ async function getPosts(req, res){
     );
 }
 async function getPostComments(req, res){
-    const postId = req.body.postId;
+    const postId = req.params.postId;
     Post.getPostComments(postId)
     .then(
         (response) => {
             return res.status(response[0]).json(response[1]);
         }
     );
+}
+async function addPostComment(req,res){
+    const {post,author,replyTo,text} = req.body;
+    Post.addPostComment(post,author,replyTo,text)
+    .then(
+        (response)=> {
+            return res.status(response[0]).json(response[1]);
+        }
+    )
 }
 
 async function addPost(req, res) {

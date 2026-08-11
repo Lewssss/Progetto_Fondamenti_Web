@@ -6,6 +6,7 @@ import {getUserData, getUser} from 'endpoints/rest/userUI';
 import { UserLikedPost,deletePost } from 'endpoints/rest/userInteractions';
 import { userContext } from 'Context/UserContext';
 import Modal from '../Components/Modal'
+import Comments from '../Components/Comments'
 import { postsContext } from 'Context/PostsContext';
 
 function Post({id,authorId,content,ImgPost,likes,comments,date}){
@@ -14,28 +15,9 @@ function Post({id,authorId,content,ImgPost,likes,comments,date}){
     const [likesCount,setLikesCount] = useState(likes.length);
     const [liked,setLiked] = useState(likes.some(id => String(id)==user.user.id));
     const [confirm,setAskconfirm] = useState(false);
-    const {refreshPosts} = useContext(postsContext);
+    const [openComment, setOpenComment] = useState(false);
+    const {refreshPosts,PublishedOn} = useContext(postsContext);
         
-    
-
-    function PublishedOn(date){ //per non stampare la data rozza come viene dal db, la elaboriamo 
-        const published = new Date(date);
-        const now = new Date();
-        const seconds = Math.floor((now - published) / 1000);
-        if (seconds < 60) return "poco fa";
-        const minutes = Math.floor(seconds / 60);
-        if (minutes < 60) return minutes == 1 ? "1 minuto fa" : `${minutes} minuti fa`;
-        const hours = Math.floor(minutes / 60);
-        if (hours < 24) return hours == 1 ? "1 ora fa" : `${hours} ore fa`;
-        const days = Math.floor(hours / 24);
-        if (days < 7) return days == 1 ? "1 giorno fa" : `${days} giorni fa`;
-        const weeks = Math.floor(days / 7);
-        if (weeks < 4) return weeks == 1 ? "1 settimana fa" : `${weeks} settimane fa`;
-        const months = Math.floor(days / 30);
-        if (months < 12) return months == 1 ? "1 mese fa" : `${months} mesi fa`;
-        const years = Math.floor(days / 365);
-        return years === 1 ? "1 anno fa" : `${years} anni fa`;
-    }
 
     useEffect(
         () => 
@@ -76,6 +58,9 @@ function Post({id,authorId,content,ImgPost,likes,comments,date}){
     function onClose(e) {
         setAskconfirm(false);
     }
+    function onCloseComments(e) {
+        setOpenComment(false);
+    }
 
     return(
         <>
@@ -94,20 +79,21 @@ function Post({id,authorId,content,ImgPost,likes,comments,date}){
                 <img src={ImgPost} className="posted-image" alt=""/>
                 <div className="reactions">
                     <p className="reactionCount"><Flame className={liked ?  'reactionicon fire' : 'reactionicon' } onClick={() => addLiketoPost(id)} />{likesCount}</p>         {/* per il like (che sara' il fuoco, vedere icona da lucid) */}
-                    <p className="reactionCount"><MessageCircle className="reactionicon" />{comments.length}</p>
+                    <p className="reactionCount"><MessageCircle className="reactionicon" onClick = {() => setOpenComment(true)} />{comments.length}</p>
                     <p className="reactionCount"><Forward/></p>
                 </div>
                 <div className="caption">
                     {content}
                 </div>
                 <div className="comments">
-
+                    
                 </div>
                 <div className="published">
                     {PublishedOn(date)}
                 </div>
             </div>
-            {<Modal ask={true} confirmAction = {() => handlePostDelete(id)} open={confirm} onClose={onClose} />}
+            <Modal open={openComment} onClose={onCloseComments} content={<Comments postId={id}/>}/>
+            <Modal ask={true} confirmAction = {() => handlePostDelete(id)} open={confirm} onClose={onClose} />
         </>
     )
 }

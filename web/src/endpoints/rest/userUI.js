@@ -1,5 +1,5 @@
 import api from "../../api/interceptor"
-import { mapStories,mapPost, mapUser } from "../mappers/userMapper"
+import { mapStories,mapPost,mapComment, mapUser } from "../mappers/userMapper"
 
 export async function getStoriesFromFriends(userId) {
   const { data } = await api.get(`/user/stories/friends/${userId}`);
@@ -20,5 +20,5 @@ export async function getPosts(){
 }
 export async function getPostComments(postId) {
   const {data} = await api.get(`/post/getPostComments/${postId}`)
-  return data;
+  return mapComment(data);
 }
