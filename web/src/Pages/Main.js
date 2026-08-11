@@ -22,7 +22,7 @@ function Main(){
                 content={post.content}
                 ImgPost={post.ImgPost}
                 likes={post.likes}
-                comments={post.comments}
+                comments={post.commentsCount}
                 date = {post.date}
                 />
 

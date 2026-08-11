@@ -31,7 +31,7 @@ export function mapPost(raw){
     content: post.content,
     ImgPost: post.image,
     likes: post.likes ?? [],
-    comments: post.comments ?? [],
+    commentsCount: post.commentsCount ?? 0,
     date: post.createdAt,
   }));
 }

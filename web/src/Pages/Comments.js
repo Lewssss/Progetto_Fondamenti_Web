@@ -6,22 +6,27 @@ import {addPostComment} from '../endpoints/rest/userInteractions';
 import {postsContext} from '../Context/PostsContext'
 import { SendIcon } from 'lucide-react';
 import { userContext } from 'Context/UserContext';
+import Comment from '../Components/Comment'
 
 function Comments({postId,publishedOn}) {
     const [replyTo,setReplyTo] = useState(null);
     const {comments, setComments, PublishedOn} = useContext(postsContext);
+    const [loading,setLoading] = useState(false) //per loading dei commemnti, altrimenti si vede per qualche secondo la scritta "Nessun commento" pur essendocene
     const {user} = useContext(userContext);
     const text = useRef(null);
-    const parents= comments.filter((comment) => comment.replyTo == null)
-    const repliesOf = (parentId) => (comments.filter((comment) => String(comment.replyTo) == String(parentId)))
+    const parents= comments.filter((comment) => comment.replyTo == null)  //tutti i commenti padri, che non rispondono a nessun altro commento (sono i main)
+    const repliesOf = (parentId) => (comments.filter((comment) => String(comment.replyTo) == String(parentId))) //restituisce le risposte ai commenti padre
     useState(
         () => 
-            getPostComments(postId)
-            .then(
-                (data)=>
-                setComments(data)
-            )
-    ,[]);
+            { 
+                setLoading(true);
+                getPostComments(postId)
+                .then(
+                    (data)=>
+                    setComments(data)
+                ).finally(() => setLoading(false))
+            }
+    ,[postId]);
     function handleCommentPost(e){
         e.preventDefault();
         addPostComment(postId,user.id, replyTo?.id ?? null, e.target.comment.value)
@@ -42,37 +47,28 @@ function Comments({postId,publishedOn}) {
     return (
       <div class="comments-container">
         <div class="comments-post">
-            {parents.length > 0 ? 
-            (parents.map((comment)=>
-                (
-                <React.Fragment key={comment.id}>
-                <div className="comment">
-                    <img src={comment.author.profilePicture}/>
-                    <p className="username">{comment.author.username}:</p>
-                    <p className="text">{comment.text}</p>
-                    <p className="reply" onClick={() => handleCommentReply(comment)}>Rispondi</p>
-                    <p className="publishedOn">{PublishedOn(comment.date)}</p>
-                </div>
-                {repliesOf(comment.id).map((commentReply) => (
-                    <div key={commentReply.id} className="comment comment-replyTo">
-                        <img src={commentReply.author.profilePicture} alt="" />
-                        <p className="username">{commentReply.author.username}:</p>
-                        <p className="text">{commentReply.text}</p>
-                    </div>
+            {loading ? (
+                <p className="nocomment">Caricamento...</p>
+                ) : parents.length > 0 ? (
+                parents.map((comment) => (
+                    <Comment
+                    key={comment.id}
+                    comment={comment}
+                    replies={repliesOf(comment.id)}
+                    handleCommentReply={handleCommentReply}
+                    />
                 ))
-                }
-                </React.Fragment>
-            ))
-        ): <p class='nocomment'>Nessun commento, sii il primo</p>}
+                ) : (
+                <p className="nocomment">Nessun commento, sii il primo</p>
+                )
+            }
         </div>
         <div class="comment-publish">
             <form onSubmit={handleCommentPost}>
                 {replyTo? <p class="replying">Stai rispondendo a @{replyTo.author.username}</p> : ''}
                 <input ref={text} placeholder="Scrivi un commento..." type="text" name="comment">
-                
                 </input>
                 <button><SendIcon/></button>
-
             </form>
         </div>
       </div>  

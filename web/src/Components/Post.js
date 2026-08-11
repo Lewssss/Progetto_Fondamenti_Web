@@ -6,7 +6,7 @@ import {getUserData, getUser} from 'endpoints/rest/userUI';
 import { UserLikedPost,deletePost } from 'endpoints/rest/userInteractions';
 import { userContext } from 'Context/UserContext';
 import Modal from '../Components/Modal'
-import Comments from '../Components/Comments'
+import Comments from '../Pages/Comments'
 import { postsContext } from 'Context/PostsContext';
 
 function Post({id,authorId,content,ImgPost,likes,comments,date}){
@@ -16,7 +16,7 @@ function Post({id,authorId,content,ImgPost,likes,comments,date}){
     const [liked,setLiked] = useState(likes.some(id => String(id)==user.user.id));
     const [confirm,setAskconfirm] = useState(false);
     const [openComment, setOpenComment] = useState(false);
-    const {refreshPosts,PublishedOn} = useContext(postsContext);
+    const {refreshPosts,PublishedOn, setComments} = useContext(postsContext);
         
 
     useEffect(
@@ -60,6 +60,7 @@ function Post({id,authorId,content,ImgPost,likes,comments,date}){
     }
     function onCloseComments(e) {
         setOpenComment(false);
+        setComments([]);
     }
 
     return(
@@ -79,7 +80,7 @@ function Post({id,authorId,content,ImgPost,likes,comments,date}){
                 <img src={ImgPost} className="posted-image" alt=""/>
                 <div className="reactions">
                     <p className="reactionCount"><Flame className={liked ?  'reactionicon fire' : 'reactionicon' } onClick={() => addLiketoPost(id)} />{likesCount}</p>         {/* per il like (che sara' il fuoco, vedere icona da lucid) */}
-                    <p className="reactionCount"><MessageCircle className="reactionicon" onClick = {() => setOpenComment(true)} />{comments.length}</p>
+                    <p className="reactionCount"><MessageCircle className="reactionicon" onClick = {() => setOpenComment(true)} />{comments}</p>
                     <p className="reactionCount"><Forward/></p>
                 </div>
                 <div className="caption">

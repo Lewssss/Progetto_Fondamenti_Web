@@ -21,7 +21,14 @@ async function deletePost(id){
 }
 async function getPosts() {
     const  posts = await Post.find().sort({createdAt: -1});
-    return [200, response.responseWithData(posts)];
+    const postswithcomments = await Promise.all( //visto che non li abbiamo nella stessa table come i like
+        posts.map(async (post)=> {
+            const commentsCount = await Comment.countDocuments({post : post._id});
+            return {...post.toObject(),commentsCount} //per chi non capisce: ... serve a prendere tutti gli elementi di post, e nel nostro caso torniamo un array che ha quegli element + commentsCount. 
+            //facciamo toobject perche' arrivando da mongo, non possiamo interpretarli normalmente in node, ce lo rende plain text cosi'
+        })
+    )
+    return [200, response.responseWithData(postswithcomments)];
 }
 async function getPostComments(postId) {
     const  comments = await Comment.find({post: postId}).populate("author", "username profilePicture").sort({createdAt: -1});
