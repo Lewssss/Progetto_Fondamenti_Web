@@ -8,7 +8,7 @@ import {
 } from "./tokenStorage";
 
 const api = axios.create({
-  baseURL: "/api",
+  baseURL: "/api", //serve a buttare le richieste verso il backend
 });
 
 let isRefreshing = false;
@@ -33,7 +33,7 @@ api.interceptors.request.use(
     }
     return config;
   },
-  (error) => Promise.reject(error)
+  (error) => Promise.reject(error),
 );
 
 api.interceptors.response.use(
@@ -103,7 +103,7 @@ api.interceptors.response.use(
     }
 
     return Promise.reject(error);
-  }
+  },
 );
 
 export default api;

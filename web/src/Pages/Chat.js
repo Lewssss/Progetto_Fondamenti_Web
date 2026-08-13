@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import "./Chat.css"; // Importa il file CSS per gli stili
-import bg from "../Assets/DirectBackground.png"; // Importa l'immagine di sfondo
 
 function Chat({ name, onSelectName }) {
   const [selectedIndex, setSelectedIndex] = useState(-1); // useState è un hook che ci permette di creare uno stato locale
@@ -14,14 +13,7 @@ function Chat({ name, onSelectName }) {
   };
 
   return (
-    <div
-      className="ChatContainer"
-      style={{
-        backgroundImage: `url(${bg})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }}
-    >
+    <div className="ChatContainer">
       <h1 className="Titolo">Le tue Chat</h1>
       {NoChats()}{" "}
       <ul className="list-group">

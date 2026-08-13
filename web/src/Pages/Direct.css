@@ -1,0 +1,102 @@
+.DirectContainer {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 500px; /* fallback se il genitore non ha altezza */
+  background-color: transparent;
+  gap: 0;
+}
+
+.BackButton {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.SendButton {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.DirectHeader {
+  background: linear-gradient(180deg, var(--mid), var(--sea));
+  color: var(--text);
+  border-bottom: 1px solid var(--line);
+  padding: 0.5rem;    
+  display: flex;
+  align-items: center;
+  gap: 0.5rem; /* piccolo spazio tra elementi */
+}
+
+.DirectHeader .HeaderTitle {
+  margin-left: 0.5rem; /* ms-2 */
+  font-weight: 700;    /* fw-bold */
+}
+
+.DirectFooter {
+  display: flex;
+  border-top: 1px solid var(--line);
+  padding: 0.5rem;
+  background: linear-gradient(180deg, var(--sea), var(--deep));
+  gap: 0.5rem;                       /* spazio tra input e bottone */
+  align-items: center;
+}
+
+.DirectFooter .DirectInput {
+  flex: 1 1 auto;               /* cresce per occupare spazio disponibile */
+  padding: 0.375rem 0.75rem;    /* simile a bootstrap */
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--deep);
+  background-color: var(--foam);
+  background-clip: padding-box;
+  border: 1px solid var(--edge);
+  border-radius: 0.25rem;
+  transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+  margin-right: 0.5rem;         /* equivalente a me-2 */
+  box-sizing: border-box;
+}
+
+
+/* Si attiva quando clicchi nell'input */
+.DirectFooter .DirectInput:focus {
+  border-color: var(--accent);
+  outline: 0;
+  box-shadow: 0 0 0 0.12rem rgba(56, 189, 248, 0.25);
+}
+
+/* opzionale: versione ridotta per dispositivi piccoli */
+@media (max-width: 576px) {
+  .DirectFooter .DirectInput {
+    margin-right: 0.25rem;
+  }
+}
+
+.CameraButton {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  padding: 6px;
+  margin-right: 8px;
+}
+
+
+.MessagesArea {
+  background: transparent; 
+  flex: 1 1 auto;
+  overflow: auto;
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.MessagesArea::-webkit-scrollbar {
+  background: transparent;  /* sfondo traccia trasparente */
+}
+
