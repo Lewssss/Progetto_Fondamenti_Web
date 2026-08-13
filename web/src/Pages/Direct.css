@@ -5,6 +5,9 @@
   min-height: 500px; /* fallback se il genitore non ha altezza */
   background-color: transparent;
   gap: 0;
+  background-image: url(../Assets/DirectBackground.png);
+  background-size: cover;
+  background-position: center;
 }
 
 .BackButton {

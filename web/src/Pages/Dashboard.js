@@ -1,16 +1,21 @@
-import React from 'react'
-import "./Dashboard.css"
-import Main from './Main'
-import Profile from './Profile'
-import Stories from '../Components/Stories'
+import React from "react";
+import { useState } from "react";
+import "./Dashboard.css";
+import Main from "./Main";
+import Chat from "./Chat";
+import Profile from "./Profile";
+import Stories from "../Components/Stories";
+import ActionBar from "../Components/ActionBar";
 
 function Dashboard() {
+  const [openChat, setOpenChat] = useState(false);
+
   return (
     <div class="dashboard">
       <div className="animation-sidebar">
         <div class="sidebar">
-            <Profile />
-            <Stories />
+          <Profile />
+          <Stories />
         </div>
 
         <div className="wave-edge" aria-hidden="true">
@@ -61,14 +66,17 @@ function Dashboard() {
             </svg>
           </div>
         </div>
-
       </div>
       <div class="MainSection">
-        <Main/>
+        {!openChat ? (
+          <Main openChat={openChat} setOpenChat={setOpenChat} />
+        ) : (
+          <Chat />
+        )}
       </div>
-      
+      <ActionBar openChat={openChat} setOpenChat={setOpenChat} />
     </div>
-  )
+  );
 }
 
-export default Dashboard
+export default Dashboard;
