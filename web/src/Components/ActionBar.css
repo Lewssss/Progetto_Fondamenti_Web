@@ -1,4 +1,4 @@
-.footer{
+.ActionBar{
     height:10vh;
     width:100%;
     bottom:0;
@@ -8,7 +8,7 @@
     background-color: var(--accent);
     text-align: center;
 }
-.footer svg{
+.ActionBar svg{
     width:5vw;
     margin-top:-3vh;
     height:10vh;
@@ -17,7 +17,7 @@
     stroke: var(--foam);
     transition:0.2s transform ease, fill 0.2s ease;
 }
-.footer svg:hover{
+.ActionBar svg:hover{
     fill:var(--deep);
     cursor:pointer;
     transform:scale(1.2);

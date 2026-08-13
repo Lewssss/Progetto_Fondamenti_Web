@@ -1,17 +1,42 @@
 .modal-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-  }
-  .modal-box {
-    background: white;
-    color:red;
-    padding: 1rem;
-    border-radius: 8px;
-    max-width: 400px;
-    width: 90%;
-  }
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+.modal-box,.modal-box-confirm {
+  background: white;
+  padding: 0.1rem;
+  border-radius: 8px;
+}
+.modal-box-confirm{
+  color:red;
+  max-width:300px;
+}
+#confirm-text{
+  width:100%;
+  height:100%;
+  text-align: center;
+  font-weight:bold;
+}
+.confirm-action {
+  border:none;
+  outline:none;
+  width:5vw;
+  font-size:1vw;
+  background-color:red;
+  border-radius:20px;
+  font-weight:bold;
+  transition: 0.2s color;
+}
+.confirm-action:nth-child(2){
+  background-color:green;
+  width:5vw;
+  float:right;
+}
+.confirm-action:hover{
+  color:White;
+}

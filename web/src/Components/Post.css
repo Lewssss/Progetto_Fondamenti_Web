@@ -23,7 +23,7 @@
     border-radius:50%;
     float:left;
 }
-.username{
+.user .username{
     display:block;
     float:left;
     color: var(--deep);
@@ -37,6 +37,14 @@
     align-items: center;
     justify-content: right;
     flex:1;
+}
+.owner-actions svg{
+    cursor:pointer;
+    transition:0.2s stroke;
+}
+.owner-actions svg:hover{
+    stroke:white;
+
 }
 .posted-image{
     min-height:0;

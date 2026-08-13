@@ -4,7 +4,7 @@ export function mapUser(raw) {
   }
 
   return {
-    id: String(raw.id ?? raw._id),
+    id: String(raw._id),
     username: raw.username,
     email: raw.email,
     profilePicture: raw.profilePicture ?? "null",
@@ -27,11 +27,22 @@ export function mapPost(raw){
   if(!raw) throw new Error("payload mancante");
   return raw.data.map(post => ({
     id : post._id,
-    authorId: post.author,
+    authorId: post.author ?? [],
     content: post.content,
     ImgPost: post.image,
     likes: post.likes ?? [],
-    comments: post.comments ?? [],
+    commentsCount: post.commentsCount ?? 0,
     date: post.createdAt,
+  }));
+}
+export function mapComment(raw){
+  if(!raw) throw new Error("payload mancante");
+  return raw.data.map(comment => ({
+    id: comment._id,
+    post: comment.post,
+    author: comment.author ?? [],
+    text: comment.text,
+    replyTo: comment.replyTo,
+    date: comment.createdAt
   }));
 }
