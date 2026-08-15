@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./Chat.css"; // Importa il file CSS per gli stili
 
-function Chat() {
+function Chat(id_utente) {
   const NoChats = () => {
     return <p>Nessuna chat disponibile</p>;
   };

@@ -11,8 +11,11 @@ function ActionBar({ openChat, setOpenChat }) {
   return (
     <>
       <div className="ActionBar">
-        <MessagesSquare onClick={() => setOpenChat(true)} />
-        <CirclePlus onClick={() => setCreate(true)} />
+        <MessagesSquare
+          className="ChatButton"
+          onClick={() => setOpenChat(true)}
+        />
+        <CirclePlus className="CreatePost" onClick={() => setCreate(true)} />
       </div>
       <Modal
         open={create}

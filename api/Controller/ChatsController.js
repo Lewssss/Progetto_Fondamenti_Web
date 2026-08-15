@@ -15,7 +15,8 @@ function newChat(req, res) {
 }
 
 function getChats(req, res, next) {
-  ChatsServices.getChats(req.body.id)
+  const { id } = req.body; //Ottengo l'id dal body
+  ChatsServices.getChats(id)
     .then((response) => {
       //Capire se necesarrio anche l'id dell'utente visto che sono gia "dentro"
       return res.status(response[0]).json(response[1]);

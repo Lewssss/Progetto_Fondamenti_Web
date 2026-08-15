@@ -32,4 +32,21 @@ function deleteMessage(req, res) {
   });
 }
 
+const loadMessages = async () => {
+  try {
+    const { data } = await api.post("/messages/getMessages", {
+      id: "ID_CHAT",
+    });
+
+    const mappedMessages = data.map((msg) => ({
+      fromMe: msg.sender === "USER_ID_LOGGATO",
+      text: msg.text,
+    }));
+
+    setMessages(mappedMessages);
+  } catch (error) {
+    console.error("Errore nel caricamento messaggi:", error);
+  }
+};
+
 export default router;

@@ -1,19 +1,38 @@
-import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./Direct.css"; // Importa il file CSS per gli stili
 import { Undo, Send, Camera } from "lucide-react";
 import bg from "../Assets/DirectBackground.png"; // Importa l'immagine di sfondo
+import React, { useState, useEffect } from "react";
+import api from "../api/interceptor"; //preparo il passaggio verso l'iterceptor per fare le chiamate al backend
 
 //Usa grid coso e metti la foto
 
 const Direct = ({ name, onBack }) => {
   //onBack per tornare nella schermata precedente
   // Messaggi di esempio
-  const [messages, setMessages] = useState([
-    { fromMe: false, text: "Ciao! 👋" },
-    { fromMe: true, text: "Ciao! Come va?" },
-    { fromMe: false, text: "Tutto bene, tu?" },
-  ]);
+
+  const loadMessages = async () => {
+    // da coontrollare
+    try {
+      const { data } = await api.get("/messages/getMessages", {
+        params: { id: "ID_CHAT" },
+      });
+
+      const mappedMessages = data.map((msg) => ({
+        fromMe: msg.sender === "USER_ID_LOGGATO",
+        text: msg.text,
+      }));
+
+      setMessages(mappedMessages);
+    } catch (error) {
+      console.error("Errore nel caricamento messaggi:", error);
+    }
+  };
+
+  useEffect(() => {
+    loadMessages();
+  }, []);
+
   const [input, setInput] = useState("");
 
   const handleSend = (e) => {
@@ -24,14 +43,7 @@ const Direct = ({ name, onBack }) => {
   };
 
   return (
-    <div
-      className="DirectContainer"
-      style={{
-        backgroundImage: `url(${bg})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }}
-    >
+    <div className="DirectContainer">
       {/* Header stile Instagram */}
       <div className="DirectHeader">
         <button className="BackButton" onClick={onBack}>
