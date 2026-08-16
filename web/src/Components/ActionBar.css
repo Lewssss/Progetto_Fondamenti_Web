@@ -30,3 +30,9 @@
 .CreatePost{
   margin: 0;
 }
+
+.BackButton{
+    position: absolute;
+    top: 0;
+    right: 2%;
+}
