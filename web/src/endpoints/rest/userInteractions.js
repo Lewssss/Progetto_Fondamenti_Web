@@ -21,3 +21,9 @@ export async function addPostComment(post,author,replyTo,text) {
     const {data} = await api.post(`/post/addPostComment/`,{post,author,replyTo,text})
     return mapComment(data);
 }
+export async function updateUserImage(userId,file) {
+    const formData = new FormData();
+    formData.append("img", file);
+    const {data} = await api.put('/user/updateUserImage', formData)
+    return data;
+}

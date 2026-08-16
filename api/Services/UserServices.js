@@ -5,7 +5,8 @@ import jwt from "jsonwebtoken";  // Importa jsonwebtoken per la generazione dei 
 
 export default {
     registerUser,
-    loginUser
+    loginUser,
+    updateUserImage
 }
 
 
@@ -56,3 +57,8 @@ async function loginUser(email, password) {
             } 
         }];
 }
+async function updateUserImage(userId,ImgUrl) {
+    const updateUser = await User.findByIdAndUpdate(userId,{profilePicture:ImgUrl},{new:true});
+    return [200,response.responseWithDataAndMessage(updateUser,"Immagine profilo aggiornata!")];
+}
+
