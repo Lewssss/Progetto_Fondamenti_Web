@@ -41,7 +41,7 @@ async function loginUser(email, password) {
         return [400, response.invalidCredentials()];
     }
     // Se le credenziali sono valide, genera un token JWT
-    const accessToken = jwt.sign({ userId: user._id }, process.env.JWT_ACCESS_KEY, { expiresIn: '1h' }); // Token di accesso con scadenza breve
+    const accessToken = jwt.sign({ userId: user._id }, process.env.JWT_ACCESS_KEY, { expiresIn: '30min' }); // Token di accesso con scadenza breve
     const refreshToken = jwt.sign({ userId: user._id }, process.env.JWT_REFRESH_KEY, { expiresIn: '7d' }); // Token di refresh con scadenza più lunga    
     user.refreshToken = refreshToken; // Salva il token di refresh nel database
     await user.save();
