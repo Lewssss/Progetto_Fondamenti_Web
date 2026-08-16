@@ -1,24 +1,23 @@
 import "./App.css";
-import Chat from "./Components/Chat";
-import Direct from "./Components/Direct"; // importa Direct
+import Chat from "./Pages/Chat";
+import Direct from "./Pages/Direct"; // importa Direct
 import React, { useContext, useState } from "react";
 import Profile from "./Pages/Profile"; // importa Profile
 import Register from "./Pages/Register"; // importa Register
 import Login from "./Pages/Login"; // importa Login
-import Dashboard from "./Pages/Dashboard" //importa Dashboard
+import Dashboard from "./Pages/Dashboard"; //importa Dashboard
 import Navbar from "./Components/Navbar"; //import Navbar
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"; // importa Router
 import { userContext } from "./Context/UserContext";
-import { Outlet, Navigate, } from "react-router-dom";
+import { Outlet, Navigate } from "react-router-dom";
 
 const MainLayout = () => (
   <>
-  <Outlet/>
+    <Outlet />
   </>
-)
+);
 
 function App() {
-
   // Dati iniziali
   const InitialChats = [
     { name: "Marco", lastMessage: "Ci vediamo alle 18", unread: 2 },
@@ -44,7 +43,7 @@ function App() {
 
   const handleSelectName = (name) => {
     setChats((prev) =>
-      prev.map((c) => (c.name === name ? { ...c, unread: 0 } : c))
+      prev.map((c) => (c.name === name ? { ...c, unread: 0 } : c)),
     );
     setSelectedName(name); // salva il nome selezionato
   };
@@ -54,39 +53,52 @@ function App() {
   };
 
   return (
-      <Router>
-        <Routes>
-          <Route path="/" element={user ? <Navigate to="/dashboard" /> : <Navigate to="/register" />} />
-          <Route path="/register" element={user ? <Navigate to="/dashboard" />  : <Register />} />
-          <Route path="/login" element={user ? <Navigate to="/dashboard" /> : <Login />} />
-          <Route element={<MainLayout />}>
-          <Route path="/chat" element={ 
-          !selectedName ? (<Chat name={chats} onSelectName={handleSelectName} />) 
-          : 
-            (
-            <div
-              style={{
-                display: "flex",
-                gap: "16px",
-                padding: "16px",
-                height: "100vh",
-              }}
-              >
-              <div style={{ flex: "0 0 30%", minWidth: 240 }}>
+    <Router>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            user ? <Navigate to="/dashboard" /> : <Navigate to="/register" />
+          }
+        />
+        <Route
+          path="/register"
+          element={user ? <Navigate to="/dashboard" /> : <Register />}
+        />
+        <Route
+          path="/login"
+          element={user ? <Navigate to="/dashboard" /> : <Login />}
+        />
+        <Route element={<MainLayout />}>
+          <Route
+            path="/chat"
+            element={
+              !selectedName ? (
                 <Chat name={chats} onSelectName={handleSelectName} />
-              </div>
-              <div style={{ flex: "1 1 70%" }}>
-              <Direct name={selectedName} onBack={handleBack} />
-              </div>
-            </div>
-            )
+              ) : (
+                <div
+                  style={{
+                    display: "flex",
+                    gap: "16px",
+                    padding: "16px",
+                    height: "100vh",
+                  }}
+                >
+                  <div style={{ flex: "0 0 30%", minWidth: 240 }}>
+                    <Chat name={chats} onSelectName={handleSelectName} />
+                  </div>
+                  <div style={{ flex: "1 1 70%" }}>
+                    <Direct name={selectedName} onBack={handleBack} />
+                  </div>
+                </div>
+              )
             }
           />
           <Route path="/profile" element={<Profile />} />
-          <Route path="/dashboard" element={user ? <Dashboard /> : <Login/>} /> 
-          </Route>
-        </Routes>
-      </Router>
+          <Route path="/dashboard" element={user ? <Dashboard /> : <Login />} />
+        </Route>
+      </Routes>
+    </Router>
   );
 }
 

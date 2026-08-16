@@ -1,11 +1,15 @@
+
 /* Contenitore specifico per il componente Chat:
    qui imposti il background solo per Chat, non per l'intera app */
 .ChatContainer {
   background-color: transparent; /* cambia il colore qui */
   padding: 12px;
-    min-height: 100vh;
-    display: flex;
+  min-height: 100vh;
+  display: flex;
   flex-direction: column;
+  background-size: cover;
+  background-position: center;
+  width: 100%;
 
   /* opzionali: max-height/overflow se vuoi una lista scrollabile */
 }

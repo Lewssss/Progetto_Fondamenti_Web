@@ -22,3 +22,11 @@
     cursor:pointer;
     transform:scale(1.2);
 }
+.ChatButton{
+    position: absolute;
+    left: 2%;
+}
+
+.CreatePost{
+  margin: 0;
+}
