@@ -14,8 +14,8 @@ export async function getPostsofFriends(userId) {
   const { data } = await api.get(`/user/${userId}/friends/post`);
   return data;
 }
-export async function getUser(id){
-  const {data} = await api.get(`/user/userData/${id}`)
+export async function getUser(id) {
+  const { data } = await api.get(`/user/userData/${id}`);
   return mapUser(data);
 }
 export async function getPosts() {
@@ -23,7 +23,7 @@ export async function getPosts() {
   return mapPost(data);
 }
 export async function getPostofUser(userId) {
-  const {data} = await api.get(`/post/getPostsofUser/${userId}`);
+  const { data } = await api.get(`/post/getPostsofUser/${userId}`);
   return mapPost(data);
 }
 export async function getPostComments(postId) {
@@ -36,4 +36,5 @@ export async function getUserChats(userId) {
   const { data } = await api.get("/chats/getChats", {
     params: { id: userId },
   });
+  return data.data ?? []; //vuol dire che se data.data è undefined allora ritorna un array vuoto
 }
