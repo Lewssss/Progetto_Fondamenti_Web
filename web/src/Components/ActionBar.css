@@ -24,7 +24,7 @@
 }
 .ChatButton{
     position: absolute;
-    left: 2%;
+    left: 2vw;
 }
 
 .CreatePost{
@@ -34,5 +34,5 @@
 .BackButton{
     position: absolute;
     top: 0;
-    right: 2%;
+    right: 2vw;
 }

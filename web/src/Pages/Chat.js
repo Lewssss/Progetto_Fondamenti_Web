@@ -39,12 +39,24 @@ function Chat(id_utente) {
   return (
     <div className="ChatContainer">
       <h1 className="Titolo">Le tue Chat</h1>
-      {chats.map((chat) => (
-        <div key={chat._id}>{chat._id}</div>
-      ))}
-      {/* {NoChats()}{" "} */}
+      {chats.map((chat) => {
+        const names = (chat.participants || [])
+          .map((p) => p.username)
+          .filter(Boolean)
+          .join(", ");
+
+        return (
+          <div key={chat._id} className="Blocco-Chat">
+            <div className="Nome">
+              {names || "Partecipanti non disponibili"}
+            </div>
+            <div className="Ultimo-messaggio">
+              {chat.lastMessage?.text || "Nessun messaggio"}
+            </div>
+          </div>
+        );
+      })}
     </div>
   );
 }
-
 export default Chat;

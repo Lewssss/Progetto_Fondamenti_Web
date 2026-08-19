@@ -3,7 +3,7 @@ const router = express.Router();
 import ChatsServices from "../Services/ChatsServices.js";
 
 router.post("/newChat", newChat);
-router.get("/getChats", getChats);
+router.get("/getChats/:id", getChats);
 router.delete("/deleteChat", deleteChat);
 router.post("/clearChat", clearChat);
 
@@ -15,7 +15,7 @@ function newChat(req, res) {
 }
 
 function getChats(req, res, next) {
-  const { id } = req.query; //Non uso .body perche la richiesta è di tipo GET, quindi i dati vengono passati come query.
+  const { id } = req.params; // Usiamo req.params per ottenere l'ID dalla route
   ChatsServices.getChats(id)
     .then((response) => {
       return res.status(response[0]).json(response[1]);

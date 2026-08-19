@@ -32,8 +32,8 @@ export async function getPostComments(postId) {
 }
 export async function getUserChats(userId) {
   // testare se fuinziona
-  const { data } = await api.get("/chats/getChats", {
-    params: { id: userId },
-  });
+  const { data } = await api.get(
+    "/chats/getChats/" + encodeURIComponent(userId),
+  );
   return data.data ?? []; //vuol dire che se data.data è undefined allora ritorna un array vuoto
 }
