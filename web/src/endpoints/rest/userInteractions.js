@@ -27,3 +27,7 @@ export async function updateUserImage(userId,file) {
     const {data} = await api.put('/user/updateUserImage', formData)
     return data;
 }
+export async function updateUserBio(bio) {
+    const {data} = await api.patch('/user/updateUserBio', {bio})
+    return data;
+}

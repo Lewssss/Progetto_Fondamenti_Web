@@ -30,7 +30,6 @@ export async function getPostComments(postId) {
   const { data } = await api.get(`/post/getPostComments/${postId}`);
   return mapComment(data);
 }
-
 export async function getUserChats(userId) {
   // testare se fuinziona
   const { data } = await api.get("/chats/getChats", {

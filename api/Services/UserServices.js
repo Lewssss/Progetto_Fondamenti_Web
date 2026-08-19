@@ -8,8 +8,6 @@ export default {
     loginUser,
     updateUserImage
 }
-
-
 async function registerUser(username, email, password) {
     // Verifica se l'utente esiste già
     const existingUser = await User.findOne({ email: email });
@@ -27,8 +25,6 @@ async function registerUser(username, email, password) {
     await newUser.save();
     return [201, response.userRegistered()];
 }
-
-
 async function loginUser(email, password) {
     // Verifica se l'utente esiste
     const user = await User.findOne({ email: email });

@@ -16,7 +16,7 @@ export function UserContextProvider({ children }) {
           setUser(currentUser);
           setReady(true);
         })
-        .catch(() => {
+        .catch((err) => {
           clearAuthStorage();
           setReady(true);
         });
