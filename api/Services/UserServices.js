@@ -1,12 +1,12 @@
 import User from "../models/Users.js";
-import response from "../util/response/user.response.js";
+import response, { responseWithData } from "../util/response/user.response.js";
 import bcrypt from "bcrypt";    // Importa bcrypt per l'hashing delle password
 import jwt from "jsonwebtoken";  // Importa jsonwebtoken per la generazione dei token
-
 export default {
     registerUser,
     loginUser,
-    updateUserImage
+    updateUserImage,
+    updateFollow
 }
 async function registerUser(username, email, password) {
     // Verifica se l'utente esiste già
@@ -57,4 +57,22 @@ async function updateUserImage(userId,ImgUrl) {
     const updateUser = await User.findByIdAndUpdate(userId,{profilePicture:ImgUrl},{new:true});
     return [200,response.responseWithDataAndMessage(updateUser,"Immagine profilo aggiornata!")];
 }
-
+async function updateFollow(myId, targetId){
+    if(myId === targetId) {
+        return [400, { message: 'Non puoi seguire te stesso' }];
+    }
+    const targetUser = await User.findById(targetId)
+    if(!targetUser) {
+        return [404, { message: 'Nessun utente trovato' }];
+    }
+    const alreadyFollowing = targetUser.followers.some((followersId) => followersId.toString() === myId);  //controlla elemento per elemento se myId si trova nell'array
+    if(alreadyFollowing) {
+        await User.findByIdAndUpdate(targetId, {$pull: {followers: myId}});
+        await User.findByIdAndUpdate(myId, {$pull: {following: targetId}});
+    } else {
+        await User.findByIdAndUpdate(targetId, {$addToSet: {followers: myId}});     //addtoset invece di push perché controlla che non ci siano duplicati
+        await User.findByIdAndUpdate(myId, {$addToSet: {following: targetId}});
+    }
+    const newTargetUser = await User.findById(targetId).select("-password");
+    return [200, responseWithData(newTargetUser)];
+}

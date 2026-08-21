@@ -31,3 +31,7 @@ export async function updateUserBio(bio) {
     const {data} = await api.patch('/user/updateUserBio', {bio})
     return data;
 }
+export async function updateFollow(targetId) {
+    const {data} = await api.patch(`/user/follow/${targetId}`);
+    return data;
+}

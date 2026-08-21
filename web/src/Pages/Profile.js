@@ -9,6 +9,7 @@ import Modal from '../Components/Modal'
 import { useParams } from 'react-router-dom'
 import EditProfile from '../Components/EditProfile'
 import { mapPost } from 'endpoints/mappers/userMapper'
+import { updateFollow } from 'endpoints/rest/userInteractions'
 
 function Profile() {
   const { userId } = useParams();         
@@ -32,6 +33,14 @@ function Profile() {
       setPosts(data);
     })
   }, [userId, userLogged]); 
+    const isFollowing = userdata?.followers?.some((followerId) => followerId === userLogged?.id);
+    function handleFollow() {
+      updateFollow(userId)
+      .then((res) => {
+        setUserdata(prev => ({ ...prev, followers: res.data.followers }));
+      })
+      .catch((error) => console.log("Errore nel follow", error));
+    }
   return (
     <div className="profile-page">
       <div className="user-header">
@@ -41,14 +50,14 @@ function Profile() {
           {userdata?.bio && <p>{userdata.bio}</p>}
         </div>
         <div className="user-stats">
-          <span><strong>{userdata?.followers?.length || 130}</strong> followers</span>
-          <span><strong>{userdata?.following?.length || 130}</strong> following</span>
+          <span><strong>{userdata?.followers?.length || 0}</strong> followers</span>
+          <span><strong>{userdata?.following?.length || 0}</strong> following</span>
         </div>
         <div className="user-actions">
           {isOwnProfile ? (
             <button onClick={() => setEditModalOpen(true)}>Modifica Profilo</button>
           ) : (
-            <button>Segui</button>
+            <button onClick={handleFollow}>{isFollowing ? "Non seguire" : "Segui"}</button>
           )}
         </div>
       </div>
@@ -63,6 +72,10 @@ function Profile() {
         /> 
       }
       />
+      <hr className='divider'></hr>
+      <div className='tabs'>
+        POST
+      </div>
       <div className="post-grid">
         {posts.map((post) => (
           <div key={post.id} className="grid-item" onClick={() => setSelectedPost(post)}>
