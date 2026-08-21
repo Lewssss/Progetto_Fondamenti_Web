@@ -41,6 +41,7 @@ function Chat(id_utente) {
       <h1 className="Titolo">Le tue Chat</h1>
       {chats.map((chat) => {
         const names = (chat.participants || [])
+          .filter((p) => String(p._id) !== String(user.id)) // Verificare che sia conforme con quanto scritto in precedenza
           .map((p) => p.username)
           .filter(Boolean)
           .join(", ");
@@ -52,6 +53,13 @@ function Chat(id_utente) {
             </div>
             <div className="Ultimo-messaggio">
               {chat.lastMessage?.text || "Nessun messaggio"}
+            </div>
+            <div className="MessaggiNonLetti">
+              <p>
+                {chat.unreadCount > 0
+                  ? `Messaggi non letti: ${chat.unreadCount}`
+                  : ""}
+              </p>
             </div>
           </div>
         );

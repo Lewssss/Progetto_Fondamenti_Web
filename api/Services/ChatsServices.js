@@ -22,13 +22,27 @@ async function newChat(userId, friendId) {
   }
 }
 
-async function getChats(id) {
+async function getChats(userId) {
   try {
-    // Trova tutte le chat dove `id` è presente nell'array `participants`
-    const chats = await Chat.find({ participants: id })
+    const chats = await Chat.find({ participants: userId })
       .populate("participants", "username profilePicture")
       .populate("lastMessage");
-    return [200, response.responseWithData(chats)]; // Questo payload restituisce  una cosa tipo success: true, skipmessage: true e i miei dati data:[]
+
+    const chatsWithUnreadCount = await Promise.all(
+      chats.map(async (chat) => {
+        const unreadCount = await Message.countDocuments({
+          Chat_id_reference: chat._id,
+          sender: { $ne: userId }, //$ne non uguale a, quindi conta i messaggi che non sono stati inviati dall'utente corrente
+          read: false,
+        });
+        return {
+          ...chat.toObject(), // Converti il documento Mongoose in un oggetto JavaScript
+          unreadCount,
+        };
+      }),
+    );
+
+    return [200, response.responseWithData(chatsWithUnreadCount)];
   } catch (error) {
     console.log(error);
     return [401, response.Fail()];

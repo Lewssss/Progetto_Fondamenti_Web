@@ -15,12 +15,6 @@ const ChatSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "Message",
     },
-    UnreadCount: {
-      //Verificare se fa il suo dovere
-      type: Map,
-      of: Number,
-      default: {},
-    },
   },
   { timestamps: true },
 );

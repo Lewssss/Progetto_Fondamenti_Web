@@ -17,16 +17,16 @@ export function mapStories(raw) {
   if (!raw) {
     throw new Error("Stories payload mancante");
   }
-  return raw.map(story => ({
+  return raw.map((story) => ({
     id: String(story.id ?? story._id),
     name: story.name,
     image: story.image,
   }));
 }
-export function mapPost(raw){
-  if(!raw) throw new Error("payload mancante");
-  return raw.data.map(post => ({
-    id : post._id,
+export function mapPost(raw) {
+  if (!raw) throw new Error("payload mancante");
+  return raw.data.map((post) => ({
+    id: post._id,
     authorId: post.author ?? [],
     content: post.content,
     ImgPost: post.image,
@@ -35,14 +35,24 @@ export function mapPost(raw){
     date: post.createdAt,
   }));
 }
-export function mapComment(raw){
-  if(!raw) throw new Error("payload mancante");
-  return raw.data.map(comment => ({
+export function mapComment(raw) {
+  if (!raw) throw new Error("payload mancante");
+  return raw.data.map((comment) => ({
     id: comment._id,
     post: comment.post,
     author: comment.author ?? [],
     text: comment.text,
     replyTo: comment.replyTo,
-    date: comment.createdAt
+    date: comment.createdAt,
+  }));
+}
+
+export function mapChat(raw) {
+  if (!raw) throw new Error("payload mancante");
+  return raw.data.map((chat) => ({
+    id: chat._id,
+    participants: chat.participants ?? [],
+    lastMessage: chat.lastMessage,
+    unreadCount: chat.unreadCount ?? 0,
   }));
 }
