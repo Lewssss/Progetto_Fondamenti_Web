@@ -16,7 +16,10 @@ function newMessage(req, res, next) {
 }
 
 function getMessages(req, res, next) {
-  MessageServices.getMessages(req.body.id)
+  const { chatId } = req.query;
+  MessageServices.getMessages(chatId)
+
+    //MessageServices.getMessages(req.user.userId)
     .then((response) => {
       //Capire se necesarrio anche l'id dell'utente visto che sono gia "dentro"
       return res.status(response[0]).json(response[1]);

@@ -26,9 +26,9 @@ async function newMessage(chat_id, userId, message) {
 }
 
 async function getMessages(chat_id) {
-  const chat = await Message.find({ Chat_id_reference: chat_id });
-  if (chat) {
-    return [200, response.responseWithData(chat)];
+  const messages = await Message.find({ Chat_id_reference: chat_id });
+  if (messages) {
+    return [200, response.responseWithData(messages)];
   } else {
     return [400, response.Fail()];
   }

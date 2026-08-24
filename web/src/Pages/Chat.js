@@ -28,14 +28,6 @@ function Chat(id_utente) {
   if (loading) return <p>Caricamento chat...</p>;
   if (!chats.length) return <p>Nessuna chat disponibile</p>;
 
-  //const NoChats = () => {
-  //return <p>Nessuna chat disponibile</p>;
-  //};
-
-  //const handleClick = (event) => {
-  //console.log(event);
-  //};
-
   return (
     <div className="ChatContainer">
       <h1 className="Titolo">Le tue Chat</h1>
@@ -49,17 +41,13 @@ function Chat(id_utente) {
         return (
           <div key={chat._id} className="Blocco-Chat">
             <div className="Nome">
-              {names || "Partecipanti non disponibili"}
+              {names || "Partecipanti non disponibili"}{" "}
+              {chat.unreadCount > 0 && (
+                <div className="MessaggiNonLetti">{chat.unreadCount}</div>
+              )}
             </div>
             <div className="Ultimo-messaggio">
               {chat.lastMessage?.text || "Nessun messaggio"}
-            </div>
-            <div className="MessaggiNonLetti">
-              <p>
-                {chat.unreadCount > 0
-                  ? `Messaggi non letti: ${chat.unreadCount}`
-                  : ""}
-              </p>
             </div>
           </div>
         );

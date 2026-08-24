@@ -23,6 +23,9 @@
 }
 
 .Nome{
+  display: flex;
+  align-items: center;
+  gap: 8px;
   font-size: 22px;
   color: var(--text);
 }
@@ -38,20 +41,17 @@
 }
 
 .MessaggiNonLetti{
-  font-size: 12px;
-  color: white;
-  background-color: greenyellow;
+  display: flex; /* Usa flexbox per centrare il contenuto */
+  align-items: center;
+  justify-content: center; /* Centra il contenuto orizzontalmente */
+  width: 28px;
+  height: 28px;
   margin-top: 4px;
-  width: 20vw;
-  height: 2vh;
-}
-
-.MessaggiNonLetti p{
-  margin: 0;
-  padding: 0;
-  text-align: center;
-  font-size: 12px;
-  color: black;
+  border-radius: 50%;
+  background-color: #e63946;
+  color: white;
+  font-size: 13px;
+  font-weight: bold;
 }
 
 .list-group{

@@ -5,6 +5,7 @@ import {
   mapComment,
   mapUser,
   mapChat,
+  mapMessage,
 } from "../mappers/userMapper";
 
 export async function getStoriesFromFriends(userId) {
@@ -35,4 +36,9 @@ export async function getUserChats(userId) {
   // testare se fuinziona
   const { data } = await api.get("/chats/getChats/");
   return mapChat(data);
+}
+
+export async function getMessages(chatId) {
+  const { data } = await api.get(`/messages/getMessages?chatId=${chatId}`);
+  return mapMessage(data);
 }

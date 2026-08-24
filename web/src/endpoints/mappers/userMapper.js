@@ -56,3 +56,15 @@ export function mapChat(raw) {
     unreadCount: chat.unreadCount ?? 0,
   }));
 }
+
+export function mapMessage(raw) {
+  if (!raw) throw new Error("payload mancante");
+  return raw.data.map((message) => ({
+    id: message._id,
+    chatId: message.Chat_id_reference,
+    sender: message.sender,
+    text: message.text,
+    read: message.read ?? false,
+    date: message.createdAt,
+  }));
+}
