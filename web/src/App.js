@@ -18,22 +18,8 @@ const MainLayout = () => (
 );
 
 function App() {
-  // Dati iniziali
-  const InitialChats = [
-    { name: "Marco", lastMessage: "Ci vediamo alle 18", unread: 2 },
-    { name: "Luca", lastMessage: "Ok 👍", unread: 0 },
-    { name: "Giulia", lastMessage: "Ti mando le foto", unread: 5 },
-    { name: "Sara", lastMessage: "Grazie!", unread: 0 },
-    { name: "Francesco", lastMessage: "A dopo", unread: 1 },
-    { name: "Alice", lastMessage: "Perfetto", unread: 0 },
-    { name: "Roberto", lastMessage: "Ci sentiamo domani", unread: 3 },
-    { name: "Elena", lastMessage: "Buonanotte!", unread: 0 },
-    { name: "Matteo", lastMessage: "Dove sei?", unread: 4 },
-    { name: "Chiara", lastMessage: "A presto!", unread: 0 },
-  ];
-
   // ora chats è nello stato così possiamo aggiornarlo
-  const [chats, setChats] = useState(InitialChats);
+  const [chats, setChats] = useState([]);
   const [selectedName, setSelectedName] = useState(null);
   const { user, ready } = useContext(userContext);
 
