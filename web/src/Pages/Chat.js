@@ -3,7 +3,7 @@ import "./Chat.css"; // Importa il file CSS per gli stili
 import { userContext } from "../Context/UserContext";
 import { getUserChats } from "../endpoints/rest/userUI";
 
-function Chat(id_utente) {
+function Chat({ onSelectChat }) {
   const { user, ready } = useContext(userContext);
   const [chats, setChats] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -39,7 +39,11 @@ function Chat(id_utente) {
           .join(", ");
 
         return (
-          <div key={chat._id} className="Blocco-Chat">
+          <div
+            key={chat._id}
+            className="Blocco-Chat"
+            onClick={() => onSelectChat(chat)}
+          >
             <div className="Nome">
               {names || "Partecipanti non disponibili"}{" "}
               {chat.unreadCount > 0 && (

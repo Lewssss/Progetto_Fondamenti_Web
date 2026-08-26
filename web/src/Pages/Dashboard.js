@@ -1,14 +1,21 @@
-import React from "react";
-import { useState } from "react";
+import { React, useContext, useState } from "react"; //Usiamo React e useContext per accedere al contesto dell'utente e useState per gestire lo stato del componente
+import { userContext } from "../Context/UserContext"; //Questo userContext invece e un contesto più specifico definito da noi
 import "./Dashboard.css";
 import Main from "./Main";
 import Chat from "./Chat";
+import Direct from "./Direct";
 import Profile from "./Profile";
 import Stories from "../Components/Stories";
 import ActionBar from "../Components/ActionBar";
 
 function Dashboard() {
   const [openChat, setOpenChat] = useState(false);
+  const { user } = useContext(userContext);
+  const [selectedChat, setSelectedChat] = useState(null);
+
+  const handleBack = () => {
+    setSelectedChat(null);
+  };
 
   return (
     <div class="dashboard">
@@ -70,8 +77,20 @@ function Dashboard() {
       <div class="MainSection">
         {!openChat ? (
           <Main openChat={openChat} setOpenChat={setOpenChat} />
+        ) : selectedChat ? (
+          <Direct
+            name={selectedChat.participants
+              ?.filter(
+                (participant) => String(participant._id) !== String(user?.id),
+              )
+              .map((participant) => participant.username)
+              .join(", ")}
+            chatId={selectedChat.id}
+            userId={user?.id}
+            onBack={handleBack}
+          />
         ) : (
-          <Chat />
+          <Chat onSelectChat={setSelectedChat} />
         )}
       </div>
       <ActionBar openChat={openChat} setOpenChat={setOpenChat} />

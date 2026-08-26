@@ -1,10 +1,11 @@
 import express from "express";
 const router = express.Router();
 import MessageServices from "../Services/MessageServices.js";
+import { authenticateToken } from "../Middleware/authMiddleware.js";
 
-router.post("/newMessage", newMessage);
-router.get("/getMessages", getMessages);
-router.delete("/deleteMessage", deleteMessage);
+router.post("/newMessage", authenticateToken, newMessage);
+router.get("/getMessages", authenticateToken, getMessages);
+router.delete("/deleteMessage", authenticateToken, deleteMessage);
 
 function newMessage(req, res, next) {
   const { chatId, userId, message } = req.body; // Qui vogliamo l'id dell'utente registrato e dell'amoco di modo da creare la chat

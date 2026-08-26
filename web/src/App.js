@@ -20,22 +20,19 @@ const MainLayout = () => (
 function App() {
   // ora chats è nello stato così possiamo aggiornarlo
   const [chats, setChats] = useState([]);
-  const [selectedName, setSelectedName] = useState(null);
+  const [selectedChat, setSelectedChat] = useState(null);
   const { user, ready } = useContext(userContext);
 
   if (!ready) {
     return <div>Loading...</div>;
   }
 
-  const handleSelectName = (name) => {
-    setChats((prev) =>
-      prev.map((c) => (c.name === name ? { ...c, unread: 0 } : c)),
-    );
-    setSelectedName(name); // salva il nome selezionato
+  const handleSelectChat = (chat) => {
+    setSelectedChat(chat);
   };
 
   const handleBack = () => {
-    setSelectedName(null); // torna alla lista chat
+    setSelectedChat(null); // torna alla lista chat
   };
 
   return (
@@ -59,24 +56,17 @@ function App() {
           <Route
             path="/chat"
             element={
-              !selectedName ? (
-                <Chat name={chats} onSelectName={handleSelectName} />
+              !selectedChat ? (
+                <Chat onSelectChat={handleSelectChat} />
               ) : (
-                <div
-                  style={{
-                    display: "flex",
-                    gap: "16px",
-                    padding: "16px",
-                    height: "100vh",
-                  }}
-                >
-                  <div style={{ flex: "0 0 30%", minWidth: 240 }}>
-                    <Chat name={chats} onSelectName={handleSelectName} />
-                  </div>
-                  <div style={{ flex: "1 1 70%" }}>
-                    <Direct name={selectedName} onBack={handleBack} />
-                  </div>
-                </div>
+                <Direct
+                  name={selectedChat.participants
+                    ?.map((participant) => participant.username)
+                    .join(", ")}
+                  chatId={selectedChat.id}
+                  userId={user.id}
+                  onBack={handleBack}
+                />
               )
             }
           />
