@@ -1,13 +1,15 @@
 .DirectContainer {
   display: flex;
   flex-direction: column;
-  height: 100%;
-  min-height: 500px; /* fallback se il genitore non ha altezza */
+  width: 100%;
+  height: calc(100vh - 10vh); /* Altezza totale della finestra meno l'altezza dell'header e del footer */
+  min-height: 0;
   background-color: transparent;
   gap: 0;
   background-image: url(../Assets/DirectBackground.png);
   background-size: cover;
   background-position: center;
+  box-sizing: border-box;
 }
 
 .BackButton {
@@ -16,6 +18,7 @@
   cursor: pointer;
   display: flex;
   align-items: center;
+  padding: 1vw;
 }
 
 .SendButton {
@@ -48,6 +51,7 @@
   background: linear-gradient(180deg, var(--sea), var(--deep));
   gap: 0.5rem;                       /* spazio tra input e bottone */
   align-items: center;
+  padding-bottom: 1.5vw;                  /* pb-2 */
 }
 
 .DirectFooter .DirectInput {
@@ -94,7 +98,9 @@
 .MessagesArea {
   background: transparent; 
   flex: 1 1 auto;
-  overflow: auto;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
   padding: 1rem;
   border-radius: 8px;
 }

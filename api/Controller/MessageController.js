@@ -8,7 +8,8 @@ router.get("/getMessages", authenticateToken, getMessages);
 router.delete("/deleteMessage", authenticateToken, deleteMessage);
 
 function newMessage(req, res, next) {
-  const { chatId, userId, message } = req.body; // Qui vogliamo l'id dell'utente registrato e dell'amoco di modo da creare la chat
+  const { chatId, message } = req.body; // Qui vogliamo l'id dell'utente registrato e dell'amoco di modo da creare la chat
+  const userId = req.user.userId; // Ottieni l'ID dell'utente autenticato dal token
   MessageServices.newMessage(chatId, userId, message)
     .then((response) => {
       return res.status(response[0]).json(response[1]);

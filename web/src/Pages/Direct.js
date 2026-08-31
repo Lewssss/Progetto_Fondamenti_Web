@@ -30,16 +30,28 @@ const Direct = ({ name, onBack, chatId, userId }) => {
   };
 
   useEffect(() => {
-    loadMessages();
-  }, []);
+    if (chatId) loadMessages();
+  }, [chatId, userId]); // Ricarica i messaggi quando chatId o userId cambiano. Vuoto verrebbe eseguito una volta sola
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
 
-  const handleSend = (e) => {
+  const handleSend = async (e) => {
     e.preventDefault();
-    if (input.trim() === "") return;
-    setMessages([...messages, { fromMe: true, text: input }]);
-    setInput("");
+
+    const text = input.trim();
+    if (!text || !chatId) return;
+
+    try {
+      await api.post("/messages/newMessage", {
+        chatId,
+        message: text,
+      });
+
+      setInput("");
+      await loadMessages(); // ricarica i messaggi da Mongo
+    } catch (error) {
+      console.error("Errore invio messaggio:", error);
+    }
   };
 
   return (
