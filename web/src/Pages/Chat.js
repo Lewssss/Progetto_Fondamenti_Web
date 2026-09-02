@@ -1,29 +1,9 @@
-import React, { useContext, useEffect, useState } from "react";
-import "./Chat.css"; // Importa il file CSS per gli stili
-import { userContext } from "../Context/UserContext";
-import { getUserChats } from "../endpoints/rest/userUI";
+import React from "react";
+import "./Chat.css";
+import { useChat } from "../Components/Chat";
 
 function Chat({ onSelectChat }) {
-  const { user, ready } = useContext(userContext);
-  const [chats, setChats] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    if (!ready) return;
-    if (!user?.id) {
-      setChats([]);
-      setLoading(false);
-      return;
-    }
-
-    getUserChats(user.id)
-      .then((rows) => setChats(rows || [])) // || vuol dire se il promise ritorna undefined allora setta un array vuoto
-      .catch((err) => {
-        console.error("Errore caricamento chat:", err);
-        setChats([]);
-      })
-      .finally(() => setLoading(false));
-  }, [ready, user?.id]);
+  const { chats, loading, user } = useChat();
 
   if (loading) return <p>Caricamento chat...</p>;
   if (!chats.length) return <p>Nessuna chat disponibile</p>;
