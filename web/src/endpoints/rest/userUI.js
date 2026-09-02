@@ -18,14 +18,18 @@ export async function getPostsofFriends(userId) {
 }
 export async function getUser(id) {
   const { data } = await api.get(`/user/userData/${id}`);
+  if(!data) return null;
   return mapUser(data);
 }
 export async function getPosts() {
   const { data } = await api.get(`/post/getPosts`);
+  console.log("getPost = ", data.data);
+  if(!data?.data) return []; //per non tornare null almeno torna vuoto
   return mapPost(data);
 }
 export async function getPostofUser(userId) {
   const { data } = await api.get(`/post/getPostsofUser/${userId}`);
+  if(!data?.data) return [];
   return mapPost(data);
 }
 export async function getPostComments(postId) {

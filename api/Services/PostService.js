@@ -22,7 +22,7 @@ async function deletePost(id){
     return [200,response.responseWithDataAndMessage(deletePost, "Post eliminato!")];
 }
 async function getPosts() {
-    const  posts = await Post.find().sort({createdAt: -1});
+    const  posts = await Post.find().populate("author", "username profilePicture").sort({createdAt: -1});
     const postswithcomments = await Promise.all( //visto che non li abbiamo nella stessa table come i like
         posts.map(async (post)=> {
             const commentsCount = await Comment.countDocuments({post : post._id});
@@ -33,7 +33,7 @@ async function getPosts() {
     return [200, response.responseWithData(postswithcomments)];
 }
 async function getPostsofUser(userId) {
-    const posts = await Post.find({author: userId}).sort({createdAt: -1});
+    const posts = await Post.find({author: userId}).populate("author", "username profilePicture").sort({createdAt: -1});
     const postswithcomments = await Promise.all(
         posts.map(async (post)=> {
             const commentsCount = await Comment.countDocuments({post : post._id});

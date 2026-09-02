@@ -45,8 +45,8 @@ function Comments({postId,publishedOn}) {
         text.current.focus();
     }
     return (
-      <div class="comments-container">
-        <div class="comments-post">
+      <div className="comments-container">
+        <div className="comments-post">
             {loading ? (
                 <p className="nocomment">Caricamento...</p>
                 ) : parents.length > 0 ? (
@@ -63,9 +63,9 @@ function Comments({postId,publishedOn}) {
                 )
             }
         </div>
-        <div class="comment-publish">
+        <div className="comment-publish">
             <form onSubmit={handleCommentPost}>
-                {replyTo? <p class="replying">Stai rispondendo a @{replyTo.author.username}</p> : ''}
+                {replyTo? <p className="replying">Stai rispondendo a @{replyTo.author.username}</p> : ''}
                 <input ref={text} placeholder="Scrivi un commento..." type="text" name="comment">
                 </input>
                 <button><SendIcon/></button>

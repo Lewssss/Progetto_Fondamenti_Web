@@ -1,8 +1,9 @@
 import React from 'react';
+import {createPortal} from 'react-dom'
 import './Modal.css';
 function Modal({open, onClose, content, ask, confirmAction}) {
     if(!open) return null;
-    return !ask ? (
+    const modal = !ask ? (
         <div className="modal-overlay" onClick={onClose}>
             <div className="modal-box" onClick={(e) => e.stopPropagation()}>
                 {content}
@@ -16,5 +17,6 @@ function Modal({open, onClose, content, ask, confirmAction}) {
             <button type="button" className="confirm-action" onClick={onClose} id="Cancel" >Annulla</button>
         </div>
     </div>;
+    return createPortal(modal,document.body); //dato che non sappiuamo mai dove ci troviamo, lo rendiamo figlio di body direttamente, altrimenti viene clippato in base a dove siamo
 }
 export default Modal;

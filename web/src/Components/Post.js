@@ -9,31 +9,16 @@ import Modal from '../Components/Modal'
 import Comments from '../Pages/Comments'
 import { postsContext } from 'Context/PostsContext';
 
-function Post({id,authorId,content,ImgPost,likes,comments,date}){
-    const user = useContext(userContext);
-    const [author,setAuthor] = useState([])
+function Post({id,authorId,author,content,ImgPost,likes,comments,date}){
+    const {user} = useContext(userContext);
     const [likesCount,setLikesCount] = useState(likes.length);
-    const [liked,setLiked] = useState(likes.some(id => String(id)==user.user.id));
+    const [liked,setLiked] = useState(likes.some(id => String(id)==user.id));
     const [confirm,setAskconfirm] = useState(false);
     const [openComment, setOpenComment] = useState(false);
     const {refreshPosts,PublishedOn, setComments} = useContext(postsContext);
         
-
-    useEffect(
-        () => 
-            function retrieveAuthorData(){
-                getUser(authorId).then(
-                (data) =>
-                {
-                    setAuthor(data);
-                }
-               )
-            }, [authorId]
-    );
-
-
     function addLiketoPost(postId){
-        UserLikedPost(user.user.id,postId).then(
+        UserLikedPost(user.id,postId).then(
             () => 
              {
                 if(liked) {
@@ -67,9 +52,9 @@ function Post({id,authorId,content,ImgPost,likes,comments,date}){
         <>
             <div className="Post">
                 <div className="user">
-                    <img  src={author.profilePicture}className="userimg" alt="Immagine utente" />
-                    <p className="username">{author.username}</p>
-                    {String(authorId) == user.user.id ? 
+                    <img  src={author?.profilePicture}className="userimg" alt="Immagine utente" />
+                    <p className="username">{author?.username}</p>
+                    {String(authorId) == user.id ? 
                     <div className="owner-actions">
                         <LucideTrash2 stroke="red" onClick={() => setAskconfirm(true)}/>
                     </div>

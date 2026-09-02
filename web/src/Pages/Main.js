@@ -7,10 +7,11 @@ import { Circle, CirclePlus } from "lucide-react";
 import { getPosts } from "../endpoints/rest/userUI";
 import { userContext } from "../Context/UserContext";
 import { postsContext } from "Context/PostsContext";
-function Main({ openChat, setOpenChat }) {
-  const { posts } = useContext(postsContext);
+function Main({}) {
+  const { posts,loading } = useContext(postsContext);
   const { user } = useContext(userContext);
-
+  if(loading) return <div className="Posts">Caricamento...</div>
+  if (posts.length === 0) return <div className="Posts">Nessun post</div>;
   return (
     <div className="Posts">
       {posts.map((post) => (
@@ -18,6 +19,7 @@ function Main({ openChat, setOpenChat }) {
           key={post.id}
           id={post.id}
           authorId={post.authorId}
+          author={post.author}
           content={post.content}
           ImgPost={post.ImgPost}
           likes={post.likes}

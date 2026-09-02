@@ -6,13 +6,17 @@ export function PostsContextProvider({ children }) {
 
   const [posts, setPosts] = useState([]);
   const [comments, setComments] = useState([]);
+  const [loading, setLoading] = useState(true);
   const {user} = useContext(userContext)
   
   function refreshPosts() {
+    setLoading(true);
     getPosts().then(
         (data) => 
             setPosts(data)
-    );
+    )
+    .catch((err) => console.log("Error loading Posts", err, err.postId))
+    .finally(() => setLoading(false));
   }
   function PublishedOn(date){ //per non stampare la data rozza come viene dal db, la elaboriamo 
     const published = new Date(date);
@@ -37,12 +41,13 @@ export function PostsContextProvider({ children }) {
       refreshPosts() 
     } else {
       setPosts([]);
+      setLoading(false);
       return;
     }
   }, [user]);
 
   return (
-    <postsContext.Provider value={{ posts, setPosts,comments, setComments, refreshPosts, PublishedOn}}>
+    <postsContext.Provider value={{ posts, setPosts,comments, setComments, refreshPosts, PublishedOn, loading}}>
       {children}
     </postsContext.Provider>
   );

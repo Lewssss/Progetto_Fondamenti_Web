@@ -14,24 +14,26 @@ import { updateFollow } from 'endpoints/rest/userInteractions'
 function Profile() {
   const { userId } = useParams();         
   const { user: userLogged } = useContext(userContext);       
-  const isOwnProfile = !userId || userId === userLogged.id;   
+  const isOwnProfile = !userId || userId === userLogged?.id;   
   const [userdata, setUserdata] = useState(null);
   const [posts, setPosts] = useState([]);
   const [selectedPost, setSelectedPost] = useState(null);
   const [editModalOpen, setEditModalOpen] = useState(false);
 
   useEffect(() => {
-    const targetId = isOwnProfile ? userLogged.id : userId;
-    if(!targetId) return; 
+    const targetId = isOwnProfile ? userLogged?.id : userId;
+    console.log("targetId =", targetId, typeof targetId, userLogged);
+    if(!targetId || targetId === "undefined") return; 
     getUser(targetId)
     .then((data) => {
       setUserdata(data)
     })
     .catch((err) => console.log("Errore nel fetch del profilo", err));
+
     getPostofUser(targetId)
     .then((data) => {
       setPosts(data);
-    })
+    }).catch((err) => console.log("Errore post profilo", err));
   }, [userId, userLogged]); 
     const isFollowing = userdata?.followers?.some((followerId) => followerId === userLogged?.id);
     function handleFollow() {
@@ -42,23 +44,25 @@ function Profile() {
       .catch((error) => console.log("Errore nel follow", error));
     }
   return (
-    <div className="profile-page">
+    <div className="profile">
       <div className="user-header">
-        <img className="user-pic" src={userdata?.profilePicture || "/default-profile.png"} alt="User Profile Picture" />
-        <div className="user-data">
-          <h1>{userdata?.username || "Utente"}</h1>
-          {userdata?.bio && <p>{userdata.bio}</p>}
+        <div className="profile-user">
+          <img className="profile-userimg" src={userdata?.profilePicture} alt="Foto profilo" />
+          <div className="profile-userdata">
+            <p className="profile-username">{userdata?.username || "Utente"}</p>
+            {userdata?.bio ? <p className="bio">{userdata.bio}</p> : ''}
+          </div>
         </div>
-        <div className="user-stats">
+        <div className="followers">
           <span><strong>{userdata?.followers?.length || 0}</strong> followers</span>
           <span><strong>{userdata?.following?.length || 0}</strong> following</span>
         </div>
-        <div className="user-actions">
-          {isOwnProfile ? (
-            <button onClick={() => setEditModalOpen(true)}>Modifica Profilo</button>
-          ) : (
-            <button onClick={handleFollow}>{isFollowing ? "Non seguire" : "Segui"}</button>
-          )}
+        <div className="profile-actions">
+          {isOwnProfile ?
+            <button type="button" id="Edit" onClick={() => setEditModalOpen(true)}>Modifica Profilo</button>
+            :
+            <button type="button" id="Follow" onClick={handleFollow}>{isFollowing ? "Non seguire" : "Segui"}</button>
+          }
         </div>
       </div>
       <Modal 
@@ -90,6 +94,7 @@ function Profile() {
           <Post 
             id={selectedPost.id}
             authorId={selectedPost.authorId}
+            author={selectedPost.author}
             content={selectedPost.content}
             ImgPost={selectedPost.ImgPost}
             likes={selectedPost.likes}

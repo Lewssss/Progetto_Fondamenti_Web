@@ -24,7 +24,7 @@ function App() {
   const { user, ready } = useContext(userContext);
 
   if (!ready) {
-    return <div>Loading...</div>;
+    return <div className="loading">Caricamento...</div>;
   }
 
   const handleSelectChat = (chat) => {

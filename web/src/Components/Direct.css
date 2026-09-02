@@ -27,7 +27,7 @@
 }
 
 .DirectHeader {
-  background: linear-gradient(180deg, var(--mid), var(--sea));
+  background: var(--deep);
   color: var(--text);
   border-bottom: 1px solid var(--line);
   padding: 0.5rem;    
@@ -45,7 +45,7 @@
   display: flex;
   border-top: 1px solid var(--line);
   padding: 0.5rem;
-  background: linear-gradient(180deg, var(--sea), var(--deep));
+  background: var(--deep);
   gap: 0.5rem;                       /* spazio tra input e bottone */
   align-items: center;
 }

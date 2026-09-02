@@ -17,7 +17,10 @@ export function UserContextProvider({ children }) {
           setReady(true);
         })
         .catch((err) => {
-          clearAuthStorage();
+          const status = err?.response?.status;
+          if (status === 401 || status === 403) { //altrimenti fa clear anche per errori inutili
+            clearAuthStorage();
+          }
           setReady(true);
         });
     } else {

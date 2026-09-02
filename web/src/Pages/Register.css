@@ -4,7 +4,7 @@
     align-items: center;
     justify-content: center;
     height: 100vh;
-    background: linear-gradient(180deg, var(--sea), var(--deep));
+    background: var(--deep);
     color: var(--text);
 }
 

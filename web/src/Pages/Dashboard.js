@@ -18,9 +18,9 @@ function Dashboard() {
   };
 
   return (
-    <div class="dashboard">
+    <div className="dashboard">
       <div className="animation-sidebar">
-        <div class="sidebar">
+        <div className="sidebar">
           <Profile />
           <Stories />
         </div>
@@ -74,9 +74,9 @@ function Dashboard() {
           </div>
         </div>
       </div>
-      <div class="MainSection">
+      <div className="MainSection">
         {!openChat ? (
-          <Main openChat={openChat} setOpenChat={setOpenChat} />
+          <Main/>
         ) : selectedChat ? (
           <Direct
             name={selectedChat.participants

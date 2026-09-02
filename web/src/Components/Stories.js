@@ -13,22 +13,22 @@ const [stories, setStories] = useState("")
       image: 'https://via.placeholder.com/150',
     },
     {
-      id: 1,
+      id: 2,
       name: 'Angelo Doe',
       image: 'https://via.placeholder.com/150',
     },
     {
-      id: 1,
+      id: 3,
       name: 'Giuann Doe',
       image: 'https://via.placeholder.com/150',
     },
     {
-      id: 1,
+      id: 4,
       name: 'Mngucc Doe',
       image: 'https://via.placeholder.com/150',
     },
     {
-      id: 1,
+      id: 5,
       name: 'Pepp Doe',
       image: 'https://via.placeholder.com/150',
     },
@@ -43,7 +43,7 @@ const [stories, setStories] = useState("")
     <div className='stories'>
       <h1>Stories</h1>
       <div className="stories-container">
-        {storiesF.map((storia) => <div className="user-story">{storia.name}</div>)}
+        {storiesF.map((story) => <div key={story.id} className="user-story">{story.name}</div>)}
       </div>
     </div>
   )

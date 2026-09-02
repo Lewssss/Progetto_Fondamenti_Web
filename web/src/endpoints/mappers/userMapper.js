@@ -24,10 +24,17 @@ export function mapStories(raw) {
   }));
 }
 export function mapPost(raw) {
-  if (!raw) throw new Error("payload mancante");
+  if (!raw) throw new Error("Post payload mancante");
   return raw.data.map((post) => ({
     id: post._id,
-    authorId: post.author ?? [],
+    authorId: post.author?._id ?? post.author ?? null,
+    author: (post.author && post.author.username)
+    ? {
+        id: String(post.author._id),
+        username: post.author.username,
+        profilePicture: post.author.profilePicture ?? null,
+      }
+    : null,
     content: post.content,
     ImgPost: post.image,
     likes: post.likes ?? [],
