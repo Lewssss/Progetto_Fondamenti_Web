@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import api from "../api/interceptor";
+import { getMessages, MessagesAsRead } from "../endpoints/rest/userUI";
+import { deleteMessage as deleteMessageRequest } from "../endpoints/rest/userInteractions";
 
 export function useDirect({ chatId, userId }) {
   const [messages, setMessages] = useState([]);
@@ -9,12 +11,11 @@ export function useDirect({ chatId, userId }) {
     if (!chatId) return;
 
     try {
-      const { data } = await api.get("/messages/getMessages", {
-        params: { chatId },
-      });
+      const rows = await getMessages(chatId);
 
       setMessages(
-        (data.data || []).map((message) => ({
+        rows.map((message) => ({
+          id: message.id,
           fromMe: String(message.sender) === String(userId),
           text: message.text,
         })),
@@ -25,8 +26,20 @@ export function useDirect({ chatId, userId }) {
   }, [chatId, userId]);
 
   useEffect(() => {
-    loadMessages();
-  }, [loadMessages]);
+    if (!chatId || !userId) return;
+
+    async function openChat() {
+      try {
+        await MessagesAsRead(chatId);
+      } catch (error) {
+        console.error("Errore aggiornamento messaggi letti:", error);
+      }
+
+      await loadMessages();
+    }
+
+    openChat();
+  }, [chatId, userId, loadMessages]);
 
   const sendMessage = async () => {
     const text = input.trim();
@@ -46,10 +59,23 @@ export function useDirect({ chatId, userId }) {
     }
   };
 
+  const deleteMessage = async (messageId, who) => {
+    try {
+      await deleteMessageRequest(messageId, who);
+
+      setMessages((currentMessages) =>
+        currentMessages.filter((message) => message.id !== messageId),
+      );
+    } catch (error) {
+      console.error("Errore eliminazione messaggio:", error);
+    }
+  };
+
   return {
     messages,
     input,
     setInput,
     sendMessage,
+    deleteMessage,
   };
 }

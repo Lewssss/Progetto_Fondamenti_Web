@@ -29,6 +29,41 @@
   align-items: center;
 }
 
+.MessageBubble {
+  position: relative;
+  max-width: 70%;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.75rem;
+  cursor: pointer;
+}
+
+.MessageMine {
+  background-color: var(--bs-primary);
+  color: white;
+}
+
+.MessageOther {
+  background-color: var(--foam);
+  border: 1px solid var(--line);
+  color: var(--deep);
+}
+
+.DeleteMessageOption {
+  display: block;
+  margin-top: 0.4rem;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: #ff6b6b;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.DeleteMessageOption:hover {
+  color: #ff3333;
+  text-decoration: underline;
+}
+
 .DirectHeader {
   background: var(--sea);
   color: var(--text);

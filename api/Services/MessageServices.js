@@ -6,6 +6,7 @@ export default {
   newMessage,
   getMessages,
   deleteMessage,
+  MessagesAsRead,
 };
 
 async function newMessage(chat_id, userId, message) {
@@ -25,21 +26,63 @@ async function newMessage(chat_id, userId, message) {
   }
 }
 
-async function getMessages(chat_id) {
-  const messages = await Message.find({ Chat_id_reference: chat_id });
-  if (messages) {
-    return [200, response.responseWithData(messages)];
-  } else {
-    return [400, response.Fail()];
+async function getMessages(chat_id, userId) {
+  const messages = await Message.find({
+    Chat_id_reference: chat_id,
+    hiddenFor: { $ne: userId },
+  }).sort({ createdAt: 1 }); // Ordina per data di creazione in ordine crescente
+
+  return [200, response.responseWithData(messages)];
+}
+
+async function MessagesAsRead(chatId, userId) {
+  try {
+    await Message.updateMany(
+      {
+        Chat_id_reference: chatId,
+        sender: { $ne: userId },
+        read: false,
+      },
+      {
+        $set: { read: true },
+      },
+    );
+
+    return [200, response.responseWithData({ updated: true })];
+  } catch (error) {
+    console.log(error);
+    return [500, response.Fail()];
   }
 }
 
-async function deleteMessage(message_id) {
-  //Questo id deve essere quello di mongo
+async function deleteMessage(messageId, userId, who) {
   try {
-    await Message.findByIdAndDelete(message_id);
-    return [200, response.deleteMessage()];
+    const message = await Message.findById(messageId);
+
+    if (!message) {
+      return [404, response.Fail()];
+    }
+
+    if (who === "everyone") {
+      if (String(message.sender) !== String(userId)) {
+        return [403, response.Fail()];
+      }
+
+      await Message.findByIdAndDelete(messageId);
+      return [200, response.deleteMessage()];
+    }
+
+    if (who === "me") {
+      await Message.findByIdAndUpdate(messageId, {
+        $addToSet: { hiddenFor: userId },
+      });
+
+      return [200, response.deleteMessage()];
+    }
+
+    return [400, response.Fail()];
   } catch (error) {
-    return [401, response.Fail()];
+    console.log(error);
+    return [500, response.Fail()];
   }
 }

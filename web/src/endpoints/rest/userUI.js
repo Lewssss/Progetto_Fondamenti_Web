@@ -18,18 +18,18 @@ export async function getPostsofFriends(userId) {
 }
 export async function getUser(id) {
   const { data } = await api.get(`/user/userData/${id}`);
-  if(!data) return null;
+  if (!data) return null;
   return mapUser(data);
 }
 export async function getPosts() {
   const { data } = await api.get(`/post/getPosts`);
   console.log("getPost = ", data.data);
-  if(!data?.data) return []; //per non tornare null almeno torna vuoto
+  if (!data?.data) return []; //per non tornare null almeno torna vuoto
   return mapPost(data);
 }
 export async function getPostofUser(userId) {
   const { data } = await api.get(`/post/getPostsofUser/${userId}`);
-  if(!data?.data) return [];
+  if (!data?.data) return [];
   return mapPost(data);
 }
 export async function getPostComments(postId) {
@@ -45,4 +45,12 @@ export async function getUserChats(userId) {
 export async function getMessages(chatId) {
   const { data } = await api.get(`/messages/getMessages?chatId=${chatId}`);
   return mapMessage(data);
+}
+
+export async function MessagesAsRead(chatId) {
+  const { data } = await api.patch("/messages/readMessages", {
+    chatId,
+  });
+
+  return data;
 }

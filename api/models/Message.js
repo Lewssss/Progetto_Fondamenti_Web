@@ -21,6 +21,12 @@ const MessageSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    hiddenFor: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
   },
   { timestamps: true },
 );

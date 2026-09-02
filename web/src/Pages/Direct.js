@@ -1,12 +1,14 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./Direct.css"; // Importa il file CSS per gli stili
 import { Undo, Send, Camera } from "lucide-react";
-import React, { useState, useEffect } from "react";
+import { React, useState } from "react";
 import { useDirect } from "../Components/Direct";
 
 //Usa grid coso e metti la foto
 const Direct = ({ name, onBack, chatId, userId }) => {
-  const { messages, input, setInput, sendMessage } = useDirect({
+  const [selectedMessageId, setSelectedMessageId] = useState(null);
+
+  const { messages, input, setInput, sendMessage, deleteMessage } = useDirect({
     chatId,
     userId,
   });
@@ -27,20 +29,52 @@ const Direct = ({ name, onBack, chatId, userId }) => {
       </div>
       {/* Messaggi */}
       <div className="MessagesArea">
-        {messages.map((msg, idx) => (
+        {messages.map((msg) => (
           <div
-            key={idx}
+            key={msg.id}
             className={`d-flex mb-2 ${
               msg.fromMe ? "justify-content-end" : "justify-content-start"
             }`}
           >
             <div
-              className={`p-2 rounded ${
-                msg.fromMe ? "bg-primary text-white" : "bg-light border"
+              className={`MessageBubble ${
+                msg.fromMe ? "MessageMine" : "MessageOther"
               }`}
-              style={{ maxWidth: "70%" }}
+              onClick={() => {
+                setSelectedMessageId(
+                  selectedMessageId === msg.id ? null : msg.id,
+                );
+              }}
             >
-              {msg.text}
+              <span>{msg.text}</span>
+
+              {selectedMessageId === msg.id && (
+                <div className="MessageOptions">
+                  <button
+                    type="button"
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      deleteMessage(msg.id, "me");
+                      setSelectedMessageId(null);
+                    }}
+                  >
+                    Elimina per me
+                  </button>
+
+                  {msg.fromMe && (
+                    <button
+                      type="button"
+                      onClick={(event) => {
+                        event.stopPropagation();
+                        deleteMessage(msg.id, "everyone");
+                        setSelectedMessageId(null);
+                      }}
+                    >
+                      Elimina per tutti
+                    </button>
+                  )}
+                </div>
+              )}
             </div>
           </div>
         ))}

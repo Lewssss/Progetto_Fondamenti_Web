@@ -21,7 +21,6 @@ async function getChats(req, res, next) {
       return res.status(response[0]).json(response[1]);
     })
     .catch(next);
-  console.log("Body della richiesta", req.body);
 }
 
 async function deleteChat(req, res) {
