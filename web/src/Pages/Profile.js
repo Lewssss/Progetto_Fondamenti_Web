@@ -1,7 +1,7 @@
 import React from 'react'
 import "./Profile.css"
 import { useContext, useState, useEffect } from 'react'
-import { getPostofUser } from '../endpoints/rest/userUI'
+import { getPostofUser } from '../endpoints/rest/userUI' //inutile, prendiamo dal context che usiamo anche in main per i post
 import { getUser } from '../endpoints/rest/userUI'
 import { userContext } from '../Context/UserContext'
 import Post from '../Components/Post'
@@ -10,30 +10,25 @@ import { useParams } from 'react-router-dom'
 import EditProfile from '../Components/EditProfile'
 import { mapPost } from 'endpoints/mappers/userMapper'
 import { updateFollow } from 'endpoints/rest/userInteractions'
+import { postsContext } from 'Context/PostsContext'
 
 function Profile() {
   const { userId } = useParams();         
   const { user: userLogged } = useContext(userContext);       
   const isOwnProfile = !userId || userId === userLogged?.id;   
   const [userdata, setUserdata] = useState(null);
-  const [posts, setPosts] = useState([]);
+  const { posts: allPosts} = useContext(postsContext);//prendiamo i post dal context che gia usiamo in main, non servono state aggiuntivi (e si refresha solo se qualcuno aggiunge post)
   const [selectedPost, setSelectedPost] = useState(null);
   const [editModalOpen, setEditModalOpen] = useState(false);
-
+  const targetId = isOwnProfile ? userLogged?.id : userId;
+  const posts= allPosts.filter((post) => String(post.authorId) === String(targetId)).slice(0,6) //dato che da backend ordiniamo per ordine recente, i primi 6 sono i piu nuovi
   useEffect(() => {
-    const targetId = isOwnProfile ? userLogged?.id : userId;
-    console.log("targetId =", targetId, typeof targetId, userLogged);
     if(!targetId || targetId === "undefined") return; 
     getUser(targetId)
     .then((data) => {
       setUserdata(data)
     })
     .catch((err) => console.log("Errore nel fetch del profilo", err));
-
-    getPostofUser(targetId)
-    .then((data) => {
-      setPosts(data);
-    }).catch((err) => console.log("Errore post profilo", err));
   }, [userId, userLogged]); 
     const isFollowing = userdata?.followers?.some((followerId) => followerId === userLogged?.id);
     function handleFollow() {

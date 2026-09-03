@@ -10,7 +10,6 @@ export function PostsContextProvider({ children }) {
   const {user} = useContext(userContext)
   
   function refreshPosts() {
-    setLoading(true);
     getPosts().then(
         (data) => 
             setPosts(data)
@@ -37,6 +36,7 @@ export function PostsContextProvider({ children }) {
     return years === 1 ? "1 anno fa" : `${years} anni fa`;
   }
   useEffect(() => {
+    setLoading(true);
     if(user) {//altrimenti andiamo incontro a 401 infiniti perche' carica subito i post appena entra (prima di essere reindirizzato verso /login o /register), e getPosts in backend e' autenticato
       refreshPosts() 
     } else {
