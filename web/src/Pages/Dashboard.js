@@ -10,8 +10,16 @@ import ActionBar from "../Components/ActionBar";
 
 function Dashboard() {
   const [openChat, setOpenChat] = useState(false);
-  const { user } = useContext(userContext);
   const [selectedChat, setSelectedChat] = useState(null);
+  const [chatRefreshKey, setChatRefreshKey] = useState(0);
+
+  const { user } = useContext(userContext);
+
+  const handleOpenChat = () => {
+    setSelectedChat(null);
+    setOpenChat(true);
+    setChatRefreshKey((current) => current + 1);
+  };
 
   const handleBack = () => {
     setSelectedChat(null);
@@ -76,7 +84,7 @@ function Dashboard() {
       </div>
       <div className="MainSection">
         {!openChat ? (
-          <Main/>
+          <Main />
         ) : selectedChat ? (
           <Direct
             name={selectedChat.participants
@@ -90,10 +98,14 @@ function Dashboard() {
             onBack={handleBack}
           />
         ) : (
-          <Chat onSelectChat={setSelectedChat} />
+          <Chat key={chatRefreshKey} onSelectChat={setSelectedChat} />
         )}
       </div>
-      <ActionBar openChat={openChat} setOpenChat={setOpenChat} />
+      <ActionBar
+        openChat={openChat}
+        setOpenChat={setOpenChat}
+        onOpenChat={handleOpenChat}
+      />
     </div>
   );
 }

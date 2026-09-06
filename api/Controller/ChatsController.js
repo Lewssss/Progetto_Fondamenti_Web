@@ -8,11 +8,14 @@ router.get("/getChats", authenticateToken, getChats);
 router.delete("/deleteChat", authenticateToken, deleteChat);
 router.post("/clearChat", authenticateToken, clearChat);
 
-async function newChat(req, res) {
-  const { userId, friendId } = req.body; // Qui vogliamo l'id dell'utente registrato e dell'amoco di modo da creare la chat
-  ChatsServices.newChat(userId, friendId).then((response) => {
-    return res.status(response[0]).json(response[1]);
-  });
+async function newChat(req, res, next) {
+  try {
+    const result = await ChatsServices.newChat(req.user.userId);
+
+    return res.status(result[0]).json(result[1]);
+  } catch (error) {
+    next(error);
+  }
 }
 
 async function getChats(req, res, next) {

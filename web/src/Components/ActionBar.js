@@ -7,17 +7,14 @@ import { useNavigate } from "react-router-dom";
 import "./ActionBar.css";
 import PostCreate from "./Post_create";
 import Modal from "./Modal";
-function ActionBar({ openChat, setOpenChat }) {
+function ActionBar({ openChat, setOpenChat, onOpenChat }) {
   const [create, setCreate] = useState(false);
   const navigate = useNavigate();
 
   return (
     <>
       <div className="ActionBar">
-        <MessagesSquare
-          className="ChatButton"
-          onClick={() => setOpenChat(true)}
-        />
+        <MessagesSquare className="ChatButton" onClick={onOpenChat} />
         <CirclePlus className="CreatePost" onClick={() => setCreate(true)} />
         <ArrowBigLeft className="BackButton" onClick={() => navigate(-1)} />
       </div>

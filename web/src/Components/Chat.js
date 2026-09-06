@@ -1,6 +1,9 @@
 import { useContext, useEffect, useState } from "react";
 import { userContext } from "../Context/UserContext";
-import { getUserChats } from "../endpoints/rest/userUI";
+import {
+  getUserChats,
+  createChatsForFollowers,
+} from "../endpoints/rest/userUI";
 
 export function useChat() {
   const { user, ready } = useContext(userContext);
@@ -16,15 +19,23 @@ export function useChat() {
       return;
     }
 
-    //setLoading(true);
+    async function loadChats() {
+      setLoading(true);
 
-    getUserChats(user.id)
-      .then((rows) => setChats(rows || []))
-      .catch((error) => {
-        console.error("Errore caricamento chat:", error);
+      try {
+        await createChatsForFollowers();
+
+        const rows = await getUserChats();
+        setChats(rows || []);
+      } catch (error) {
+        console.error("Errore sincronizzazione chat:", error);
         setChats([]);
-      })
-      .finally(() => setLoading(false));
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    loadChats();
   }, [ready, user?.id]);
 
   return {

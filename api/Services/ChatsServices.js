@@ -1,6 +1,7 @@
 import response from "../util/response/user.response.js";
 import Chat from "../models/Chat.js";
 import Message from "../models/Message.js";
+import User from "../models/Users.js";
 
 export default {
   newChat,
@@ -9,16 +10,36 @@ export default {
   clearChat,
 };
 
-async function newChat(userId, friendId) {
-  const create = new Chat({
-    participants: [userId, friendId], //ci potrebbero essere più friend verificare se funziona
-  });
+async function newChat(userId) {
   try {
-    await create.save();
+    const user = await User.findById(userId).select("followers");
+
+    if (!user) {
+      return [404, response.Fail()];
+    }
+
+    for (const friendId of user.followers || []) {
+      if (String(friendId) === String(userId)) {
+        continue;
+      }
+
+      const existingChat = await Chat.findOne({
+        participants: {
+          $all: [userId, friendId],
+        },
+      });
+
+      if (!existingChat) {
+        await Chat.create({
+          participants: [userId, friendId],
+        });
+      }
+    }
+
     return [200, response.newChat()];
   } catch (error) {
-    console.log(error);
-    return [401, response.Fail()];
+    console.error(error);
+    return [500, response.Fail()];
   }
 }
 
