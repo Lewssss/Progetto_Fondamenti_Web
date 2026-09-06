@@ -5,8 +5,8 @@ import ChatsController from "./Controller/ChatsController.js";
 import MessageController from "./Controller/MessageController.js";
 import UserController from "./Controller/UserController.js";
 import PostController from "./Controller/PostController.js";
+import StoriesController from "./Controller/StoriesController.js";
 import cors from "cors";
-
 import { createServer } from "node:http"; // Importa la funzione createServer dal modulo "node:http"
 import { Server } from "socket.io"; // Importa la classe Server dal modulo "socket.io"
 import jwt from "jsonwebtoken"; // Importa il modulo "jsonwebtoken" per la gestione dei token JWT
@@ -27,6 +27,7 @@ app.use("/chats", ChatsController);
 app.use("/messages", MessageController);
 app.use("/user", UserController);
 app.use("/post", PostController);
+app.use("/stories", StoriesController);
 
 const httpServer = createServer(app); // Crea un server HTTP utilizzando la funzione createServer
 

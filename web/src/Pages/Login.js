@@ -20,7 +20,9 @@ function Login() {
             setTimeout(() => {
                 navigate("/dashboard");
             }, 2000);
-        } catch (err) {}
+        } catch (err) {
+            console.error(err);
+        }
     }
 
   return (

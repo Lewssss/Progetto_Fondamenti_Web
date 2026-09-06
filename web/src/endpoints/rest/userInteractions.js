@@ -55,3 +55,22 @@ export async function updateFollow(targetId) {
   const { data } = await api.patch(`/user/follow/${targetId}`);
   return data;
 }
+export async function addStory(file, content) {
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("content", content);
+  const data = await api.post("/stories/addStory", formData);
+  return data;
+}
+export async function getStories(userId) {
+  const data = await api.get(`/stories/getStories/${userId}`);
+  return data;
+}
+export async function getStoriesOfUser(userId) {
+  const data = await api.get(`/stories/getStoriesOfUser/${userId}`);
+  return data;
+}
+export async function deleteStory(storyId) {
+  const data = await api.delete(`/stories/deleteStory/${storyId}`);
+  return data;
+}

@@ -1,50 +1,34 @@
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
 import { useState } from 'react'
-import { getStoriesFromFriends } from '../endpoints/rest/userUI'
-import "./Stories.css"
-
+import { getStories } from 'endpoints/rest/userInteractions'
+import StoriesView from './StoriesView'
+import { userContext } from 'Context/UserContext';
 
 function Stories() {
-const [stories, setStories] = useState("")
-  const storiesF = [
-    {
-      id: 1,
-      name: 'John Doe',
-      image: 'https://via.placeholder.com/150',
-    },
-    {
-      id: 2,
-      name: 'Angelo Doe',
-      image: 'https://via.placeholder.com/150',
-    },
-    {
-      id: 3,
-      name: 'Giuann Doe',
-      image: 'https://via.placeholder.com/150',
-    },
-    {
-      id: 4,
-      name: 'Mngucc Doe',
-      image: 'https://via.placeholder.com/150',
-    },
-    {
-      id: 5,
-      name: 'Pepp Doe',
-      image: 'https://via.placeholder.com/150',
-    },
-  ]
-  function getStories() {
-    getStoriesFromFriends()
-    .then(stories => setStories(stories))
-    .catch(error => console.error('Error fetching stories:', error))
-
+  const [allStories, setAllStories] = useState([]);
+  const [selectedStories, setSelectedStories] = useState(null);
+  const user = useContext(userContext);
+  useEffect(() => {
+    showStories();
+  }, []);
+  async function showStories() {
+    const response = await getStories(user.user.id);
+    setAllStories(response.data.data);
   }
   return (
     <div className='stories'>
-      <h1>Stories</h1>
-      <div className="stories-container">
-        {storiesF.map((story) => <div key={story.id} className="user-story">{story.name}</div>)}
-      </div>
+      {allStories.map((storiesOfUser) => (
+        <div 
+          key={storiesOfUser.author._id} 
+          className='stories-circle' 
+          onClick={() => setSelectedStories(storiesOfUser)}
+        >
+          <img src={storiesOfUser.author.profilePicture}/>
+        </div>
+      ))}
+      {selectedStories && (
+        <StoriesView group={selectedStories} onClose={() => setSelectedStories(null)}/>
+      )}
     </div>
   )
 }
