@@ -24,15 +24,13 @@ export const Fail = () => {
 };
 
 export const newChat = () => {
-  //Modificato (addMealSuccess)
   let response = { success: true };
-  response.skipMessage = false;
+  response.skipMessage = true;
   response.message = "Chat creata con successo";
   return response;
 };
 
 export const newMessage = () => {
-  //Modificato (addMealSuccess)
   let response = { success: true };
   response.skipMessage = false;
   response.message = "Messaggio inviato con successo";
@@ -40,7 +38,6 @@ export const newMessage = () => {
 };
 
 export const deleteChat = () => {
-  //Modificato (deleteMealSuccess)
   let response = { success: true };
   response.skipMessage = false;
   response.message = "Chat eliminata con successo";
@@ -48,7 +45,6 @@ export const deleteChat = () => {
 };
 
 export const deleteMessage = () => {
-  //Modificato (deleteMealSuccess)
   let response = { success: true };
   response.skipMessage = false;
   response.message = "Messaggio eliminato con successo";
@@ -56,7 +52,6 @@ export const deleteMessage = () => {
 };
 
 export const clearChat = () => {
-  //Modificato (clearMealsSuccess)
   let response = { success: true };
   response.skipMessage = false;
   response.message = "Chat cancellata con successo";

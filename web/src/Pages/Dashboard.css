@@ -1,7 +1,7 @@
 .dashboard{
     min-height: 100vh;
     display:flex;
-    background: var(--deep)
+    background: var(--deep);
 }
 .animation-sidebar {
     position: fixed;
@@ -11,7 +11,6 @@
     width: 30%;
     height: 100vh;
     margin:0;
-    font-family: Roboto;
 }
 
 .sidebar {
@@ -19,74 +18,39 @@
     z-index: 1;
     flex: 0 0 100%;
     height: 100%;
-    background: var(--deep);
-    overflow-x: hidden;
-    overflow-y:auto;
-    
+    background: linear-gradient(180deg, var(--sea) 0%, var(--deep) 40%);
+    overflow: hidden;
+    border-right: 1px solid var(--line);
+    box-shadow: 6px 0 20px rgba(0,0,0,0.2);
 }
 
-.sidebar-body {
-    height: 100%;
-}
-
-.wave-edge {
+.sidebar-edge {
     position: absolute;
     top: 0;
-    left: calc(100% - 48px);
-    width: 60px;
+    right: 0;
+    width: 4px;
     height: 100%;
-    overflow: hidden;
-    pointer-events: none;
+    background: var(--cyan);
+    opacity: 0.35;
     z-index: 5;
+    pointer-events: none;
 }
 
-.wave-track {
-    width: 100%;
-    height: 200%;
-    animation: wave-lap 11s linear infinite;
-}
-
-.wave-svg {
-    display: block;
-    width: 100%;
-    height: 100%;
-}
-
-.wave-fill {
-    fill: var(--deep);
-}
-
-.wave-line {
-    stroke: var(--soft);
-    stroke-width: 2;
-    vector-effect: non-scaling-stroke;
-    opacity: 0.25;
-}
-
-.dashboard-content {
-    position: relative;
-    z-index: 0;
-    flex: 1 1 auto;
-    min-width: 0;
-    background: var(--deep);
-    overflow: hidden;
-}
 .MainSection{
     min-height: 100vh;
+    max-height: 100vh;
     position: relative;
     display:flex;
     background: var(--deep);
     width:70%;
-    height:100%;
+    height:100vh;
     margin-left:30%;
-    margin-bottom:10%;
+    padding-bottom: 8vh;
+    box-sizing: border-box;
+    overflow: hidden;
 }
-
-@keyframes wave-lap {
-    from {
-        transform: translateY(0);
-    }
-    to {
-        transform: translateY(-50%);
-    }
+.MainSection > *{
+    flex: 1;
+    min-height: 0;
+    width: 100%;
 }

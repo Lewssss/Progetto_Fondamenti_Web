@@ -13,6 +13,7 @@ router.post("/login", loginUser);
 router.post("/refresh-token", refreshToken);
 router.post("/logout", deleteToken);
 router.get("/checkandget", authenticateToken, getUser);
+router.get("/search/:query", authenticateToken, searchUsers);
 router.put("/updateUserImage", authenticateToken, upload.single("img"), updateUserImage);
 router.patch("/updateUserBio", authenticateToken, updateUserBio);
 router.patch("/follow/:id", authenticateToken, updateFollow);
@@ -82,6 +83,15 @@ async function updateUserBio(req,res) {
 async function updateFollow(req,res) {
     try {
         const response = await UserService.updateFollow(req.user.userId, req.params.id)
+        return res.status(response[0]).json(response[1]);
+    } catch(err) {
+        console.error(err);
+        return res.status(500).json({message: "Internal Server Error"});
+    }
+}
+async function searchUsers(req, res) {
+    try {
+        const response = await UserService.searchUsers(req.params.query);
         return res.status(response[0]).json(response[1]);
     } catch(err) {
         console.error(err);

@@ -2,9 +2,23 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #333;
-    padding: 10px;
-    bottom: 100px;
+    background-color: var(--sea);
+    border-top: 1px solid var(--line);
+    padding: 10px 16px;
+    bottom: 0;
     position: fixed;
     width: 100%;
+    z-index: 40;
+    box-sizing: border-box;
+}
+.nav a, .nav button{
+    color: var(--text);
+    text-decoration: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+}
+.nav a:hover, .nav button:hover{
+    color: var(--cyan);
 }

@@ -1,34 +1,46 @@
 ﻿.Post{
-    margin: 70px auto;
+    margin: 40px auto;
     width:35vw;
     height: 55vh;
     display:flex;
     flex-direction: column;
-    border-radius:2vw;
+    border-radius:1.2vw;
     overflow:hidden;
-    color: var(--deep);
+    color: var(--ink);
+    box-shadow: 0 8px 28px rgba(0,0,0,0.35);
+    border: 1px solid var(--line);
 }
 .user{
     flex: 0 0 10%;
+    cursor:pointer;
     max-height:15%;
     padding:0 2%;
     display:flex;
     align-items: center;
     overflow:hidden;
     background-color:var(--cyan);
+    transition: 0.3s background-color;
+}
+.user:hover{
+    background-color: var(--sea);
+}
+.user:hover .username{
+    color:var(--ink);
 }
 .userimg{
     height:5vh;
     aspect-ratio: 1/1;
     border-radius:50%;
     float:left;
+    object-fit: cover;
+    background: var(--sea);
 }
 .user .username{
     display:block;
     float:left;
-    color: var(--deep);
+    color: var(--ink);
     font-weight:bold;
-    font-size:1.5vw;
+    font-size:1.3vw;
     margin:auto 10px;
 }
 .owner-actions{
@@ -37,20 +49,21 @@
     align-items: center;
     justify-content: right;
     flex:1;
+    z-index:99;
 }
 .owner-actions svg{
     cursor:pointer;
     transition:0.2s stroke;
 }
 .owner-actions svg:hover{
-    stroke:white;
-
+    stroke:var(--foam);
 }
 .posted-image{
     min-height:0;
     flex: 0 0 70%;
     max-height:70%;
-    object-fit: fill;
+    width: 100%;
+    object-fit: cover;
     background-color: var(--sea);
 }
 .reactions{
@@ -61,12 +74,12 @@
     flex: 0 0 10%;
     max-height:10%;
     font-size:1vw;
-    color: var(--deep);
+    color: var(--ink);
     background-color:white;
 }
 .reactions svg {
     width:2vw;
-    height: 100%;
+    height: 2vw;
     color: var(--cyan);
     user-select: none;
     cursor:pointer;
@@ -82,20 +95,31 @@
 }
 .fire{
     transition:0.2s color;
-    color:red !important;
+    color:var(--err) !important;
     font-weight:bold;
+}
+.like-pop{
+    animation: like-pop 0.35s ease;
+}
+/* un ignrandimento al volo giusto per fargli capire che ha messo like */
+@keyframes like-pop{
+    0%{ transform: scale(1); }
+    45%{ transform: scale(1.35); }
+    100%{ transform: scale(1); }
 }
 .caption{
     flex: 0 0 5%;
-    font-size:1vw;
-    padding: 0 1%;
+    font-size:0.95vw;
+    padding: 0 2%;
     max-height:5%;
-    color: var(--deep);
+    color: var(--ink);
     background-color: var(--foam);
+    display:flex;
+    align-items:center;
 }
 .comments{
     flex: 0 0 2.5%;
-    font-size:1vw;
+    font-size:0.9vw;
     padding: 0 2%;
     max-height:5%;
     color: var(--mid);
@@ -104,8 +128,8 @@
 .published{
     text-align:right;
     flex: 0 0 2.5%;
-    font-size:0.5vw;
-    padding: 0 5%;
+    font-size:0.55vw;
+    padding: 0 3%;
     max-height:5%;
     color: var(--mid);
     background-color: var(--foam);

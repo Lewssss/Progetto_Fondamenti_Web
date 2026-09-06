@@ -1,83 +1,84 @@
-
-/* Contenitore specifico per il componente Chat:
-   qui imposti il background solo per Chat, non per l'intera app */
 .ChatContainer {
-  background-color: transparent; /* cambia il colore qui */
-  padding: 12px;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  background-size: cover;
-  background-position: center;
+  background: var(--deep);
+  padding: 2vh 2vw 12vh 2vw;
   width: 100%;
-
-  /* opzionali: max-height/overflow se vuoi una lista scrollabile */
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  box-sizing: border-box;
 }
 
 .Titolo{
-  font-size: 50px;
+  font-size: 1.8vw;
   font-weight: bold;
-  margin-bottom: 20px;
-  margin-left: 5px;
+  margin: 0 0 2vh 0;
   color: var(--text);
+}
+
+.chat-empty{
+  color: var(--soft);
+  font-size: 1vw;
+  margin: 2vh 0;
+}
+
+.Blocco-Chat{
+  display: flex;
+  align-items: center;
+  gap: 1vw;
+  padding: 1.2vh 0.8vw;
+  cursor: pointer;
+  border-bottom: 1px solid var(--line);
+}
+
+.Blocco-Chat:hover{
+  background: var(--sea);
+}
+
+.chat-avatar{
+  width: 3.2vw;
+  height: 3.2vw;
+  min-width: 40px;
+  min-height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--sea);
+  border: 2px solid var(--cyan);
+}
+
+.chat-info{
+  flex: 1;
+  min-width: 0;
 }
 
 .Nome{
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 22px;
+  font-size: 1.1vw;
   color: var(--text);
+  font-weight: 600;
 }
 
 .Ultimo-messaggio{
-  font-size: 14px;
+  font-size: 0.85vw;
   color: var(--soft);
-}
-
-.Blocco-Chat{
-  padding: 10px;
-  background-color: red;
+  margin-top: 4px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .MessaggiNonLetti{
-  display: flex; /* Usa flexbox per centrare il contenuto */
+  display: flex;
   align-items: center;
-  justify-content: center; /* Centra il contenuto orizzontalmente */
-  width: 28px;
-  height: 28px;
-  margin-top: 4px;
+  justify-content: center;
+  width: 1.6vw;
+  height: 1.6vw;
+  min-width: 20px;
+  min-height: 20px;
   border-radius: 50%;
-  background-color: #e63946;
-  color: white;
-  font-size: 13px;
+  background-color: var(--cyan);
+  color: var(--ink);
+  font-size: 0.75vw;
   font-weight: bold;
-}
-
-.list-group{
-  max-height: calc(100vh - 160px); /* altezza massima con padding */
-  overflow-y: auto; /* abilita lo scroll verticale */
-  padding-right: 8px; /* spazio per la scrollbar */
-}
-.list-group-item {
-  background: transparent;
-  border: none;
-  padding: 12px 16px;
-  transition: background 0.5s;
-}
-
-.list-group-item:hover {
-  background: rgba(56, 189, 248, 0.15);
-}
-
-.list-group::-webkit-scrollbar {
-  width: 8px;               /* larghezza della scrollbar */
-  background: transparent;  /* sfondo traccia trasparente */
-}
-.list-group::-webkit-scrollbar-track {
-  background: transparent;  /* traccia trasparente */
-}
-.list-group::-webkit-scrollbar-thumb {
-  background: transparent;  /* "pollice" trasparente -> invisibile */
-  border-radius: 6px;
 }

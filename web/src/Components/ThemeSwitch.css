@@ -1,0 +1,21 @@
+.theme-switch{
+    position: fixed;
+    top: 1.2vh;
+    right: 1.2vw;
+    z-index: 9999;
+    width: 2.4vw;
+    height: 2.4vw;
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    background: var(--sea);
+    cursor: pointer;
+    padding: 0;
+}
+.theme-switch svg{
+    width: 55%;
+    height: 55%;
+    stroke: var(--cyan);
+}
+.theme-switch:hover{
+    background: var(--mid);
+}

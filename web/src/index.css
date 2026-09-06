@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
+
 :root {
   --deep: #0b1d2a;
   --sea: #123a4c;
@@ -7,19 +9,43 @@
   --card: #f3fafc;
   --mist: #d9eef5;
   --text: #e0f2fe;
-  --soft: #7dd3fc;
+  --soft: #9ec0d0;
   --edge: #9ec9d8;
-  --accent: #38bdf8;
-  --cyan: #0ea5e9;
+  --accent: #8fc7dd;
+  --cyan: #6db3d0;
+  --stroke: #e8f4f8;
   --ok: #0f766e;
   --err: #b42318;
+  --ink: #0b1d2a;
+}
+
+body.light {
+  --deep: #f0f6f9;
+  --sea: #e4eef4;
+  --mid: #d0dee6;
+  --line: #b7c9d4;
+  --foam: #ffffff;
+  --card: #ffffff;
+  --mist: #f7fbfd;
+  --text: #0a0a0a;
+  --soft: #333333;
+  --edge: #444444;
+  --accent: #3d8fb0;
+  --cyan: #2a6f8f;
+  --stroke: #0a0a0a;
+  --ok: #0f766e;
+  --err: #b42318;
+  --ink: #0a0a0a;
+}
+
+html, body, #root {
+  min-height: 100%;
+  background: var(--deep);
 }
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: 'Montserrat', 'Segoe UI', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background: var(--deep);
@@ -29,4 +55,19 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--deep);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--line);
+  border-radius: 8px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--mid);
 }

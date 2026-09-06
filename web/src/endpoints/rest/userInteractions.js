@@ -25,6 +25,14 @@ export async function deleteMessage(messageId, who) {
   return data;
 }
 
+export async function sendChatMessage(chatId, message) {
+  const { data } = await api.post("/messages/newMessage", {
+    chatId,
+    message,
+  });
+  return data;
+}
+
 export async function UserLikedPost(userId, postId) {
   const data = await api.post("/post/addLike", {
     userId: userId,

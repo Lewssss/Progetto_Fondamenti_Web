@@ -12,13 +12,16 @@ export default {
 
 async function newChat(userId) {
   try {
-    const user = await User.findById(userId).select("followers");
+    const user = await User.findById(userId).select("followers following");
 
     if (!user) {
       return [404, response.Fail()];
     }
 
-    for (const friendId of user.followers || []) {
+    //creiamo chat sia coi followers che coi following (serve anche all'inoltro)
+    const friends = [...(user.followers || []), ...(user.following || [])];
+
+    for (const friendId of friends) {
       if (String(friendId) === String(userId)) {
         continue;
       }

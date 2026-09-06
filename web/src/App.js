@@ -2,11 +2,11 @@ import "./App.css";
 import Chat from "./Pages/Chat";
 import Direct from "./Pages/Direct"; // importa Direct
 import React, { useContext, useState } from "react";
-import Profile from "./Pages/Profile"; // importa Profile
 import Register from "./Pages/Register"; // importa Register
 import Login from "./Pages/Login"; // importa Login
 import Dashboard from "./Pages/Dashboard"; //importa Dashboard
 import Navbar from "./Components/Navbar"; //import Navbar
+import ThemeSwitch from "./Components/ThemeSwitch";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"; // importa Router
 import { userContext } from "./Context/UserContext";
 import { Outlet, Navigate } from "react-router-dom";
@@ -37,6 +37,7 @@ function App() {
 
   return (
     <Router>
+      <ThemeSwitch />
       <Routes>
         <Route
           path="/"
@@ -70,8 +71,14 @@ function App() {
               )
             }
           />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/profile/:userId" element={<Profile />} />
+          <Route
+            path="/profile"
+            element={user ? <Navigate to="/dashboard" /> : <Login />}
+          />
+          <Route
+            path="/profile/:userId"
+            element={user ? <Dashboard /> : <Login />}
+          />
           <Route path="/dashboard" element={user ? <Dashboard /> : <Login />} />
         </Route>
       </Routes>

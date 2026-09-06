@@ -8,7 +8,7 @@ import './EditProfile.css'
 function EditProfile({ onClose, onUpdated, userdata }) {
     const { user, setUser } = useContext(userContext);
     const [file, setFile] = useState(null);
-    const [img, imgPreview] = useState(userdata?.profilepicture || null);
+    const [img, imgPreview] = useState(userdata?.profilePicture || user?.profilePicture || null);
     const [bio, setBio] = useState(userdata?.bio || "");
     const fileInput = useRef(null);
 
@@ -40,7 +40,8 @@ function EditProfile({ onClose, onUpdated, userdata }) {
           hidden
           onChange={(e) => handleFile(e.target.files[0])}
         />
-        {img ? <img className="uploaded-img" src={img} /> : <p>Cambia foto</p>}
+        {img ? <img className={file ? "uploaded-img uploaded-img-new" : "uploaded-img"} src={img} alt="Foto profilo" /> : ''}
+        <p className="change-photo">Cambia foto</p>
       </div>
       <textarea
         value={bio}

@@ -1,6 +1,5 @@
 import response from '../util/response/user.response.js'
 import Post from '../models/Post.js'
-import User from '../models/Users.js'   
 import Comment from '../models/Comment.js'
 import mongoose from 'mongoose'
 export default {
@@ -47,9 +46,15 @@ async function getPostComments(postId) {
     return [200, response.responseWithData(comments)];
 }
 async function addPostComment(post,author,replyTo,text){
-    const comment = await new Comment({post,author,replyTo,text}).save();
-    if(comment) 
+    const comment = await new Comment({post,author,replyTo,text}).save()
+    .catch((err) => console.log(err));
+    if(comment) {
+        try{
         var comments = await Comment.find({post: post}).populate("author", "username profilePicture").sort({createdAt: -1});
+        } catch (e) {
+            console.log(e);
+        }
+    }
     else
         return [500, null];
     return[200, response.responseWithDataAndMessage(comments,"Commento pubblicato!")]

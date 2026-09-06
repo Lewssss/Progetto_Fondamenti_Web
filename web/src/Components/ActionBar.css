@@ -1,38 +1,32 @@
 .ActionBar{
-    height:10vh;
+    height:8vh;
     width:100%;
     bottom:0;
     left:0;
     overflow: visible;
     position:fixed;
-    background-color: var(--accent);
-    text-align: center;
+    display:flex;
+    justify-content:space-evenly;
+    align-items:center;
+    background-color: var(--sea);
+    border-top: 1px solid var(--line);
+    z-index: 50;
 }
 .ActionBar svg{
-    width:5vw;
-    margin-top:-3vh;
-    height:10vh;
-    text-align: center;
+    width:4vw;
+    margin-top:-2.5vh;
+    height:9vh;
     fill:var(--cyan);
-    stroke: var(--foam);
+    stroke: var(--stroke);
+    stroke-width:1;
     transition:0.2s transform ease, fill 0.2s ease;
 }
 .ActionBar svg:hover{
-    fill:var(--deep);
+    fill:var(--accent);
     cursor:pointer;
-    transform:scale(1.2);
+    transform:scale(1.15);
 }
-.ChatButton{
-    position: absolute;
-    left: 2vw;
-}
-
-.CreatePost{
-  margin: 0;
-}
-
-.BackButton{
-    position: absolute;
-    top: 0;
-    right: 2vw;
+.ActionBar .BackButton{
+    width:5vw;
+    height:10vh;
 }

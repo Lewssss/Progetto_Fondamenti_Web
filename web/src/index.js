@@ -7,6 +7,10 @@ import { UserContextProvider } from './Context/UserContext';
 import { PostsContextProvider } from 'Context/PostsContext';
 import Toast from './Components/Toast';
 
+if (localStorage.getItem("theme") === "light") {
+  document.body.classList.add("light");
+}
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>

@@ -13,10 +13,11 @@ import { getStoriesOfUser } from 'endpoints/rest/userInteractions'
 import StoriesView from 'Components/StoriesView'
 import Story_create from 'Components/Story_create'
 
-function Profile() {
-  const { userId } = useParams();         
-  const { user: userLogged } = useContext(userContext);       
-  const isOwnProfile = !userId || userId === userLogged?.id;   
+function Profile({ sidebar }) {
+  const { userId } = useParams();
+  const { user: userLogged } = useContext(userContext);
+  const viewedId = sidebar ? null : userId;
+  const isOwnProfile = !viewedId || viewedId === userLogged?.id;
   const [userdata, setUserdata] = useState(null);
   const { posts: allPosts} = useContext(postsContext);//prendiamo i post dal context che gia usiamo in main, non servono state aggiuntivi (e si refresha solo se qualcuno aggiunge post)
   const [selectedPost, setSelectedPost] = useState(null);
@@ -24,7 +25,7 @@ function Profile() {
   const [userStories, setUserStories] = useState([]);
   const [showStoryViewer, setShowStoryViewer] = useState(false);
   const [showStoryCreate, setShowStoryCreate] = useState(false);
-  const targetId = isOwnProfile ? userLogged?.id : userId;
+  const targetId = isOwnProfile ? userLogged?.id : viewedId;
   const posts= allPosts.filter((post) => String(post.authorId) === String(targetId)).slice(0,6) //dato che da backend ordiniamo per ordine recente, i primi 6 sono i piu nuovi
 
   useEffect(() => {
@@ -34,7 +35,7 @@ function Profile() {
       setUserdata(data)
     })
     .catch((err) => console.log("Errore nel fetch del profilo", err));
-  }, [userId, userLogged]); 
+  }, [viewedId, userLogged]); 
 
   useEffect(() => {
     if (!targetId || targetId === "undefined") return;
@@ -49,7 +50,7 @@ function Profile() {
 
   const isFollowing = userdata?.followers?.some((followerId) => followerId === userLogged?.id);
   function handleFollow() {
-    updateFollow(userId)
+    updateFollow(viewedId)
     .then((res) => {
       setUserdata(prev => ({ ...prev, followers: res.data.followers }));
     })
@@ -125,11 +126,15 @@ function Profile() {
         POST
       </div>
       <div className="post-grid">
-        {posts.map((post) => (
-          <div key={post.id} className="grid-item" onClick={() => setSelectedPost(post)}>
-            <img src={post.ImgPost} alt="" />
-          </div>
-        ))}
+        {posts.length == 0 ? (
+          <p className="no-posts">Nessun post</p>
+        ) : (
+          posts.map((post) => (
+            <div key={post.id} className="grid-item" onClick={() => setSelectedPost(post)}>
+              <img src={post.ImgPost} alt="" />
+            </div>
+          ))
+        )}
       </div>
       <Modal 
         open={!!selectedPost}

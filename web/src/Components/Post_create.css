@@ -1,54 +1,78 @@
 .post-creation{
     text-align: center;
-    color:var(--deep);
+    color:var(--ink);
     width:100%;
+    padding: 10px;
 }
-.image-upload{
+.post-creation h1{
+    margin: 8px 0 16px;
+    font-size: 1.4vw;
+    color: var(--ink);
+}
+.post-creation .image-upload{
     height: 300px;
     background-color:var(--sea);
     color: var(--text);
-    border:4px dotted gray ;
+    border:4px dotted gray;
+    border-radius: 0;
     display:flex;
     align-items: center;
     justify-content: center;
     cursor:pointer;
     transition:0.4s background;
+    overflow: hidden;
+    width: 100%;
+    resize: none;
 }
-.image-upload:hover{
-    background-color:var(--deep);
+.post-creation .image-upload:hover{
+    background-color:var(--ink);
     color:var(--edge);
 }
-.uploaded-img{
+.post-creation .uploaded-img{
     width:100%;
     height:100%;
+    object-fit: cover;
+    pointer-events: none;
 }
 .post-content{
     padding:10px 0;
     text-align: left;
 }
 .post-content label{
-    color:var(--sea);
+    color:var(--ink);
     font-weight: bold;
     width:100%;
 }
 .post-content input{
     margin:0;
-    padding:0;
+    padding:8px;
     width:100%;
+    border: 1px solid var(--line);
+    border-radius: 5px;
+    outline: none;
+    box-sizing: border-box;
+    resize: none;
 }
 
-.creation-interact button{
+.creation-interact{
+    overflow: hidden;
+    margin-top: 8px;
+}
+.post-creation .creation-interact button{
     border:1px solid black;
     border-radius:5px;
-    float:left;;
+    float:left;
     background-color:var(--err);
     color:white;
+    padding: 8px 16px;
     transition:0.2s color;
+    cursor: pointer;
 }
-.creation-interact button:nth-child(2){
+.post-creation .creation-interact button:nth-child(2){
     float:right;
-    background-color:var(--deep);
+    background-color:var(--ink);
+    color: white;
 }
-.creation-interact button:hover{
+.post-creation .creation-interact button:hover{
     color:gray;
 }

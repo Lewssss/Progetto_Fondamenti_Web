@@ -5,35 +5,79 @@
     gap: 10px;
     width: 100%;
     max-width: 350px;
+    padding: 12px;
+    color: var(--ink);
 }
-.image-upload {
-    width: 300px;
+.form .image-upload {
+    position: relative;
+    width: 160px;
+    height: 160px;
     border-radius: 50%;
     cursor: pointer;
     overflow: hidden;
+    border: 3px solid var(--cyan);
+    background: var(--sea);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text);
+    text-align: center;
 }
-.uploaded-img {
+.form .uploaded-img {
+    position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
+    opacity: 0.45;
+}
+.form .uploaded-img-new{
+    opacity: 0.75;
+}
+.form .change-photo{
+    position: relative;
+    z-index: 1;
+    margin: 0;
+    padding: 0 10px;
+    width: 100%;
+    text-align: center;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text);
+    text-shadow: 0 1px 4px rgba(0,0,0,0.6);
+}
+.form .image-upload:hover .uploaded-img{
+    opacity: 0.3;
 }
 .form textarea {
     width: 100%;
     padding: 8px;
-    border: 1px solid #ddd;
+    border: 1px solid var(--line);
     border-radius: 8px;
     resize: none;
     box-sizing: border-box;
+    min-height: 80px;
+    outline: none;
+    font-family: inherit;
 }
-.creation-interact {
+.form .creation-interact {
     display: flex;
     gap: 10px;
     width: 100%;
 }
-.creation-interact button {
+.form .creation-interact button {
     flex: 1;
     padding: 8px 0;
     border: none;
     border-radius: 6px;
     cursor: pointer;
+    float: none;
+}
+.form .creation-interact button:first-child{
+    background: var(--mist);
+    color: var(--ink);
+}
+.form .creation-interact button:last-child{
+    background: var(--cyan);
+    color: var(--ink);
 }

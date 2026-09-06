@@ -6,7 +6,8 @@ export default {
     registerUser,
     loginUser,
     updateUserImage,
-    updateFollow
+    updateFollow,
+    searchUsers
 }
 async function registerUser(username, email, password) {
     // Verifica se l'utente esiste già
@@ -75,4 +76,12 @@ async function updateFollow(myId, targetId){
     }
     const newTargetUser = await User.findById(targetId).select("-password");
     return [200, responseWithData(newTargetUser)];
+}
+async function searchUsers(query) {
+    //facciamo un controllo qui, perche' se mette cose come . ? o * manda in crash tutto (lo usiamo direttamente in query)
+    const safe = query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const users = await User.find({
+        username: { $regex: safe, $options: "i" }
+    }).select("-password -refreshToken").limit(20);
+    return [200, responseWithData(users)];
 }

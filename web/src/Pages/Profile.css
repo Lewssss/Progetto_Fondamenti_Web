@@ -1,17 +1,20 @@
 .profile{
     width:100%;
-    padding:10px 20px; /* via dalla wave */
+    padding:15px;
     box-sizing:border-box;
     background: var(--deep);
     max-width: 1080px;
     margin: 0 auto;
     color:var(--text);
 }
+.MainSection .profile{
+    overflow-y: auto;
+}
 .user-header{
     display:flex;
     flex-direction:column;
     width:100%;
-    gap:10px;
+    gap:12px;
 }
 .profile-user{
     display:flex;
@@ -25,14 +28,18 @@
     border-radius:50%;
     object-fit:cover;
     float:left;
+    border: 2px solid var(--cyan);
+    background: var(--sea);
 }
 .profile-userdata{
     flex:1;
+    min-width:0;
 }
 .profile-username{
     margin:0;
     font-size:1.4vw;
     font-weight:bold;
+    color: var(--text);
 }
 .bio{
     margin:5px 0 0;
@@ -43,29 +50,40 @@
     display:flex;
     gap:15px;
     font-size:0.85vw;
+    color: var(--edge);
+}
+.followers strong{
+    color: var(--text);
 }
 .profile-actions button{
     width:40%;
     border:none;
     border-radius:7px;
-    padding:6px 0;
-    background:rgb(32, 32, 240);
-    color:var(--deep);
-    font-weight:500;
+    padding:8px 0;
+    background:var(--cyan);
+    color:var(--ink);
+    font-weight:600;
     cursor:pointer;
+    transition: 0.2s background, 0.2s color;
+}
+.profile-actions button:hover{
+    background: var(--accent);
+    color: var(--ink);
 }
 .divider{
     border:none;
-    border-top:2px solid blue;
+    border-top:1px solid var(--line);
     margin-top:20px;
 }
 .tabs{
     display:flex;
     justify-content:center;
     gap:40px;
-    color:rgb(217, 221, 219);
+    color:var(--soft);
     font-weight:bold;
     margin:10px 0;
+    letter-spacing: 0.08em;
+    font-size: 0.9vw;
 }
 .post-grid{
     display:grid;
@@ -73,10 +91,23 @@
     gap:4px;
     margin-top:10px;
 }
+.no-posts{
+    grid-column:1 / -1;
+    text-align:center;
+    color:var(--soft);
+    font-size:0.95vw;
+    margin:20px 0;
+}
 .grid-item{
     aspect-ratio:1/1;
     overflow:hidden;
     cursor:pointer;
+    background: var(--sea);
+    border-radius: 4px;
+    transition: 0.2s opacity;
+}
+.grid-item:hover{
+    opacity: 0.85;
 }
 .grid-item img{
     width:100%;
@@ -129,7 +160,7 @@
     border-radius: 7px;
     padding: 6px 16px;
     background: rgb(32, 32, 240);
-    color: var(--deep);
+    color: var(--ink);
     font-weight: 500;
     font-size: 0.85vw;
     cursor: pointer;

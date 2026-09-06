@@ -17,6 +17,10 @@ export async function getUser(id) {
   if (!data) return null;
   return mapUser(data);
 }
+export async function searchUsers(query) {
+  const { data } = await api.get(`/user/search/${query.trim()}`);
+  return data.data.map((u) => mapUser(u));
+}
 export async function getPosts() {
   const { data } = await api.get(`/post/getPosts`);
   console.log("getPost = ", data.data);
