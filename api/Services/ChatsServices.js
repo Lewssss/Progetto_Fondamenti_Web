@@ -50,17 +50,29 @@ async function getChats(userId) {
   try {
     const chats = await Chat.find({ participants: userId })
       .populate("participants", "username profilePicture")
-      .populate("lastMessage");
+      .lean();
 
     const chatsWithUnreadCount = await Promise.all(
       chats.map(async (chat) => {
-        const unreadCount = await Message.countDocuments({
-          Chat_id_reference: chat._id,
-          sender: { $ne: userId }, //$ne non uguale a, quindi conta i messaggi che non sono stati inviati dall'utente corrente
-          read: false,
-        });
+        const [lastMessage, unreadCount] = await Promise.all([
+          Message.findOne({
+            Chat_id_reference: chat._id,
+            hiddenFor: { $ne: userId },
+          })
+            .sort({ createdAt: -1 })
+            .lean(),
+
+          Message.countDocuments({
+            Chat_id_reference: chat._id,
+            sender: { $ne: userId },
+            read: false,
+            hiddenFor: { $ne: userId },
+          }),
+        ]);
+
         return {
-          ...chat.toObject(), // Converti il documento Mongoose in un oggetto JavaScript
+          ...chat,
+          lastMessage,
           unreadCount,
         };
       }),
@@ -82,11 +94,25 @@ async function deleteChat(chatid) {
   }
 }
 
-async function clearChat(chatid) {
+async function clearChat(chatid, userId) {
   try {
-    await Message.deleteMany({ Chat_id_reference: chatid });
+    const chat = await Chat.findOne({
+      _id: chatid,
+      participants: userId,
+    });
+
+    if (!chat) {
+      return [403, response.Fail()];
+    }
+
+    await Message.updateMany(
+      { Chat_id_reference: chatid },
+      { $addToSet: { hiddenFor: userId } },
+    );
+
     return [200, response.clearChat()];
   } catch (error) {
-    return [401, response.Fail()];
+    console.error(error);
+    return [500, response.Fail()];
   }
 }

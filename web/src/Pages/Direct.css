@@ -36,10 +36,49 @@
   stroke: var(--cyan);
 }
 
+.ChatTitleWrapper {
+  position: relative;
+}
+
 .HeaderTitle {
+  border: none;
+  background: transparent;
+  cursor: pointer;
   font-weight: bold;
   font-size: 1.2vw;
   color: var(--text);
+  padding: 0.4vw;
+}
+
+.HeaderTitle:hover {
+  color: var(--cyan);
+}
+
+.ChatOptions {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 10;
+  min-width: 150px;
+  margin-top: 0.5vh;
+  padding: 0.8vh 0.8vw;
+  background: var(--sea);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+}
+
+.ChatOptions button {
+  border: none;
+  background: transparent;
+  color: var(--err);
+  cursor: pointer;
+  font-size: 0.8vw;
+  padding: 0;
+  white-space: nowrap;
+}
+
+.ChatOptions button:hover {
+  text-decoration: underline;
 }
 
 .MessagesArea {

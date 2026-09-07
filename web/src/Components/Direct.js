@@ -1,11 +1,15 @@
 import { useCallback, useEffect, useState } from "react";
 import api from "../api/interceptor";
 import { getMessages, MessagesAsRead } from "../endpoints/rest/userUI";
-import { deleteMessage as deleteMessageRequest } from "../endpoints/rest/userInteractions";
+import {
+  deleteMessage as deleteMessageRequest,
+  clearChat as clearChatRequest,
+} from "../endpoints/rest/userInteractions"; //Vericare se si può fare diversamente
 
 export function useDirect({ chatId, userId }) {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
+  const [showChatOptions, setShowChatOptions] = useState(false);
 
   const loadMessages = useCallback(async () => {
     if (!chatId) return;
@@ -71,11 +75,23 @@ export function useDirect({ chatId, userId }) {
     }
   };
 
+  const clearChat = async () => {
+    if (!chatId) return;
+
+    try {
+      await clearChatRequest(chatId);
+      setMessages([]);
+    } catch (error) {
+      console.error("Errore cancellazione chat:", error);
+    }
+  };
+
   return {
     messages,
     input,
     setInput,
     sendMessage,
     deleteMessage,
+    clearChat,
   };
 }

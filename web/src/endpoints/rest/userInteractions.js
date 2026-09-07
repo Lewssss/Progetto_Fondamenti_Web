@@ -25,6 +25,14 @@ export async function deleteMessage(messageId, who) {
   return data;
 }
 
+export async function clearChat(chatId) {
+  const { data } = await api.post("/chats/clearChat", {
+    id: chatId,
+  });
+
+  return data;
+}
+
 export async function sendChatMessage(chatId, message) {
   const { data } = await api.post("/messages/newMessage", {
     chatId,

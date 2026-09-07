@@ -35,10 +35,14 @@ async function deleteChat(req, res) {
   });
 }
 
-async function clearChat(req, res) {
-  ChatsServices.clearChat(req.body.id).then((response) => {
-    return res.status(response[0]).json(response[1]);
-  });
+async function clearChat(req, res, next) {
+  try {
+    const result = await ChatsServices.clearChat(req.body.id, req.user.userId);
+
+    return res.status(result[0]).json(result[1]);
+  } catch (error) {
+    next(error);
+  }
 }
 
 export default router;
