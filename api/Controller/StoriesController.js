@@ -63,7 +63,6 @@ async function addStory(req,res) {
     Story.addStory(
         {
             author: req.user.userId,
-            content: req.body.content,
             filePath: req.file.path,
             mimetype: req.file.mimetype
         }

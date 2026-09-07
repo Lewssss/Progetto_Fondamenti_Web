@@ -12,6 +12,7 @@ import { postsContext } from 'Context/PostsContext'
 import { getStoriesOfUser } from 'endpoints/rest/userInteractions'
 import StoriesView from 'Components/StoriesView'
 import Story_create from 'Components/Story_create'
+import { Plus } from 'lucide-react'
 
 function Profile({ sidebar }) {
   const { userId } = useParams();
@@ -60,7 +61,9 @@ function Profile({ sidebar }) {
     <div className="profile">
       <div className="user-header">
         <div className="profile-user">
-          <img className="profile-userimg" src={userdata?.profilePicture} alt="Foto profilo" />
+          <div className={`profile-userimg-wrapper ${userStories.length > 0 ? 'has-stories' : ''}`} onClick={() => {if (userStories.length > 0) setShowStoryViewer(true); }}>
+            <img className='profile-userimg' src={userdata?.profilePicture} alt='Foto profilo' />
+          </div>
           <div className="profile-userdata">
             <p className="profile-username">{userdata?.username || "Utente"}</p>
             {userdata?.bio ? <p className="bio">{userdata.bio}</p> : ''}
@@ -72,23 +75,14 @@ function Profile({ sidebar }) {
         </div>
         <div className="profile-actions">
           {isOwnProfile ?
+          <>
             <button type="button" id="Edit" onClick={() => setEditModalOpen(true)}>Modifica Profilo</button>
+            <button type="button" className="add-story-btn" onClick={() => setShowStoryCreate(true)}>Aggiungi Storia</button>
+          </>
             :
             <button type="button" id="Follow" onClick={handleFollow}>{isFollowing ? "Non seguire" : "Segui"}</button>
           }
         </div>
-      </div>
-      <div className="profile-stories">
-        {userStories.length > 0 && (
-          <div className="story-circle" onClick={() => setShowStoryViewer(true)}>
-            <div className='story-circle-inner'>
-              <img src={userdata?.profilePicture} alt="Storie" />
-            </div>
-          </div>
-        )}
-        {isOwnProfile && (
-          <button type="button" onClick={() => setShowStoryCreate(true)}>Aggiungi storia</button>
-        )}
       </div>
       <Modal 
       open={editModalOpen}

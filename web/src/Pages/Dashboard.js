@@ -60,7 +60,6 @@ function Dashboard() {
       <div className="animation-sidebar">
         <div className="sidebar">
           <Profile sidebar />
-          <Stories />
         </div>
         <div className="sidebar-edge"></div>
       </div>

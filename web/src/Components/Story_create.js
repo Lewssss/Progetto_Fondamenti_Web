@@ -1,5 +1,6 @@
 import { addStory } from "endpoints/rest/userInteractions";
 import { useRef, useState } from "react";
+import "./Story_create.css";
 
 function Story_create({onClose, onCreated}) {
     const [file, setFile] = useState(null);
@@ -20,14 +21,12 @@ function Story_create({onClose, onCreated}) {
     }
     async function handleSubmit(e) {
         e.preventDefault();
-        const content = e.target.content.value;
-        await addStory(file, content);
+        await addStory(file);
         onCreated?.();
         onClose();
     }
     return (
         <div className="story-creation">
-            <h1>Crea Storia</h1>
             <form onSubmit={handleSubmit}>
                 <div className="media-upload" onDragOver={(e) => e.preventDefault()} onDrop={handleDrop} onClick={() => File_upload.current.click()}>
                     <input ref={File_upload} type="file" name="media" accept="image/*,video/*" hidden onChange={(e) => handleFile(e.target.files[0])} required />
@@ -37,13 +36,9 @@ function Story_create({onClose, onCreated}) {
                         <p>Trascina o sfoglia<br />per importare foto o video</p>
                     )}
                 </div>
-                <div className="story-content">
-                    <label>Descrizione (opzionale)</label>
-                    <input id="content" type="text" name="content" />
-                </div>
                 <div className="creation-interact">
-                    <button className="action" type="button" onClick={onClose}>Cancella</button>
-                    <button className="action" type="submit">Pubblica</button>
+                    <button type="button" onClick={onClose}>Cancella</button>
+                    <button type="submit">Pubblica</button>
                 </div>
             </form>
         </div>

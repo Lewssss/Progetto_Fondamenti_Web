@@ -63,10 +63,9 @@ export async function updateFollow(targetId) {
   const { data } = await api.patch(`/user/follow/${targetId}`);
   return data;
 }
-export async function addStory(file, content) {
+export async function addStory(file) {
   const formData = new FormData();
   formData.append("file", file);
-  formData.append("content", content);
   const data = await api.post("/stories/addStory", formData);
   return data;
 }

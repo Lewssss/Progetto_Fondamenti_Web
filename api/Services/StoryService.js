@@ -18,7 +18,7 @@ async function getStoriesOfUser(author) {
 }
 async function addStory({ author, content, filePath, mimetype }) {
     const isVideo = mimetype.startsWith('video/');
-    const story = await new Story({content: content, mediaUrl: filePath, mediaType: isVideo? 'video' : "image", author: author}).save();
+    const story = await new Story({mediaUrl: filePath, mediaType: isVideo? 'video' : "image", author: author}).save();
     if(story) {
         return [200, responseWithDataAndMessage(story,"Storia creata")];
     } else {
