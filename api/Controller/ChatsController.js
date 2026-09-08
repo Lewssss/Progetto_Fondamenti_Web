@@ -10,7 +10,9 @@ router.post("/clearChat", authenticateToken, clearChat);
 
 async function newChat(req, res, next) {
   try {
-    const result = await ChatsServices.newChat(req.user.userId);
+    const { targetUserId } = req.body;
+
+    const result = await ChatsServices.newChat(req.user.userId, targetUserId);
 
     return res.status(result[0]).json(result[1]);
   } catch (error) {
@@ -26,13 +28,14 @@ async function getChats(req, res, next) {
     .catch(next);
 }
 
-async function deleteChat(req, res) {
-  ChatsServices.deleteChat(req.body.id).then((response) => {
-    //const { chatid } = req.body;
-    //ChatsServices.deleteChat(chatid).then((response) => {
-    //Idem di getChats
-    return res.status(response[0]).json(response[1]);
-  });
+async function deleteChat(req, res, next) {
+  try {
+    const result = await ChatsServices.deleteChat(req.body.id, req.user.userId);
+
+    return res.status(result[0]).json(result[1]);
+  } catch (error) {
+    next(error);
+  }
 }
 
 async function clearChat(req, res, next) {

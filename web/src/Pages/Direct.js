@@ -11,15 +11,28 @@ const Direct = ({ name, onBack, chatId, userId }) => {
   const [openedPost, setOpenedPost] = useState(null);
   const { posts } = useContext(postsContext);
   const [showChatOptions, setShowChatOptions] = useState(false);
-  const { messages, input, setInput, sendMessage, deleteMessage, clearChat } =
-    useDirect({
-      chatId,
-      userId,
-    });
+  const {
+    messages,
+    input,
+    setInput,
+    sendMessage,
+    deleteMessage,
+    clearChat,
+    deleteChat,
+  } = useDirect({
+    chatId,
+    userId,
+  });
 
   const handleClearChat = async () => {
     await clearChat();
     setShowChatOptions(false);
+  };
+
+  const handleDeleteChat = async () => {
+    await deleteChat();
+    setShowChatOptions(false);
+    onBack();
   };
 
   const handleSubmit = async (event) => {
@@ -55,7 +68,11 @@ const Direct = ({ name, onBack, chatId, userId }) => {
           {showChatOptions && (
             <div className="ChatOptions">
               <button type="button" onClick={handleClearChat}>
-                Elimina per me
+                Cancella tutti i messaggi
+              </button>
+
+              <button type="button" onClick={handleDeleteChat}>
+                Cancella chat
               </button>
             </div>
           )}
@@ -104,7 +121,6 @@ const Direct = ({ name, onBack, chatId, userId }) => {
                 ) : (
                   <span>{msg.text}</span>
                 )}
-
                 {selectedMessageId == msg.id && (
                   <div className="MessageOptions">
                     <button
@@ -117,6 +133,7 @@ const Direct = ({ name, onBack, chatId, userId }) => {
                     >
                       Elimina per me
                     </button>
+
                     {msg.fromMe && (
                       <button
                         type="button"

@@ -4,6 +4,7 @@ import { getMessages, MessagesAsRead } from "../endpoints/rest/userUI";
 import {
   deleteMessage as deleteMessageRequest,
   clearChat as clearChatRequest,
+  deleteChat as deleteChatRequest,
 } from "../endpoints/rest/userInteractions"; //Vericare se si può fare diversamente
 
 export function useDirect({ chatId, userId }) {
@@ -86,6 +87,17 @@ export function useDirect({ chatId, userId }) {
     }
   };
 
+  const deleteChat = async () => {
+    if (!chatId) return;
+
+    try {
+      await deleteChatRequest(chatId);
+      setMessages([]);
+    } catch (error) {
+      console.error("Errore cancellazione chat:", error);
+    }
+  };
+
   return {
     messages,
     input,
@@ -93,5 +105,6 @@ export function useDirect({ chatId, userId }) {
     sendMessage,
     deleteMessage,
     clearChat,
+    deleteChat,
   };
 }

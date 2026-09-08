@@ -8,6 +8,7 @@ import Direct from "./Direct";
 import Profile from "./Profile";
 import Stories from "../Components/Stories";
 import ActionBar from "../Components/ActionBar";
+import { createChat } from "../endpoints/rest/userUI";
 
 function Dashboard() {
   const [openChat, setOpenChat] = useState(false);
@@ -22,6 +23,17 @@ function Dashboard() {
     window.scrollTo(0, 0);
   }, [profileUserId, openChat, selectedChat]);
 
+  const handleMessageUser = async (targetUserId) => {
+    try {
+      const chat = await createChat(targetUserId);
+
+      setSelectedChat(chat);
+      setOpenChat(true);
+    } catch (error) {
+      console.error("Errore apertura chat:", error);
+    }
+  };
+
   const handleOpenChat = () => {
     setSelectedChat(null);
     setOpenChat(true);
@@ -30,7 +42,7 @@ function Dashboard() {
 
   const handleBack = () => {
     if (selectedChat) {
-      setSelectedChat(null); 
+      setSelectedChat(null);
       return;
     }
     if (openChat) {
@@ -59,13 +71,17 @@ function Dashboard() {
     <div className="dashboard">
       <div className="animation-sidebar">
         <div className="sidebar">
-          <Profile sidebar />
+          <Profile sidebar onMessageUser={handleMessageUser} />
         </div>
         <div className="sidebar-edge"></div>
       </div>
       <div className="MainSection">
         {!openChat ? (
-          profileUserId ? <Profile /> : <Main />
+          profileUserId ? (
+            <Profile onMessageUser={handleMessageUser} />
+          ) : (
+            <Main />
+          )
         ) : selectedChat ? (
           <Direct
             name={selectedChat.participants

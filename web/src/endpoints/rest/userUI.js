@@ -42,9 +42,12 @@ export async function getUserChats(userId) {
   return mapChat(data);
 }
 
-export async function createChatsForFollowers() {
-  const { data } = await api.post("/chats/newChat");
-  return data;
+export async function createChat(targetUserId) {
+  const { data } = await api.post("/chats/newChat", {
+    targetUserId,
+  });
+
+  return mapChat({ data: [data.data] })[0];
 }
 
 export async function getMessages(chatId) {

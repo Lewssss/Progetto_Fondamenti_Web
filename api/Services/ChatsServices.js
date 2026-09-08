@@ -10,36 +10,39 @@ export default {
   clearChat,
 };
 
-async function newChat(userId) {
+async function newChat(userId, targetUserId) {
   try {
-    const user = await User.findById(userId).select("followers following");
+    if (String(userId) === String(targetUserId)) {
+      return [400, response.Fail()];
+    }
 
-    if (!user) {
+    const targetUser = await User.findById(targetUserId);
+
+    if (!targetUser) {
       return [404, response.Fail()];
     }
 
-    //creiamo chat sia coi followers che coi following (serve anche all'inoltro)
-    const friends = [...(user.followers || []), ...(user.following || [])];
+    let chat = await Chat.findOne({
+      participants: {
+        $all: [userId, targetUserId],
+      },
+    });
 
-    for (const friendId of friends) {
-      if (String(friendId) === String(userId)) {
-        continue;
-      }
-
-      const existingChat = await Chat.findOne({
-        participants: {
-          $all: [userId, friendId],
-        },
+    if (!chat) {
+      chat = await Chat.create({
+        participants: [userId, targetUserId],
       });
-
-      if (!existingChat) {
-        await Chat.create({
-          participants: [userId, friendId],
-        });
-      }
+    } else {
+      await Chat.findByIdAndUpdate(chat._id, {
+        $pull: { hiddenFor: userId },
+      });
     }
 
-    return [200, response.newChat()];
+    chat = await Chat.findById(chat._id)
+      .populate("participants", "username profilePicture")
+      .lean();
+
+    return [200, response.responseWithData(chat)];
   } catch (error) {
     console.error(error);
     return [500, response.Fail()];
@@ -48,7 +51,10 @@ async function newChat(userId) {
 
 async function getChats(userId) {
   try {
-    const chats = await Chat.find({ participants: userId })
+    const chats = await Chat.find({
+      participants: userId,
+      hiddenFor: { $ne: userId },
+    })
       .populate("participants", "username profilePicture")
       .lean();
 
@@ -85,12 +91,30 @@ async function getChats(userId) {
   }
 }
 
-async function deleteChat(chatid) {
+async function deleteChat(chatid, userId) {
   try {
-    await Chat.findByIdAndDelete(chatid);
+    const chat = await Chat.findOne({
+      _id: chatid,
+      participants: userId,
+    });
+
+    if (!chat) {
+      return [403, response.Fail()];
+    }
+
+    await Chat.findByIdAndUpdate(chatid, {
+      $addToSet: { hiddenFor: userId },
+    });
+
+    await Message.updateMany(
+      { Chat_id_reference: chatid },
+      { $addToSet: { hiddenFor: userId } },
+    );
+
     return [200, response.deleteChat()];
   } catch (error) {
-    return [401, response.Fail()];
+    console.error(error);
+    return [500, response.Fail()];
   }
 }
 

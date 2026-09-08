@@ -18,7 +18,12 @@ async function newMessage(chat_id, userId, message) {
   try {
     await create.save();
     // Aggiorna la chat con l'ultimo messaggio
-    await Chat.findByIdAndUpdate(chat_id, { lastMessage: create._id });
+
+    await Chat.findByIdAndUpdate(chat_id, {
+      lastMessage: create._id,
+      $set: { hiddenFor: [] },
+    });
+
     return [200, response.responseWithData(create)];
   } catch (error) {
     console.log(error);

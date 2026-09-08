@@ -33,6 +33,16 @@ export async function clearChat(chatId) {
   return data;
 }
 
+export async function deleteChat(chatId) {
+  const { data } = await api.delete("/chats/deleteChat", {
+    data: {
+      id: chatId,
+    },
+  });
+
+  return data;
+}
+
 export async function sendChatMessage(chatId, message) {
   const { data } = await api.post("/messages/newMessage", {
     chatId,

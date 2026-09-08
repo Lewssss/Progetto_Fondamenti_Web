@@ -11,6 +11,12 @@ const ChatSchema = new Schema(
         ref: "User",
       },
     ],
+    hiddenFor: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
     lastMessage: {
       type: Schema.Types.ObjectId,
       ref: "Message",
