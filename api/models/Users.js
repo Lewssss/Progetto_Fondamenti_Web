@@ -3,7 +3,8 @@ import mongoose from "mongoose";
 const UsersSchema = new mongoose.Schema({
   username: { type: String, required: true, unique: true },
   email: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
+  password: { type: String, required: false },
+  googleId: { type: String, unique: true, sparse: true },
   bio: { type: String, default: "", maxlength: 150 },
  // Posts: [{ type: mongoose.Schema.Types.ObjectId, ref: "Post" }], pensato inizialmente, ma effettivamente inutile perche possiamo reperirlo dai post
   refreshToken: { type: String }, 

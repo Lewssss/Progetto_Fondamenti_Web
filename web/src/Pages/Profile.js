@@ -5,18 +5,20 @@ import { getUser } from "../endpoints/rest/userUI";
 import { userContext } from "../Context/UserContext";
 import Post from "../Components/Post";
 import Modal from "../Components/Modal";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import EditProfile from "../Components/EditProfile";
 import { updateFollow } from "endpoints/rest/userInteractions";
+import { accountLogout } from "../endpoints/rest/auth";
 import { postsContext } from "Context/PostsContext";
 import { getStoriesOfUser } from "endpoints/rest/userInteractions";
 import StoriesView from "Components/StoriesView";
 import Story_create from "Components/Story_create";
-import { Plus } from "lucide-react";
+import { LogOut } from "lucide-react";
 
 function Profile({ sidebar, onMessageUser }) {
   const { userId } = useParams();
-  const { user: userLogged } = useContext(userContext);
+  const navigate = useNavigate();
+  const { user: userLogged, setUser } = useContext(userContext);
   const viewedId = sidebar ? null : userId;
   const isOwnProfile = !viewedId || viewedId === userLogged?.id;
   const [userdata, setUserdata] = useState(null);
@@ -61,6 +63,17 @@ function Profile({ sidebar, onMessageUser }) {
       })
       .catch((error) => console.log("Errore nel follow", error));
   }
+
+  async function handleLogout() {
+    try {
+      await accountLogout();
+    } catch (error) {
+      console.error("Errore logout:", error);
+    }
+    setUser(null);
+    navigate("/login");
+  }
+
   return (
     <div className="profile">
       <div className="user-header">
@@ -75,10 +88,23 @@ function Profile({ sidebar, onMessageUser }) {
               className="profile-userimg"
               src={userdata?.profilePicture}
               alt="Foto profilo"
+              referrerPolicy="no-referrer"
             />
           </div>
           <div className="profile-userdata">
-            <p className="profile-username">{userdata?.username || "Utente"}</p>
+            <div className="profile-username-row">
+              <p className="profile-username">{userdata?.username || "Utente"}</p>
+              {isOwnProfile && (
+                <button
+                  type="button"
+                  className="logout-icon"
+                  onClick={handleLogout}
+                  title="Logout"
+                >
+                  <LogOut strokeWidth={2} />
+                </button>
+              )}
+            </div>
             {userdata?.bio ? <p className="bio">{userdata.bio}</p> : ""}
           </div>
         </div>

@@ -63,7 +63,7 @@
     flex: 0 0 70%;
     max-height:70%;
     width: 100%;
-    object-fit: cover;
+    object-fit: fill;
     background-color: var(--sea);
 }
 .reactions{

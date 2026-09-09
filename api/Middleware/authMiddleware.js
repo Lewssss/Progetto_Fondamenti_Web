@@ -16,6 +16,15 @@ export const authenticateToken = (req, res, next) => {
     });
 };
 
+export const authenticateSocket = (socket, next) => {
+    const token = socket.handshake.auth.token;
+    jwt.verify(token, process.env.JWT_ACCESS_KEY, (err, user) => {
+        if (err) return next(new Error("Token non valido"));
+        socket.userId = user.userId;
+        next();
+    });
+};
+
 export const refreshToken = async (req, res) => {
     const token = req.body.refreshToken;
     if (!token) {

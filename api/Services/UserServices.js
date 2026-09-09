@@ -5,6 +5,8 @@ import jwt from "jsonwebtoken";  // Importa jsonwebtoken per la generazione dei 
 export default {
     registerUser,
     loginUser,
+    findOrCreateGoogleUser,
+    issueAuthTokens,
     updateUserImage,
     updateFollow,
     searchUsers
@@ -32,27 +34,59 @@ async function loginUser(email, password) {
     if (!user) {
         return [400, response.invalidCredentials()];
     }
+    if (!user.password) {
+        return [400, response.invalidCredentials()];
+    }
     // Verifica se la password è corretta
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
         return [400, response.invalidCredentials()];
     }
-    // Se le credenziali sono valide, genera un token JWT
-    const accessToken = jwt.sign({ userId: user._id }, process.env.JWT_ACCESS_KEY, { expiresIn: '30min' }); // Token di accesso con scadenza breve
-    const refreshToken = jwt.sign({ userId: user._id }, process.env.JWT_REFRESH_KEY, { expiresIn: '7d' }); // Token di refresh con scadenza più lunga    
-    user.refreshToken = refreshToken; // Salva il token di refresh nel database
+    return issueAuthTokens(user);
+}
+
+async function findOrCreateGoogleUser(profile) {
+    const email = profile.emails[0].value;
+    const picture = profile._json.picture;
+    let user = await User.findOne({ googleId: profile.id });
+
+    if (!user) {
+        user = await User.findOne({ email: email });
+    }
+
+    if (user) {
+        user.googleId = profile.id;
+        user.profilePicture = picture;
+        await user.save();
+        return user;
+    }
+
+    user = new User({
+        googleId: profile.id,
+        email: email,
+        username: email.split("@")[0],
+        profilePicture: picture,
+    });
     await user.save();
-    
-    return [200, { 
-        success: true, 
+    return user;
+}
+
+async function issueAuthTokens(user) {
+    const accessToken = jwt.sign({ userId: user._id }, process.env.JWT_ACCESS_KEY, { expiresIn: '30min' });
+    const refreshToken = jwt.sign({ userId: user._id }, process.env.JWT_REFRESH_KEY, { expiresIn: '7d' });
+    user.refreshToken = refreshToken;
+    await user.save();
+
+    return [200, {
+        success: true,
         token: accessToken,
         refreshToken: refreshToken,
-        user: { 
-            _id: user._id, 
-            username: user.username, 
-            email: user.email 
-            } 
-        }];
+        user: {
+            _id: user._id,
+            username: user.username,
+            email: user.email
+        }
+    }];
 }
 async function updateUserImage(userId,ImgUrl) {
     const updateUser = await User.findByIdAndUpdate(userId,{profilePicture:ImgUrl},{new:true});

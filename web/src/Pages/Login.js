@@ -1,10 +1,10 @@
 import React from 'react'
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import "./Register.css"
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { accountLogin } from "../endpoints/rest/auth";
 import { userContext } from '../Context/UserContext';
+import GoogleButton from '../Components/GoogleButton';
 
 function Login() {
     const { setUser } = useContext(userContext)
@@ -27,12 +27,15 @@ function Login() {
 
   return (
     <div className="register-container">
-        <h1 className='Title'>Login</h1>
+        <h1 className='Title'>Accedi</h1>
         <form className="register-form" onSubmit={handleSubmit}>
             <input type="text" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
             <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
-            <button type="submit">Login</button>
+            <button type="submit">Accedi</button>
+            <div className="auth-or">oppure</div>
+            <GoogleButton />
         </form>
+        <p className="auth-switch">Non hai un account? <Link to="/register">Registrati</Link></p>
     </div>
   )
 }

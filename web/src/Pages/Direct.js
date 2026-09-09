@@ -11,18 +11,7 @@ const Direct = ({ name, onBack, chatId, userId }) => {
   const [openedPost, setOpenedPost] = useState(null);
   const { posts } = useContext(postsContext);
   const [showChatOptions, setShowChatOptions] = useState(false);
-  const {
-    messages,
-    input,
-    setInput,
-    sendMessage,
-    deleteMessage,
-    clearChat,
-    deleteChat,
-  } = useDirect({
-    chatId,
-    userId,
-  });
+  const {messages,input,setInput,sendMessage,deleteMessage,clearChat,deleteChat} = useDirect({chatId,userId});
 
   const handleClearChat = async () => {
     await clearChat();

@@ -5,11 +5,14 @@ import User from "../models/Users.js";
 import UserService from "../Services/UserServices.js";
 import multer from 'multer';
 import { authenticateToken, refreshToken, deleteToken } from "../Middleware/authMiddleware.js";
+import passport from "../config/passport.js";
 const filestorage = multer.diskStorage({destination:"uploads/", filename: (req,file,cb)=> {cb(null,req.body.username +"_"+ file.originalname)}})
 const upload = multer({storage: filestorage});
 router.get("/userData/:id", authenticateToken, getUserData);
 router.post("/register", createUser);
 router.post("/login", loginUser);
+router.get("/auth/google", googleAuth);
+router.get("/auth/google/callback", googleAuthCallback);
 router.post("/refresh-token", refreshToken);
 router.post("/logout", deleteToken);
 router.get("/checkandget", authenticateToken, getUser);
@@ -51,6 +54,26 @@ async function loginUser(req, res) {
         console.error(error);
         res.status(500).json({ message: "Internal Server Error" });
     }
+}
+
+function googleAuth(req, res, next) {
+    passport.authenticate("google", { scope: ["profile", "email"] })(req, res, next);
+}
+
+function googleAuthCallback(req, res, next) {
+    passport.authenticate("google", async (err, user) => {
+        if (err || !user) {
+            return res.redirect("http://localhost:3000/login");
+        }
+
+        const payload = (await UserService.issueAuthTokens(user))[1];
+        return res.redirect(
+            "http://localhost:3000/oauth-callback?token=" +
+                payload.token +
+                "&refreshToken=" +
+                payload.refreshToken,
+        );
+    })(req, res, next);
 }
 async function getUser(req, res) {
     try {

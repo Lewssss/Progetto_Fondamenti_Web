@@ -6,22 +6,32 @@ import MessageController from "./Controller/MessageController.js";
 import UserController from "./Controller/UserController.js";
 import PostController from "./Controller/PostController.js";
 import StoriesController from "./Controller/StoriesController.js";
+import initChatSocket from "./Controller/ChatSocket.js";
+import session from "express-session";
+import passport, { setupPassport } from "./config/passport.js";
 import cors from "cors";
-import { createServer } from "node:http"; // Importa la funzione createServer dal modulo "node:http"
-import { Server } from "socket.io"; // Importa la classe Server dal modulo "socket.io"
-import jwt from "jsonwebtoken"; // Importa il modulo "jsonwebtoken" per la gestione dei token JWT
-import Chat from "./models/Chat.js";
-import MessageServices from "./Services/MessageServices.js";
+import { createServer } from "node:http";
+import { Server } from "socket.io";
 
 const app = express();
 const port = 5000;
 
 connectDB();
+setupPassport();
 
 app.use("/uploads", express.static("uploads"));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());
+app.use(
+  session({
+    secret: process.env.JWT_ACCESS_KEY,
+    resave: false,
+    saveUninitialized: false,
+  }),
+);
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use("/chats", ChatsController);
 app.use("/messages", MessageController);
@@ -40,77 +50,7 @@ const io = new Server(httpServer, {
   },
 });
 
-io.use((socket, next) => {
-  // Middleware per l'autenticazione dei socket
-  const token = socket.handshake.auth.token; // Estrae il token JWT dall'oggetto di handshake del socket
-  jwt.verify(token, process.env.JWT_ACCESS_KEY, (err, user) => {
-    // Verifica il token JWT utilizzando la chiave segreta specificata
-    if (err) return next(new Error("Token non valido")); // Se il token non è valido, passa un errore al middleware successivo
-    socket.userId = user.userId; // Se il token è valido, assegna l'ID dell'utente al socket
-    next(); // Passa al middleware successivo
-  });
-});
-
-io.on("connection", (socket) => {
-  socket.on("join_chat", async (chatId, callback) => {
-    const chat = await Chat.findOne({
-      _id: chatId,
-      participants: socket.userId,
-    });
-
-    if (!chat) {
-      return callback?.({ success: false, message: "Accesso negato" }); // Se l'utente non è un partecipante della chat, invia un messaggio di errore al client
-    }
-    socket.join(`chat:${chatId}`); // Se l'utente è un partecipante della chat, lo aggiunge alla stanza della chat
-  });
-
-  socket.on("send_message", async ({ chatId, text }, callback) => {
-    try {
-      const chat = await Chat.findOne({
-        _id: chatId,
-        participants: socket.userId,
-      });
-
-      if (!chat) {
-        return callback?.({
-          success: false,
-          message: "Accesso negato",
-        });
-      }
-
-      const [status, result] = await MessageServices.newMessage(
-        chatId,
-        socket.userId,
-        text,
-      );
-
-      if (status !== 200) {
-        return callback?.({
-          success: false,
-          message: "Errore durante l'invio",
-        });
-      }
-
-      io.to(`chat:${chatId}`).emit("message:new", result.data);
-
-      callback?.({
-        success: true,
-        message: result.data,
-      });
-    } catch (error) {
-      console.error(error);
-
-      callback?.({
-        success: false,
-        message: "Errore del server",
-      });
-    }
-  });
-
-  socket.on("disconnect", () => {
-    console.log(`Utente disconnesso: ${socket.userId}`);
-  });
-});
+initChatSocket(io);
 
 httpServer.listen(port, () => {
   console.log(`Server is running on port ${port}`);

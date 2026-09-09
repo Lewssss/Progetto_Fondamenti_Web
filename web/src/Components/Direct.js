@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useState } from "react";
-import api from "../api/interceptor";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { createChatSocket } from "../api/socket";
 import { getMessages, MessagesAsRead } from "../endpoints/rest/userUI";
 import {
   deleteMessage as deleteMessageRequest,
@@ -11,6 +11,7 @@ export function useDirect({ chatId, userId }) {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [showChatOptions, setShowChatOptions] = useState(false);
+  const socketRef = useRef(null);
 
   const loadMessages = useCallback(async () => {
     if (!chatId) return;
@@ -46,22 +47,47 @@ export function useDirect({ chatId, userId }) {
     openChat();
   }, [chatId, userId, loadMessages]);
 
+  useEffect(() => {
+    if (!chatId || !userId) return;
+
+    const socket = createChatSocket();
+    socketRef.current = socket;
+
+    socket.emit("join_chat", chatId);
+
+    socket.on("message:new", (message) => {
+      setMessages((currentMessages) => [
+        ...currentMessages,
+        {
+          id: message._id,
+          fromMe: String(message.sender) === String(userId),
+          text: message.text,
+        },
+      ]);
+    });
+
+    return () => {
+      socket.emit("leave_chat", chatId);
+      socket.off("message:new");
+      socket.disconnect();
+      socketRef.current = null;
+    };
+  }, [chatId, userId]);
+
   const sendMessage = async () => {
     const text = input.trim();
 
     if (!text || !chatId) return;
 
-    try {
-      await api.post("/messages/newMessage", {
-        chatId,
-        message: text,
-      });
+    const socket = socketRef.current;
 
-      setInput("");
-      await loadMessages();
-    } catch (error) {
-      console.error("Errore invio messaggio:", error);
-    }
+    if (!socket) return;
+
+    socket.emit("send_message", { chatId, text }, (ack) => {
+      if (ack.success) {
+        setInput("");
+      }
+    });
   };
 
   const deleteMessage = async (messageId, who) => {

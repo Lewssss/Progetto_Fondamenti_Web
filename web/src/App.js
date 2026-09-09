@@ -4,6 +4,7 @@ import Direct from "./Pages/Direct"; // importa Direct
 import React, { useContext, useState } from "react";
 import Register from "./Pages/Register"; // importa Register
 import Login from "./Pages/Login"; // importa Login
+import OAuthCallback from "./Pages/OAuthCallback";
 import Dashboard from "./Pages/Dashboard"; //importa Dashboard
 import Navbar from "./Components/Navbar"; //import Navbar
 import ThemeSwitch from "./Components/ThemeSwitch";
@@ -53,6 +54,7 @@ function App() {
           path="/login"
           element={user ? <Navigate to="/dashboard" /> : <Login />}
         />
+        <Route path="/oauth-callback" element={<OAuthCallback />} />
         <Route element={<MainLayout />}>
           <Route
             path="/chat"
