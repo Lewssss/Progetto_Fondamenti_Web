@@ -7,6 +7,8 @@ import UserController from "./Controller/UserController.js";
 import PostController from "./Controller/PostController.js";
 import StoriesController from "./Controller/StoriesController.js";
 import initChatSocket from "./Controller/ChatSocket.js";
+import swaggerUi from "swagger-ui-express";
+import swaggerSpec from "./swagger.js";
 import session from "express-session";
 import passport, { setupPassport } from "./config/passport.js";
 import cors from "cors";
@@ -38,6 +40,7 @@ app.use("/messages", MessageController);
 app.use("/user", UserController);
 app.use("/post", PostController);
 app.use("/stories", StoriesController);
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 const httpServer = createServer(app); // Crea un server HTTP utilizzando la funzione createServer
 
