@@ -91,10 +91,10 @@ async function getChats(userId) {
   }
 }
 
-async function deleteChat(chatid, userId) {
+async function deleteChat(chatId, userId) {
   try {
     const chat = await Chat.findOne({
-      _id: chatid,
+      _id: chatId,
       participants: userId,
     });
 
@@ -102,12 +102,12 @@ async function deleteChat(chatid, userId) {
       return [403, response.Fail()];
     }
 
-    await Chat.findByIdAndUpdate(chatid, {
+    await Chat.findByIdAndUpdate(chatId, {
       $addToSet: { hiddenFor: userId },
     });
 
     await Message.updateMany(
-      { Chat_id_reference: chatid },
+      { Chat_id_reference: chatId },
       { $addToSet: { hiddenFor: userId } },
     );
 
@@ -118,10 +118,10 @@ async function deleteChat(chatid, userId) {
   }
 }
 
-async function clearChat(chatid, userId) {
+async function clearChat(chatId, userId) {
   try {
     const chat = await Chat.findOne({
-      _id: chatid,
+      _id: chatId,
       participants: userId,
     });
 
@@ -130,7 +130,7 @@ async function clearChat(chatid, userId) {
     }
 
     await Message.updateMany(
-      { Chat_id_reference: chatid },
+      { Chat_id_reference: chatId },
       { $addToSet: { hiddenFor: userId } },
     );
 

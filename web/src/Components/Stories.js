@@ -1,10 +1,10 @@
-import React, { useContext, useEffect } from 'react'
-import { useState } from 'react'
-import { getStories } from 'endpoints/rest/userInteractions'
-import StoriesView from './StoriesView'
-import Modal from './Modal'
-import { userContext } from 'Context/UserContext';
-import "./Stories.css"
+import React, { useContext, useEffect } from "react";
+import { useState } from "react";
+import { getStories } from "endpoints/rest/userInteractions";
+import StoriesView from "./StoriesView";
+import Modal from "./Modal";
+import { userContext } from "Context/UserContext";
+import "./Stories.css";
 
 function Stories() {
   const [allStories, setAllStories] = useState([]);
@@ -18,11 +18,11 @@ function Stories() {
     setAllStories(response.data.data);
   }
   return (
-    <div className='stories-container'>
+    <div className="stories-container">
       {allStories.map((storiesOfUser) => (
-        <div 
-          key={storiesOfUser.author._id} 
-          className='stories-circle' 
+        <div
+          key={storiesOfUser.author._id}
+          className="stories-circle"
           onClick={() => setSelectedStories(storiesOfUser)}
         >
           <img className="" src={storiesOfUser.author.profilePicture} />
@@ -36,12 +36,13 @@ function Stories() {
             <StoriesView
               group={selectedStories}
               onClose={() => setSelectedStories(null)}
+              refreshStories={showStories}
             />
           )
         }
       />
     </div>
-  )
+  );
 }
 
-export default Stories
+export default Stories;

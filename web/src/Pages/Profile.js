@@ -93,7 +93,9 @@ function Profile({ sidebar, onMessageUser }) {
           </div>
           <div className="profile-userdata">
             <div className="profile-username-row">
-              <p className="profile-username">{userdata?.username || "Utente"}</p>
+              <p className="profile-username">
+                {userdata?.username || "Utente"}
+              </p>
               {isOwnProfile && (
                 <button
                   type="button"
@@ -173,6 +175,7 @@ function Profile({ sidebar, onMessageUser }) {
             <StoriesView
               group={{ author: userdata, stories: userStories }}
               onClose={() => setShowStoryViewer(false)}
+              refreshStories={loadStories}
             />
           )
         }

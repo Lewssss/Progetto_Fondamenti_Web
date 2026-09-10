@@ -1,4 +1,4 @@
-.DirectContainer {
+.direct-container {
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -9,7 +9,7 @@
   box-sizing: border-box;
 }
 
-.DirectHeader {
+.direct-header {
   background: var(--sea);
   color: var(--text);
   border-bottom: 1px solid var(--line);
@@ -20,7 +20,7 @@
   flex-shrink: 0;
 }
 
-.DirectBack {
+.direct-back {
   background: transparent;
   border: none;
   cursor: pointer;
@@ -30,17 +30,17 @@
   color: var(--cyan);
 }
 
-.DirectBack svg{
+.direct-back svg {
   width: 1.6vw;
   height: 1.6vw;
   stroke: var(--cyan);
 }
 
-.ChatTitleWrapper {
+.chat-title-wrapper {
   position: relative;
 }
 
-.HeaderTitle {
+.header-title {
   border: none;
   background: transparent;
   cursor: pointer;
@@ -50,11 +50,11 @@
   padding: 0.4vw;
 }
 
-.HeaderTitle:hover {
+.header-title:hover {
   color: var(--cyan);
 }
 
-.ChatOptions {
+.chat-options {
   position: absolute;
   top: 100%;
   left: 0;
@@ -67,7 +67,7 @@
   border-radius: 6px;
 }
 
-.ChatOptions button {
+.chat-options button {
   border: none;
   background: transparent;
   color: var(--err);
@@ -77,11 +77,11 @@
   white-space: nowrap;
 }
 
-.ChatOptions button:hover {
+.chat-options button:hover {
   text-decoration: underline;
 }
 
-.MessagesArea {
+.messages-area {
   flex: 1;
   min-height: 0;
   overflow-y: auto;
@@ -89,20 +89,20 @@
   padding: 1.5vh 1.5vw;
 }
 
-.msg-row{
+.message-row {
   display: flex;
   margin-bottom: 1vh;
 }
 
-.msg-me{
+.message-me {
   justify-content: flex-end;
 }
 
-.msg-other{
+.message-other {
   justify-content: flex-start;
 }
 
-.MessageBubble {
+.message-bubble {
   position: relative;
   max-width: 65%;
   padding: 1vh 1vw;
@@ -111,30 +111,31 @@
   font-size: 0.95vw;
 }
 
-.MessageMine {
+.message-mine {
   background-color: var(--cyan);
   color: var(--ink);
 }
 
-.MessageOther {
+.message-other-bubble {
   background-color: var(--sea);
   border: 1px solid var(--line);
   color: var(--text);
 }
 
-.MessageForward{
+.message-forward {
   max-width: 50%;
   padding: 0.6vh 0.6vw;
 }
 
-.forward-preview{
+.forward-preview {
   display: flex;
   align-items: center;
   gap: 8px;
   cursor: pointer;
 }
 
-.forward-preview img,.forward-preview-noimg{
+.forward-preview img,
+.forward-preview-noimg {
   width: 3.5vw;
   height: 3.5vw;
   object-fit: cover;
@@ -142,31 +143,31 @@
   background: var(--mid);
 }
 
-.forward-preview-author{
+.forward-preview-author {
   margin: 0;
   font-weight: bold;
   font-size: 0.9vw;
 }
 
-.forward-preview-text{
+.forward-preview-text {
   margin: 2px 0 0 0;
   font-size: 0.8vw;
   color: var(--soft);
 }
 
-.MessageMine .forward-preview-text{
+.message-mine .forward-preview-text {
   color: var(--ink);
   opacity: 0.8;
 }
 
-.MessageOptions{
+.message-options {
   display: flex;
   flex-direction: column;
   gap: 4px;
   margin-top: 8px;
 }
 
-.MessageOptions button{
+.message-options button {
   border: none;
   background: transparent;
   color: var(--err);
@@ -176,11 +177,11 @@
   padding: 0;
 }
 
-.MessageOptions button:hover{
+.message-options button:hover {
   text-decoration: underline;
 }
 
-.DirectFooter {
+.direct-footer {
   display: flex;
   border-top: 1px solid var(--line);
   padding: 1vh 1vw;
@@ -190,7 +191,7 @@
   flex-shrink: 0;
 }
 
-.DirectInput {
+.direct-input {
   flex: 1;
   padding: 1vh 1vw;
   font-size: 0.95vw;
@@ -203,11 +204,11 @@
   font-family: inherit;
 }
 
-.DirectInput:focus {
+.direct-input:focus {
   border-color: var(--cyan);
 }
 
-.SendButton {
+.send-button {
   background: var(--cyan);
   border: none;
   border-radius: 5px;
@@ -219,12 +220,12 @@
   color: var(--ink);
 }
 
-.SendButton svg{
+.send-button svg {
   width: 1.4vw;
   height: 1.4vw;
   stroke: var(--ink);
 }
 
-.SendButton:hover{
+.send-button:hover {
   background: var(--accent);
 }

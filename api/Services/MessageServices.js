@@ -6,12 +6,12 @@ export default {
   newMessage,
   getMessages,
   deleteMessage,
-  MessagesAsRead,
+  messagesAsRead,
 };
 
-async function newMessage(chat_id, userId, message) {
+async function newMessage(chatId, userId, message) {
   const create = new Message({
-    Chat_id_reference: chat_id,
+    Chat_id_reference: chatId,
     sender: userId,
     text: message,
   });
@@ -19,7 +19,7 @@ async function newMessage(chat_id, userId, message) {
     await create.save();
     // Aggiorna la chat con l'ultimo messaggio
 
-    await Chat.findByIdAndUpdate(chat_id, {
+    await Chat.findByIdAndUpdate(chatId, {
       lastMessage: create._id,
       $set: { hiddenFor: [] },
     });
@@ -31,16 +31,16 @@ async function newMessage(chat_id, userId, message) {
   }
 }
 
-async function getMessages(chat_id, userId) {
+async function getMessages(chatId, userId) {
   const messages = await Message.find({
-    Chat_id_reference: chat_id,
+    Chat_id_reference: chatId,
     hiddenFor: { $ne: userId },
   }).sort({ createdAt: 1 }); // Ordina per data di creazione in ordine crescente
 
   return [200, response.responseWithData(messages)];
 }
 
-async function MessagesAsRead(chatId, userId) {
+async function messagesAsRead(chatId, userId) {
   try {
     await Message.updateMany(
       {

@@ -6,7 +6,7 @@ import { authenticateToken } from "../Middleware/authMiddleware.js";
 router.post("/newMessage", authenticateToken, newMessage);
 router.get("/getMessages", authenticateToken, getMessages);
 router.delete("/deleteMessage", authenticateToken, deleteMessage);
-router.patch("/readMessages", authenticateToken, MessagesAsRead); //Usiamo patch perchè quest'ultimo è usato quando vogliamo aggiornare una risorsa esistente, in questo caso i messaggi, per segnalarli come letti.
+router.patch("/readMessages", authenticateToken, messagesAsRead); //Usiamo patch perchè quest'ultimo è usato quando vogliamo aggiornare una risorsa esistente, in questo caso i messaggi, per segnalarli come letti.
 
 function newMessage(req, res, next) {
   const { chatId, message } = req.body; // Qui vogliamo l'id dell'utente registrato e dell'amoco di modo da creare la chat
@@ -31,11 +31,11 @@ function getMessages(req, res, next) {
     .catch(next);
 }
 
-function MessagesAsRead(req, res, next) {
+function messagesAsRead(req, res, next) {
   const { chatId } = req.body;
   const userId = req.user.userId;
 
-  MessageServices.MessagesAsRead(chatId, userId)
+  MessageServices.messagesAsRead(chatId, userId)
     .then((response) => {
       return res.status(response[0]).json(response[1]);
     })

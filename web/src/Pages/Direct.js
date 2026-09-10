@@ -11,7 +11,15 @@ const Direct = ({ name, onBack, chatId, userId }) => {
   const [openedPost, setOpenedPost] = useState(null);
   const { posts } = useContext(postsContext);
   const [showChatOptions, setShowChatOptions] = useState(false);
-  const {messages,input,setInput,sendMessage,deleteMessage,clearChat,deleteChat} = useDirect({chatId,userId});
+  const {
+    messages,
+    input,
+    setInput,
+    sendMessage,
+    deleteMessage,
+    clearChat,
+    deleteChat,
+  } = useDirect({ chatId, userId });
 
   const handleClearChat = async () => {
     await clearChat();
@@ -32,7 +40,7 @@ const Direct = ({ name, onBack, chatId, userId }) => {
   function getForwardPost(text) {
     if (!text || !text.startsWith("FORWARD_POST:")) return null;
     const postId = text.replace("FORWARD_POST:", "");
-    return posts.find((p) => String(p.id) == String(postId));
+    return posts.find((post) => String(post.id) === String(postId));
   }
 
   function isForwardMsg(text) {
@@ -40,22 +48,22 @@ const Direct = ({ name, onBack, chatId, userId }) => {
   }
 
   return (
-    <div className="DirectContainer">
-      <div className="DirectHeader">
-        <button type="button" className="DirectBack" onClick={onBack}>
+    <div className="direct-container">
+      <div className="direct-header">
+        <button type="button" className="direct-back" onClick={onBack}>
           <Undo />
         </button>
-        <div className="ChatTitleWrapper">
+        <div className="chat-title-wrapper">
           <button
             type="button"
-            className="HeaderTitle"
+            className="header-title"
             onClick={() => setShowChatOptions((current) => !current)}
           >
             {name}
           </button>
 
           {showChatOptions && (
-            <div className="ChatOptions">
+            <div className="chat-options">
               <button type="button" onClick={handleClearChat}>
                 Cancella tutti i messaggi
               </button>
@@ -68,17 +76,23 @@ const Direct = ({ name, onBack, chatId, userId }) => {
         </div>
       </div>
 
-      <div className="MessagesArea">
+      <div className="messages-area">
         {messages.map((msg) => {
           const forwarded = getForwardPost(msg.text);
           const isForward = isForwardMsg(msg.text);
           return (
             <div
               key={msg.id}
-              className={msg.fromMe ? "msg-row msg-me" : "msg-row msg-other"}
+              className={
+                msg.fromMe
+                  ? "message-row message-me"
+                  : "message-row message-other"
+              } //Msg row classe comune a tutti i messaggi, msg-me o msg-other a seconda se il messaggio è mio o dell'altro utente
             >
               <div
-                className={`MessageBubble ${msg.fromMe ? "MessageMine" : "MessageOther"} ${isForward ? "MessageForward" : ""}`}
+                className={`message-bubble ${
+                  msg.fromMe ? "message-mine" : "message-other-bubble"
+                } ${isForward ? "message-forward" : ""}`}
                 onClick={() => {
                   setSelectedMessageId(
                     selectedMessageId == msg.id ? null : msg.id,
@@ -111,7 +125,7 @@ const Direct = ({ name, onBack, chatId, userId }) => {
                   <span>{msg.text}</span>
                 )}
                 {selectedMessageId == msg.id && (
-                  <div className="MessageOptions">
+                  <div className="message-options">
                     <button
                       type="button"
                       onClick={(event) => {
@@ -143,15 +157,15 @@ const Direct = ({ name, onBack, chatId, userId }) => {
         })}
       </div>
 
-      <form onSubmit={handleSubmit} className="DirectFooter">
+      <form onSubmit={handleSubmit} className="direct-footer">
         <input
           type="text"
-          className="DirectInput"
+          className="direct-input"
           placeholder="Scrivi un messaggio..."
           value={input}
           onChange={(e) => setInput(e.target.value)}
         />
-        <button className="SendButton" type="submit">
+        <button className="send-button" type="submit">
           <Send />
         </button>
       </form>
