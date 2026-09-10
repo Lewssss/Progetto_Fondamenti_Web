@@ -2,7 +2,9 @@ import React, { useContext, useEffect } from 'react'
 import { useState } from 'react'
 import { getStories } from 'endpoints/rest/userInteractions'
 import StoriesView from './StoriesView'
+import Modal from './Modal'
 import { userContext } from 'Context/UserContext';
+import "./Stories.css"
 
 function Stories() {
   const [allStories, setAllStories] = useState([]);
@@ -16,19 +18,28 @@ function Stories() {
     setAllStories(response.data.data);
   }
   return (
-    <div className='stories'>
+    <div className='stories-container'>
       {allStories.map((storiesOfUser) => (
         <div 
           key={storiesOfUser.author._id} 
           className='stories-circle' 
           onClick={() => setSelectedStories(storiesOfUser)}
         >
-          <img src={storiesOfUser.author.profilePicture}/>
+          <img className="" src={storiesOfUser.author.profilePicture} />
         </div>
       ))}
-      {selectedStories && (
-        <StoriesView group={selectedStories} onClose={() => setSelectedStories(null)}/>
-      )}
+      <Modal
+        open={!!selectedStories}
+        onClose={() => setSelectedStories(null)}
+        content={
+          selectedStories && (
+            <StoriesView
+              group={selectedStories}
+              onClose={() => setSelectedStories(null)}
+            />
+          )
+        }
+      />
     </div>
   )
 }

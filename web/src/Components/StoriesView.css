@@ -74,3 +74,12 @@
 .next-btn {
     right: 20px;
 }
+.trash-button {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    width: 36px;
+    height: 36px;
+    cursor: pointer;
+    z-index: 1001;
+}

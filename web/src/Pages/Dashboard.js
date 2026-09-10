@@ -72,8 +72,10 @@ function Dashboard() {
       <div className="animation-sidebar">
         <div className="sidebar">
           <Profile sidebar onMessageUser={handleMessageUser} />
+          <Stories />
         </div>
-        <div className="sidebar-edge"></div>
+        <div className="sidebar-edge">
+        </div>
       </div>
       <div className="MainSection">
         {!openChat ? (

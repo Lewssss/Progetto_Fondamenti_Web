@@ -79,7 +79,7 @@ async function addStory(req,res) {
     })
 };
 async function deleteStory(req,res) {
-    Story.deleteStory(req.params.storyId, req.user.id)
+    Story.deleteStory(req.params.storyId, req.user.userId)
     .then(
         (response) => 
         {
