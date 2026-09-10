@@ -23,17 +23,19 @@ function StoriesView({ group, onClose, refreshStories }) {
     }
   }
 
-  function handleDelete(storyId) {
-    console.log("storyid:", storyId);
-    deleteStory(storyId).then((data) => {
-      setAskconfirm(false);
-      refreshStories?.();
-    });
-  }
-  function onCloseModal(e) {
-    setAskconfirm(false);
-  }
-  return (
+    function handleDelete(storyId) {
+        console.log("storyid:", storyId);
+        deleteStory(storyId)
+        .then(
+            (data) => {
+                setAskconfirm(false);
+            }
+        );
+    }
+    function onCloseModal(e) {
+        setAskconfirm(false);
+    }
+    return (
     <>
       <div className="story-view">
         <button className="close-btn" onClick={onClose}>

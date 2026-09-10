@@ -1,6 +1,6 @@
 import { addStory } from "endpoints/rest/userInteractions";
 import { useRef, useState } from "react";
-import "./Story_create.css";
+import "./Post_create.css";
 
 function Story_create({onClose, onCreated}) {
     const [file, setFile] = useState(null);
@@ -8,6 +8,7 @@ function Story_create({onClose, onCreated}) {
     const [mediaType, setMediaType] = useState(null);
     const File_upload = useRef(null);
     function handleFile(file) {
+        if (!file) return;
         const isVideo = file.type.startsWith('video');
         const isImg = file.type.startsWith('image');
         if (!isVideo && !isImg) return;
@@ -26,19 +27,22 @@ function Story_create({onClose, onCreated}) {
         onClose();
     }
     return (
-        <div className="story-creation">
+        <div className="post-creation">
+            <h1>Crea Storia</h1>
             <form onSubmit={handleSubmit}>
-                <div className="media-upload" onDragOver={(e) => e.preventDefault()} onDrop={handleDrop} onClick={() => File_upload.current.click()}>
+                <div className="image-upload" onDragOver={(e) => e.preventDefault()} onDrop={handleDrop} onClick={() => File_upload.current.click()}>
                     <input ref={File_upload} type="file" name="media" accept="image/*,video/*" hidden onChange={(e) => handleFile(e.target.files[0])} required />
                     {preview ? (
-                        mediaType === 'video' ? <video className="uploaded-video" src={preview} controls/> : <img className="uploaded-img" src={preview}/>
+                        mediaType === 'video'
+                            ? <video className="uploaded-img" src={preview} muted />
+                            : <img className="uploaded-img" src={preview} alt="" />
                     ) : (
-                        <p>Trascina o sfoglia<br />per importare foto o video</p>
+                        <p>Trascina o sfoglia <br />per importare un'immagine o un video</p>
                     )}
                 </div>
                 <div className="creation-interact">
-                    <button type="button" onClick={onClose}>Cancella</button>
-                    <button type="submit">Pubblica</button>
+                    <button type="button" className="action" onClick={onClose} id="Cancel">Cancella</button>
+                    <button className="action" type="submit" id="Create">Crea</button>
                 </div>
             </form>
         </div>
